@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="780.0" prefWidth="1100.0" style="-fx-background-color: #d8d9d9;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.AppChoicesController">
+   <children>
+      <Pane prefHeight="157.0" prefWidth="1100.0" style="-fx-background-color: #224D5E;">
+         <children>
+            <ImageView fitHeight="138.0" fitWidth="211.0" layoutX="20.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../rsz_logo_transparent.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="113.0" fitWidth="113.0" layoutX="877.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../avatar.png" />
+               </image>
+            </ImageView>
+            <Button layoutX="981.0" layoutY="42.0" mnemonicParsing="false" style="-fx-background-color: #224D5E;" text="My Profile" textFill="#ddd9d9">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button layoutX="981.0" layoutY="84.0" mnemonicParsing="false" style="-fx-background-color: #224D5E;" text="Sign Out" textFill="#ddd9d9">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="closeButton" alignment="CENTER" cancelButton="true" layoutX="1068.0" mnemonicParsing="false" onAction="#pressExitButton" prefHeight="0.0" prefWidth="31.0" style="-fx-background-color: #224D5E;" stylesheets="@style.css" text="X" textFill="#ddd9d9">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+         </children>
+      </Pane>
+      <BorderPane layoutY="157.0" prefHeight="623.0" prefWidth="1100.0">
+         <left>
+            <VBox prefHeight="620.0" prefWidth="229.0" style="-fx-background-color: #cfcfcf;" BorderPane.alignment="CENTER">
+               <children>
+                  <Button mnemonicParsing="false" prefHeight="154.0" prefWidth="229.0" style="-fx-background-color: #cfcfcf;" text="Profiles" textFill="#224d5e">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <Button mnemonicParsing="false" prefHeight="154.0" prefWidth="229.0" style="-fx-background-color: #cfcfcf;" text="Events" textFill="#224d5e">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <Button mnemonicParsing="false" prefHeight="154.0" prefWidth="229.0" style="-fx-background-color: #cfcfcf;" text="Friend Requests" textFill="#224d5e">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <Button mnemonicParsing="false" prefHeight="146.0" prefWidth="229.0" style="-fx-background-color: #cfcfcf;" text="Search Media" textFill="#224d5e">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </VBox>
+         </left>
+      </BorderPane>
+      <Separator layoutX="223.0" layoutY="179.0" orientation="VERTICAL" prefHeight="579.0" prefWidth="0.0" style="-fx-background-color: #224D5E;" />
+      <Separator layoutX="26.0" layoutY="308.0" prefHeight="2.0" prefWidth="170.0" style="-fx-background-color: #224D5E;" />
+      <Separator layoutX="26.0" layoutY="462.0" prefHeight="2.0" prefWidth="170.0" style="-fx-background-color: #224D5E;" />
+      <Separator layoutX="26.0" layoutY="616.0" prefHeight="2.0" prefWidth="170.0" style="-fx-background-color: #224D5E;" />
+   </children>
+</AnchorPane>

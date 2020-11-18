@@ -1,0 +1,19 @@
+.text-input
+{
+    -fx-text-fill : #fff;
+}
+.radio-color
+{
+    -fx-mark-highlight-color : #224D5E;
+    -fx-mark-color : #DDD9D9;
+}
+
+.button:hover
+{
+    -fx-text-fill: white;
+}
+
+.combo-box > .list-cell {
+    -fx-text-fill: #fff;
+    -fx-font-size: 14;
+}
