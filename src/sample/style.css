@@ -13,7 +13,8 @@
     -fx-text-fill: white;
 }
 
-.combo-box > .list-cell {
+.combo-box > .list-cell
+{
     -fx-text-fill: #fff;
     -fx-font-size: 14;
 }
