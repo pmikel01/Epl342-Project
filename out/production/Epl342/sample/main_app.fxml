@@ -23,7 +23,7 @@
                   <Image url="@../avatar.png" />
                </image>
             </ImageView>
-            <Button layoutX="891.0" layoutY="42.0" mnemonicParsing="false" onAction="#handleMyProfileButton" style="-fx-background-color: #224D5E;" text="My Profile" textFill="#ddd9d9">
+            <Button layoutX="891.0" layoutY="42.0" mnemonicParsing="false" onAction="#handleMyProfileButton" style="-fx-background-color: #224D5E;" stylesheets="@style.css" text="My Profile" textFill="#ddd9d9">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
@@ -31,7 +31,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="signOutButton" layoutX="891.0" layoutY="84.0" mnemonicParsing="false" onAction="#pressSignOutButton" style="-fx-background-color: #224D5E;" text="Sign Out" textFill="#ddd9d9">
+            <Button fx:id="signOutButton" layoutX="891.0" layoutY="84.0" mnemonicParsing="false" onAction="#pressSignOutButton" style="-fx-background-color: #224D5E;" stylesheets="@style.css" text="Sign Out" textFill="#ddd9d9">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
