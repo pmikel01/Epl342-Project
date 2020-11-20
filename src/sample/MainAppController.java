@@ -6,11 +6,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
+import java.io.IOException;
 
 public class MainAppController {
     @FXML
@@ -37,7 +41,7 @@ public class MainAppController {
     private BorderPane mainPane;
 
     @FXML
-    private void handleSearchProfileButton(ActionEvent event) {
+    private void handleSearchProfileButton() {
         FxmlLoader object = new FxmlLoader();
         Pane view = object.getPage("search_profiles");
         mainPane.setCenter(view);
@@ -79,11 +83,11 @@ public class MainAppController {
     }
 
     @FXML
-    private AnchorPane main_pane;
+    private AnchorPane main_stage;
 
     @FXML
     private void handleMinimize(ActionEvent event) {
-        Stage stage = (Stage) main_pane.getScene().getWindow();
+        Stage stage = (Stage) main_stage.getScene().getWindow();
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         stage.setIconified(true);
     }

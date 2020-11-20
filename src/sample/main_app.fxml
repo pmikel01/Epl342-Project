@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="main_pane" prefHeight="632.0" prefWidth="1010.0" style="-fx-background-color: #d8d9d9;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.MainAppController">
+<AnchorPane fx:id="main_stage" prefHeight="632.0" prefWidth="1010.0" style="-fx-background-color: #d8d9d9;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.MainAppController">
    <children>
       <Pane prefHeight="157.0" prefWidth="1010.0" style="-fx-background-color: #224D5E;">
          <children>
@@ -85,7 +85,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#handleEventButton" prefHeight="125.0" prefWidth="229.0" style="-fx-background-color: #cfcfcf;" text="Events" textFill="#224d5e">
+                  <Button mnemonicParsing="false" onAction="#handleEventButton" prefHeight="121.0" prefWidth="229.0" style="-fx-background-color: #cfcfcf;" text="Events" textFill="#224d5e">
                      <font>
                         <Font name="System Bold" size="22.0" />
                      </font>

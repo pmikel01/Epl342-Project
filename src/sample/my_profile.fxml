@@ -1,20 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="495.0" prefWidth="755.0" style="-fx-background-color: #d8d9d9;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="p_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="495.0" prefWidth="755.0" style="-fx-background-color: #d8d9d9;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.MyProf">
    <children>
       <Label layoutX="433.0" layoutY="61.0" text="Information" textFill="#444a4c">
          <font>
@@ -35,7 +28,7 @@
          <children>
             <VBox alignment="TOP_CENTER" prefHeight="169.0" prefWidth="189.0">
                <children>
-                  <ImageView accessibleRole="BUTTON" fitHeight="120.0" fitWidth="125.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView accessibleRole="BUTTON" fitHeight="120.0" fitWidth="125.0" onMouseReleased="#handleFriendsButton" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../friends.png" />
                      </image>
@@ -52,7 +45,7 @@
             </VBox>
             <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
                <children>
-                  <ImageView accessibleRole="BUTTON" fitHeight="123.0" fitWidth="102.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="123.0" fitWidth="102.0" onMouseReleased="#handleSpecEventButton" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../events.png" />
                      </image>
@@ -69,7 +62,7 @@
             </VBox>
             <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
                <children>
-                  <ImageView accessibleRole="BUTTON" fitHeight="107.0" fitWidth="148.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="107.0" fitWidth="148.0" onMouseReleased="#handleAlbumButton" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../photo_album.png" />
                      </image>
@@ -89,7 +82,7 @@
             </VBox>
             <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
-                  <ImageView accessibleRole="BUTTON" fitHeight="107.0" fitWidth="105.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="107.0" fitWidth="105.0" onMouseReleased="#handlePictureButton" pickOnBounds="true" preserveRatio="true">
                      <VBox.margin>
                         <Insets top="15.0" />
                      </VBox.margin>
@@ -109,7 +102,7 @@
             </VBox>
             <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="2">
                <children>
-                  <ImageView accessibleRole="BUTTON" fitHeight="109.0" fitWidth="123.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="109.0" fitWidth="123.0" onMouseReleased="#handleVideoButton" pickOnBounds="true" preserveRatio="true">
                      <VBox.margin>
                         <Insets top="15.0" />
                      </VBox.margin>
@@ -129,7 +122,7 @@
             </VBox>
             <VBox alignment="TOP_CENTER" prefHeight="115.0" prefWidth="171.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <children>
-                  <ImageView accessibleRole="BUTTON" fitHeight="111.0" fitWidth="106.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="111.0" fitWidth="106.0" onMouseReleased="#handleLinkButton" pickOnBounds="true" preserveRatio="true">
                      <VBox.margin>
                         <Insets top="15.0" />
                      </VBox.margin>
