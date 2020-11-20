@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="p_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="495.0" prefWidth="755.0" style="-fx-background-color: #d8d9d9;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.StatisticsController">
+   <children>
+      <VBox layoutX="19.0" layoutY="14.0" prefHeight="468.0" prefWidth="726.0">
+         <children>
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="640.0" spacing="50.0">
+               <children>
+                  <Label prefHeight="30.0" prefWidth="257.0" text="Most Famous Friends" textFill="#444a4c">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Label>
+                  <Button mnemonicParsing="false" onAction="#handleMostFamousButton" prefHeight="50.0" prefWidth="144.0" style="-fx-background-color: #454b4d;" stylesheets="@../styles/style.css" text="FIND" textFill="#d8d9d9">
+                     <font>
+                        <Font name="System Bold" size="23.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="50.0">
+               <children>
+                  <Label prefHeight="30.0" prefWidth="257.0" text="Friends With Same Friends" textFill="#444a4c">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Label>
+                  <Button mnemonicParsing="false" onAction="#handleSameFriendsButton" prefHeight="50.0" prefWidth="144.0" style="-fx-background-color: #454b4d;" stylesheets="@../styles/style.css" text="FIND" textFill="#d8d9d9">
+                     <font>
+                        <Font name="System Bold" size="23.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label prefHeight="30.0" prefWidth="439.0" text="Friends With Albums Which Have More Than" textFill="#444a4c">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Label>
+                  <Spinner editable="true" prefHeight="25.0" prefWidth="126.0">
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </Spinner>
+                  <Label prefHeight="30.0" prefWidth="113.0" text="Pictures" textFill="#444a4c">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Button mnemonicParsing="false" onAction="#handleFriendsMoreAlbumsButton" prefHeight="50.0" prefWidth="144.0" style="-fx-background-color: #454b4d;" stylesheets="@../styles/style.css" text="FIND" textFill="#d8d9d9">
+                     <font>
+                        <Font name="System Bold" size="23.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <HBox.margin>
+                        <Insets left="33.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label prefHeight="30.0" prefWidth="421.0" text="Users With Albums Which Have More Than" textFill="#444a4c">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Label>
+                  <Spinner editable="true" prefHeight="25.0" prefWidth="126.0">
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </Spinner>
+                  <Label prefHeight="30.0" prefWidth="113.0" text="Pictures" textFill="#444a4c">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Button mnemonicParsing="false" onAction="#handleUsersMoreAlbumsButton" prefHeight="50.0" prefWidth="144.0" style="-fx-background-color: #454b4d;" stylesheets="@../styles/style.css" text="FIND" textFill="#d8d9d9">
+                     <font>
+                        <Font name="System Bold" size="23.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <HBox.margin>
+                        <Insets left="40.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="724.0" spacing="50.0">
+               <children>
+                  <Label prefHeight="30.0" prefWidth="268.0" text="Friends With Same Interests" textFill="#444a4c">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Label>
+                  <Button mnemonicParsing="false" onAction="#handleSameInterestsButton" prefHeight="50.0" prefWidth="144.0" style="-fx-background-color: #454b4d;" stylesheets="@../styles/style.css" text="FIND" textFill="#d8d9d9">
+                     <font>
+                        <Font name="System Bold" size="23.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="724.0" spacing="50.0">
+               <children>
+                  <Label prefHeight="30.0" prefWidth="268.0" text="Average Network Age" textFill="#444a4c">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="avg_b" mnemonicParsing="false" onAction="#pressAvgButton" prefHeight="50.0" prefWidth="144.0" style="-fx-background-color: #454b4d;" stylesheets="@../styles/style.css" text="FIND" textFill="#d8d9d9">
+                     <font>
+                        <Font name="System Bold" size="23.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

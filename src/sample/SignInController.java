@@ -29,7 +29,7 @@ public class SignInController {
     public void handleRegisterButton(ActionEvent event) {
         Stage stage = (Stage) registerButton.getScene().getWindow();
         stage.close();
-        openStage("register.fxml");
+        openStage("scenes/register.fxml");
     }
 
     @FXML
@@ -39,7 +39,7 @@ public class SignInController {
     public void handleSignInButton(ActionEvent event) {
         Stage stage = (Stage) signInButton.getScene().getWindow();
         stage.close();
-        openStage("main_app.fxml");
+        openStage("scenes/main_app.fxml");
     }
 
     private void openStage(String fileName) {

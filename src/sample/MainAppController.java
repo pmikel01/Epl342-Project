@@ -24,7 +24,7 @@ public class MainAppController {
     public void pressExitButton(ActionEvent event) {
         Stage stage = (Stage) closeButton.getScene().getWindow();
         stage.close();
-        openStage("sign_in.fxml");
+        openStage("scenes/sign_in.fxml");
     }
 
     @FXML
@@ -34,7 +34,7 @@ public class MainAppController {
     public void pressSignOutButton(ActionEvent event) {
         Stage stage = (Stage) signOutButton.getScene().getWindow();
         stage.close();
-        openStage("sign_in.fxml");
+        openStage("scenes/sign_in.fxml");
     }
 
     @FXML
@@ -43,42 +43,42 @@ public class MainAppController {
     @FXML
     private void handleSearchProfileButton() {
         FxmlLoader object = new FxmlLoader();
-        Pane view = object.getPage("search_profiles");
+        Pane view = object.getPage("scenes/search_profiles");
         mainPane.setCenter(view);
     }
 
     @FXML
     private void handleMyProfileButton(ActionEvent event) {
         FxmlLoader object = new FxmlLoader();
-        Pane view = object.getPage("my_profile");
+        Pane view = object.getPage("scenes/my_profile");
         mainPane.setCenter(view);
     }
 
     @FXML
     private void handleEventButton(ActionEvent event) {
         FxmlLoader object = new FxmlLoader();
-        Pane view = object.getPage("events");
+        Pane view = object.getPage("scenes/events");
         mainPane.setCenter(view);
     }
 
     @FXML
     private void handleStatisticsButton(ActionEvent event) {
         FxmlLoader object = new FxmlLoader();
-        Pane view = object.getPage("statistics");
+        Pane view = object.getPage("scenes/statistics");
         mainPane.setCenter(view);
     }
 
     @FXML
     private void handleFriendRequestsButton(ActionEvent event) {
         FxmlLoader object = new FxmlLoader();
-        Pane view = object.getPage("friend_requests");
+        Pane view = object.getPage("scenes/friend_requests");
         mainPane.setCenter(view);
     }
 
     @FXML
     private void handleHomeButton() {
         FxmlLoader object = new FxmlLoader();
-        Pane view = object.getPage("home");
+        Pane view = object.getPage("scenes/home");
         mainPane.setCenter(view);
     }
 

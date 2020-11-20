@@ -15,14 +15,14 @@ public class Events implements Initializable {
     @FXML
     private void handleSearchButton() {
         FxmlLoader object = new FxmlLoader();
-        Pane view = object.getPage("events_list");
+        Pane view = object.getPage("lists/events_list");
         p_pane.getChildren().setAll(view);
     }
 
     @FXML
     private void handleLeastPopularButton() {
         FxmlLoader object = new FxmlLoader();
-        Pane view = object.getPage("events_list");
+        Pane view = object.getPage("lists/events_list");
         p_pane.getChildren().setAll(view);
     }
 

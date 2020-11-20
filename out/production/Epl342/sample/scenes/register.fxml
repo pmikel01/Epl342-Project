@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="621.0" prefWidth="473.0" style="-fx-background-color: #224D5E;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.RegisterController">
+   <children>
+      <ImageView fitHeight="138.0" fitWidth="213.0" layoutX="130.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../social_face_logo.png" />
+         </image>
+      </ImageView>
+      <Pane layoutY="136.0" prefHeight="486.0" prefWidth="473.0">
+         <children>
+            <Label layoutX="98.0" layoutY="25.0" text="First Name" textFill="#ddd9d9">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="99.0" layoutY="75.0" text="Last Name" textFill="#ddd9d9">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="130.0" layoutY="225.0" text="Gender" textFill="#ddd9d9">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="146.0" layoutY="175.0" text="Email" textFill="#ddd9d9">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="120.0" layoutY="275.0" text="Birthday" textFill="#ddd9d9">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="112.0" layoutY="325.0" text="Password" textFill="#ddd9d9">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="35.0" layoutY="375.0" text="Confirm Password" textFill="#ddd9d9">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <TextField layoutX="210.0" layoutY="21.0" prefHeight="30.0" prefWidth="220.0" style="-fx-border-color: DDD9D9; -fx-background-color: #224D5E; -fx-background-insets: 0; -fx-border-radius: 20;" styleClass="text-input" stylesheets="@../styles/style.css">
+               <font>
+                  <Font size="14.0" />
+               </font></TextField>
+            <TextField layoutX="210.0" layoutY="71.0" prefHeight="30.0" prefWidth="220.0" style="-fx-border-color: DDD9D9; -fx-background-color: #224D5E; -fx-background-insets: 0; -fx-border-radius: 20;" styleClass="text-input" stylesheets="@../styles/style.css">
+               <font>
+                  <Font size="14.0" />
+               </font></TextField>
+            <TextField layoutX="210.0" layoutY="171.0" prefHeight="30.0" prefWidth="220.0" style="-fx-border-color: DDD9D9; -fx-background-color: #224D5E; -fx-background-insets: 0; -fx-border-radius: 20;" styleClass="text-input" stylesheets="@../styles/style.css">
+               <font>
+                  <Font size="14.0" />
+               </font></TextField>
+            <ComboBox fx:id="genderBox" layoutX="210.0" layoutY="221.0" prefHeight="30.0" prefWidth="220.0" style="-fx-border-color: ddd9d9; -fx-background-color: #224D5E; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style.css">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ComboBox>
+            <DatePicker layoutX="220.0" layoutY="273.0" prefHeight="25.0" prefWidth="200.0" style="-fx-background-color: #224D5E; -fx-background-insets: 0;">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></DatePicker>
+            <PasswordField layoutX="210.0" layoutY="321.0" prefHeight="30.0" prefWidth="220.0" style="-fx-background-color: #224D5E; -fx-border-color: ddd9d9; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style.css">
+               <font>
+                  <Font size="14.0" />
+               </font></PasswordField>
+            <PasswordField layoutX="210.0" layoutY="371.0" prefHeight="30.0" prefWidth="220.0" style="-fx-background-color: #224D5E; -fx-border-color: ddd9d9; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style.css">
+               <font>
+                  <Font size="14.0" />
+               </font></PasswordField>
+            <Button layoutX="341.0" layoutY="430.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="108.0" style="-fx-background-color: #ddd9d9;" text="Register" textFill="#224d5e">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="signInButton" layoutX="26.0" layoutY="438.0" mnemonicParsing="false" onAction="#pressSignInButtonButton" prefHeight="26.0" prefWidth="80.0" style="-fx-background-color: #224D5E;" stylesheets="@../styles/style.css" text="Sign-In" textFill="#ddd9d9">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Label layoutX="100.0" layoutY="125.0" text="Username" textFill="#ddd9d9">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <TextField layoutX="210.0" layoutY="121.0" prefHeight="30.0" prefWidth="220.0" style="-fx-border-color: DDD9D9; -fx-background-color: #224D5E; -fx-background-insets: 0; -fx-border-radius: 20;" styleClass="text-input" stylesheets="@../styles/style.css">
+               <font>
+                  <Font size="14.0" />
+               </font></TextField>
+         </children>
+      </Pane>
+      <Button fx:id="closeButton" alignment="CENTER" cancelButton="true" layoutX="442.0" layoutY="1.0" mnemonicParsing="false" onAction="#pressExitButton" prefHeight="0.0" prefWidth="31.0" style="-fx-background-color: #224D5E;" stylesheets="@../styles/style.css" text="X" textFill="#ddd9d9">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+   </children>
+</AnchorPane>

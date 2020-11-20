@@ -23,7 +23,7 @@ public class RegisterController {
     public void pressExitButton(ActionEvent event) {
         Stage stage = (Stage) closeButton.getScene().getWindow();
         stage.close();
-        openStage("sign_in.fxml");
+        openStage("scenes/sign_in.fxml");
     }
 
     @FXML
@@ -33,7 +33,7 @@ public class RegisterController {
     public void pressSignInButtonButton(ActionEvent event) {
         Stage stage = (Stage) signInButton.getScene().getWindow();
         stage.close();
-        openStage("sign_in.fxml");
+        openStage("scenes/sign_in.fxml");
     }
 
     @FXML
