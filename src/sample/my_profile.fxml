@@ -100,7 +100,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </ImageView>
-                  <Label text="Photos">
+                  <Label text="Pictures">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>
