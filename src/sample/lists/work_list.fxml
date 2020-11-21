@@ -1,21 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="495.0" prefWidth="755.0" style="-fx-background-color: #d8d9d9;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="p_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="495.0" prefWidth="755.0" style="-fx-background-color: #d8d9d9;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <VBox alignment="CENTER" layoutX="34.0" layoutY="14.0" prefHeight="494.0" prefWidth="715.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
             <children>
-                <Label alignment="CENTER" prefHeight="36.0" prefWidth="129.0" text="Work" textFill="#444a4c">
-                    <font>
-                        <Font name="System Bold" size="30.0" />
-                    </font>
-                </Label>
-                <ListView prefHeight="412.0" prefWidth="715.0" />
+                <BorderPane prefHeight="82.0" prefWidth="715.0">
+                    <center>
+                        <Label alignment="CENTER" prefHeight="36.0" prefWidth="147.0" text="Work" textFill="#444a4c" BorderPane.alignment="CENTER">
+                            <font>
+                                <Font name="System Bold" size="30.0" />
+                            </font>
+                        </Label>
+                    </center>
+                    <right>
+                        <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="144.0" style="-fx-background-color: #454b4d;" stylesheets="@../styles/style.css" text="ADD" textFill="#d8d9d9" BorderPane.alignment="CENTER">
+                            <font>
+                                <Font name="System Bold" size="23.0" />
+                            </font>
+                            <cursor>
+                                <Cursor fx:constant="HAND" />
+                            </cursor>
+                        </Button>
+                    </right>
+                    <left>
+                        <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                    </left>
+                </BorderPane>
+                <ListView prefHeight="382.0" prefWidth="756.0" />
             </children>
         </VBox>
     </children>

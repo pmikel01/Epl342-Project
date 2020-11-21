@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="495.0" prefWidth="755.0" style="-fx-background-color: #d8d9d9;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <Label layoutX="116.0" layoutY="105.0" text="Name" textFill="#444a4c">
+            <font>
+                <Font name="System Bold" size="20.0" />
+            </font>
+        </Label>
+        <Label layoutX="51.0" layoutY="205.0" text="Description" textFill="#444a4c">
+            <font>
+                <Font name="System Bold" size="20.0" />
+            </font>
+        </Label>
+        <TextField layoutX="188.0" layoutY="105.0" prefHeight="13.0" prefWidth="220.0" style="-fx-border-color: #444a4c; -fx-background-color: #d8d9d9; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style2.css">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </TextField>
+        <TextField layoutX="188.0" layoutY="205.0" prefHeight="32.0" prefWidth="465.0" style="-fx-border-color: #444a4c; -fx-background-color: #d8d9d9; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style2.css">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </TextField>
+        <Button contentDisplay="CENTER" layoutX="318.0" layoutY="390.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="148.0" style="-fx-background-color: #454b4d;" stylesheets="@../styles/style.css" text="ADD" textFill="#d8d9d9">
+            <font>
+                <Font name="System Bold" size="25.0" />
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
+        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="356.0" layoutY="24.0" text="Link" textFill="#444a4c">
+            <font>
+                <Font name="System Bold" size="30.0" />
+            </font>
+        </Label>
+        <Separator layoutX="162.0" layoutY="66.0" prefHeight="0.0" prefWidth="465.0" style="-fx-background-color: #444a4c;" />
+        <Label layoutX="131.0" layoutY="155.0" text="Link" textFill="#444a4c">
+            <font>
+                <Font name="System Bold" size="20.0" />
+            </font>
+        </Label>
+        <TextField layoutX="188.0" layoutY="155.0" prefHeight="30.0" prefWidth="465.0" style="-fx-border-color: #444a4c; -fx-background-color: #d8d9d9; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style2.css">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </TextField>
+      <Label layoutX="94.0" layoutY="255.0" text="Caption" textFill="#444a4c">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <TextField layoutX="188.0" layoutY="255.0" prefHeight="32.0" prefWidth="465.0" style="-fx-border-color: #444a4c; -fx-background-color: #d8d9d9; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style2.css">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </TextField>
+      <Label layoutX="82.0" layoutY="305.0" text="Message" textFill="#444a4c">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <TextField layoutX="188.0" layoutY="305.0" prefHeight="32.0" prefWidth="465.0" style="-fx-border-color: #444a4c; -fx-background-color: #d8d9d9; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style2.css">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </TextField>
+    </children>
+</AnchorPane>

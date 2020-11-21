@@ -5,127 +5,93 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="495.0" prefWidth="755.0" style="-fx-background-color: #d8d9d9;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="29.0" layoutY="22.0" prefHeight="30.0" prefWidth="87.0" text="First Name" textFill="#444a4c">
+      <Label layoutX="29.0" layoutY="50.0" prefHeight="30.0" prefWidth="103.0" text="First Name" textFill="#444a4c">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <Label layoutX="395.0" layoutY="22.0" prefHeight="30.0" prefWidth="87.0" text="Last Name" textFill="#444a4c">
+      <Label layoutX="382.0" layoutY="50.0" prefHeight="30.0" prefWidth="103.0" text="Last Name" textFill="#444a4c">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <Label layoutX="47.0" layoutY="70.0" prefHeight="30.0" prefWidth="65.0" text="Birthday" textFill="#444a4c">
+      <Label layoutX="50.0" layoutY="120.0" prefHeight="30.0" prefWidth="84.0" text="Birthday" textFill="#444a4c">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <Label layoutX="427.0" layoutY="69.0" prefHeight="30.0" prefWidth="47.0" text="Email" textFill="#444a4c">
+      <Label layoutX="428.0" layoutY="120.0" prefHeight="30.0" prefWidth="53.0" text="Email" textFill="#444a4c">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <Label layoutX="48.0" layoutY="118.0" prefHeight="30.0" prefWidth="65.0" text="Website" textFill="#444a4c">
+      <Label layoutX="53.0" layoutY="190.0" prefHeight="30.0" prefWidth="77.0" text="Website" textFill="#444a4c">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <Label layoutX="27.0" layoutY="168.0" prefHeight="30.0" prefWidth="87.0" text="Hometown" textFill="#444a4c">
+      <Label layoutX="31.0" layoutY="260.0" prefHeight="30.0" prefWidth="104.0" text="Hometown" textFill="#444a4c">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <Label layoutX="409.0" layoutY="168.0" prefHeight="30.0" prefWidth="71.0" text="Location" textFill="#444a4c">
+      <Label layoutX="403.0" layoutY="260.0" prefHeight="30.0" prefWidth="86.0" text="Location" textFill="#444a4c">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <Label layoutX="415.0" layoutY="118.0" prefHeight="30.0" prefWidth="58.0" text="Gender" textFill="#444a4c">
+      <Label layoutX="413.0" layoutY="190.0" prefHeight="30.0" prefWidth="71.0" text="Gender" textFill="#444a4c">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <TextField layoutX="130.0" layoutY="21.0" prefHeight="0.0" prefWidth="202.0" style="-fx-border-color: #444a4c; -fx-background-color: #d8d9d9; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style2.css">
+      <TextField layoutX="140.0" layoutY="50.0" prefHeight="30.0" prefWidth="215.0" style="-fx-border-color: #444a4c; -fx-background-color: #d8d9d9; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style2.css">
          <font>
             <Font size="14.0" />
          </font>
       </TextField>
-      <TextField layoutX="495.0" layoutY="21.0" prefHeight="13.0" prefWidth="202.0" style="-fx-border-color: #444a4c; -fx-background-color: #d8d9d9; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style2.css">
+      <TextField layoutX="492.0" layoutY="50.0" prefHeight="30.0" prefWidth="215.0" style="-fx-border-color: #444a4c; -fx-background-color: #d8d9d9; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style2.css">
          <font>
             <Font size="14.0" />
          </font>
       </TextField>
-      <TextField layoutX="495.0" layoutY="69.0" prefHeight="0.0" prefWidth="202.0" style="-fx-border-color: #444a4c; -fx-background-color: #d8d9d9; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style2.css">
+      <TextField layoutX="494.0" layoutY="120.0" prefHeight="30.0" prefWidth="215.0" style="-fx-border-color: #444a4c; -fx-background-color: #d8d9d9; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style2.css">
          <font>
             <Font size="14.0" />
          </font>
       </TextField>
-      <TextField layoutX="495.0" layoutY="167.0" prefHeight="0.0" prefWidth="202.0" style="-fx-border-color: #444a4c; -fx-background-color: #d8d9d9; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style2.css">
+      <TextField layoutX="495.0" layoutY="260.0" prefHeight="30.0" prefWidth="215.0" style="-fx-border-color: #444a4c; -fx-background-color: #d8d9d9; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style2.css">
          <font>
             <Font size="14.0" />
          </font>
       </TextField>
-      <TextField layoutX="131.0" layoutY="167.0" prefHeight="0.0" prefWidth="202.0" style="-fx-border-color: #444a4c; -fx-background-color: #d8d9d9; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style2.css">
+      <TextField layoutX="140.0" layoutY="260.0" prefHeight="30.0" prefWidth="215.0" style="-fx-border-color: #444a4c; -fx-background-color: #d8d9d9; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style2.css">
          <font>
             <Font size="14.0" />
          </font>
       </TextField>
-      <DatePicker layoutX="139.0" layoutY="72.0" prefHeight="24.0" prefWidth="185.0" style="-fx-background-color: #444a4c; -fx-background-insets: 0;">
+      <DatePicker layoutX="153.0" layoutY="120.0" prefHeight="24.0" prefWidth="185.0" style="-fx-background-color: #444a4c; -fx-background-insets: 0;">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </DatePicker>
-      <ComboBox fx:id="genderBox" layoutX="495.0" layoutY="117.0" prefHeight="9.0" prefWidth="202.0" style="-fx-border-color: #444a4c; -fx-background-color: #d8d9d9; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style.css">
+      <ComboBox fx:id="genderBox" layoutX="495.0" layoutY="190.0" prefHeight="30.0" prefWidth="215.0" style="-fx-border-color: #444a4c; -fx-background-color: #d8d9d9; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style.css">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </ComboBox>
-      <TextField layoutX="131.0" layoutY="117.0" prefHeight="0.0" prefWidth="202.0" style="-fx-border-color: #444a4c; -fx-background-color: #d8d9d9; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style2.css">
+      <TextField layoutX="143.0" layoutY="190.0" prefHeight="30.0" prefWidth="215.0" style="-fx-border-color: #444a4c; -fx-background-color: #d8d9d9; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style2.css">
          <font>
             <Font size="14.0" />
          </font>
       </TextField>
-      <Button contentDisplay="CENTER" layoutX="286.0" layoutY="226.0" mnemonicParsing="false" onAction="#handleSearchButton" prefHeight="44.0" prefWidth="185.0" style="-fx-background-color: #454b4d;" stylesheets="@../styles/style.css" text="UPDATE INFO" textFill="#d8d9d9">
-         <font>
-            <Font name="System Bold" size="20.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
-      <Separator layoutX="59.0" layoutY="288.0" prefHeight="0.0" prefWidth="638.0" style="-fx-background-color: #444a4c;" />
-      <Button contentDisplay="CENTER" layoutX="450.0" layoutY="320.0" mnemonicParsing="false" onAction="#handleSearchButton" prefHeight="44.0" prefWidth="251.0" style="-fx-background-color: #454b4d;" stylesheets="@../styles/style.css" text="UPDATE QUOTES" textFill="#d8d9d9">
-         <font>
-            <Font name="System Bold" size="20.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
-      <Button contentDisplay="CENTER" layoutX="62.0" layoutY="380.0" mnemonicParsing="false" onAction="#handleSearchButton" prefHeight="44.0" prefWidth="251.0" style="-fx-background-color: #454b4d;" stylesheets="@../styles/style.css" text="UPDATE WORK" textFill="#d8d9d9">
-         <font>
-            <Font name="System Bold" size="20.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
-      <Button contentDisplay="CENTER" layoutX="62.0" layoutY="320.0" mnemonicParsing="false" onAction="#handleSearchButton" prefHeight="44.0" prefWidth="251.0" style="-fx-background-color: #454b4d;" stylesheets="@../styles/style.css" text="UPDATE EDUCATION" textFill="#d8d9d9">
-         <font>
-            <Font name="System Bold" size="20.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
-      <Button contentDisplay="CENTER" layoutX="450.0" layoutY="380.0" mnemonicParsing="false" onAction="#handleSearchButton" prefHeight="44.0" prefWidth="251.0" style="-fx-background-color: #454b4d;" stylesheets="@../styles/style.css" text="UPDATE INTERESTS" textFill="#d8d9d9">
+      <Button contentDisplay="CENTER" layoutX="286.0" layoutY="386.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="185.0" style="-fx-background-color: #454b4d;" stylesheets="@../styles/style.css" text="UPDATE INFO" textFill="#d8d9d9">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>

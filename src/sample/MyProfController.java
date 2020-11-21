@@ -54,6 +54,13 @@ public class MyProfController implements Initializable {
         p_pane.getChildren().setAll(view);
     }
 
+    @FXML
+    private void handleEditButton() {
+        FxmlLoader object = new FxmlLoader();
+        Pane view = object.getPage("scenes/edit_information");
+        p_pane.getChildren().setAll(view);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 

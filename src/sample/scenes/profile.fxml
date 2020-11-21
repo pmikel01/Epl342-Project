@@ -43,7 +43,7 @@
                                 <Cursor fx:constant="HAND" />
                             </cursor>
                         </ImageView>
-                        <Label text="Friends">
+                        <Label text="Send Request">
                             <font>
                                 <Font name="System Bold" size="20.0" />
                             </font>
