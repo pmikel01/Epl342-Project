@@ -61,6 +61,34 @@ public class MyProfController implements Initializable {
         p_pane.getChildren().setAll(view);
     }
 
+    @FXML
+    private void handleEducationButton() {
+        FxmlLoader object = new FxmlLoader();
+        Pane view = object.getPage("lists/education_list");
+        p_pane.getChildren().setAll(view);
+    }
+
+    @FXML
+    private void handleInterestsButton() {
+        FxmlLoader object = new FxmlLoader();
+        Pane view = object.getPage("lists/interests_list");
+        p_pane.getChildren().setAll(view);
+    }
+
+    @FXML
+    private void handleQuotesButton() {
+        FxmlLoader object = new FxmlLoader();
+        Pane view = object.getPage("lists/quotes_list");
+        p_pane.getChildren().setAll(view);
+    }
+
+    @FXML
+    private void handleWorkButton() {
+        FxmlLoader object = new FxmlLoader();
+        Pane view = object.getPage("lists/work_list");
+        p_pane.getChildren().setAll(view);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 

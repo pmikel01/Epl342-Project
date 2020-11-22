@@ -37,6 +37,16 @@ public class RegisterController {
     }
 
     @FXML
+    public Button registerButton;
+
+    @FXML
+    public void pressRegisterButtonButton(ActionEvent event) {
+        Stage stage = (Stage) registerButton.getScene().getWindow();
+        stage.close();
+        openStage("scenes/sign_in.fxml");
+    }
+
+    @FXML
     private ComboBox<String> genderBox;
 
     @FXML

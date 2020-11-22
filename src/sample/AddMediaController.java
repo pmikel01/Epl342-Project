@@ -9,42 +9,42 @@ package sample;
         import java.net.URL;
         import java.util.ResourceBundle;
 
-public class SearchMediaController implements Initializable {
+public class AddMediaController implements Initializable {
     @FXML
     private AnchorPane p_pane ;
 
     @FXML
-    private void handleSearchAlbumButton() {
+    private void handleAddAlbumButton() {
         FxmlLoader object = new FxmlLoader();
-        Pane view = object.getPage("lists/search_albums_list");
+        Pane view = object.getPage("edit_lists/edit_albums_list");
         p_pane.getChildren().setAll(view);
     }
 
     @FXML
-    private void handleSearchPhotoButton() {
+    private void handleAddEventButton() {
         FxmlLoader object = new FxmlLoader();
-        Pane view = object.getPage("lists/search_photos_list");
+        Pane view = object.getPage("edit_lists/edit_events_list");
         p_pane.getChildren().setAll(view);
     }
 
     @FXML
-    private void handleSearchVideoButton() {
+    private void handleAddLinkButton() {
         FxmlLoader object = new FxmlLoader();
-        Pane view = object.getPage("lists/search_videos_list");
+        Pane view = object.getPage("edit_lists/edit_links_list");
         p_pane.getChildren().setAll(view);
     }
 
     @FXML
-    private void handleSearchEventButton() {
+    private void handleAddPhotoButton() {
         FxmlLoader object = new FxmlLoader();
-        Pane view = object.getPage("lists/search_events_list");
+        Pane view = object.getPage("edit_lists/edit_photos_list");
         p_pane.getChildren().setAll(view);
     }
 
     @FXML
-    private void handleSearchLinkButton() {
+    private void handleAddVideoButton() {
         FxmlLoader object = new FxmlLoader();
-        Pane view = object.getPage("lists/search_links_list");
+        Pane view = object.getPage("edit_lists/edit_videos_list");
         p_pane.getChildren().setAll(view);
     }
 

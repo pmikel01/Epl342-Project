@@ -65,5 +65,13 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </ComboBox>
+      <Button contentDisplay="CENTER" layoutX="50.0" layoutY="323.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="166.0" style="-fx-background-color: #454b4d;" stylesheets="@../styles/style.css" text="Add Image" textFill="#d8d9d9">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
    </children>
 </AnchorPane>

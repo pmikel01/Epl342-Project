@@ -9,14 +9,14 @@ package sample;
         import java.net.URL;
         import java.util.ResourceBundle;
 
-public class EditMediaController implements Initializable {
+public class EditInfoController implements Initializable {
     @FXML
     private AnchorPane p_pane ;
 
     @FXML
-    private void handleAlbumButton() {
+    private void handleUpdateButton() {
         FxmlLoader object = new FxmlLoader();
-        Pane view = object.getPage("edit_lists/edit_albums_list");
+        Pane view = object.getPage("scenes/my_profile");
         p_pane.getChildren().setAll(view);
     }
 

@@ -18,3 +18,7 @@
     -fx-text-fill: #fff;
     -fx-font-size: 14;
 }
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}

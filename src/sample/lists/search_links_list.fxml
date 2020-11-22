@@ -14,7 +14,7 @@
             <children>
                 <BorderPane prefHeight="82.0" prefWidth="715.0">
                     <center>
-                        <Label alignment="CENTER" prefHeight="36.0" prefWidth="129.0" text="Events" textFill="#444a4c" BorderPane.alignment="CENTER">
+                        <Label alignment="CENTER" prefHeight="36.0" prefWidth="129.0" text="Links" textFill="#444a4c" BorderPane.alignment="CENTER">
                             <font>
                                 <Font name="System Bold" size="30.0" />
                             </font>

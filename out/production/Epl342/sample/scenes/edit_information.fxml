@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="495.0" prefWidth="755.0" style="-fx-background-color: #d8d9d9;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="p_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="495.0" prefWidth="755.0" style="-fx-background-color: #d8d9d9;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.EditInfoController">
    <children>
       <Label layoutX="29.0" layoutY="50.0" prefHeight="30.0" prefWidth="103.0" text="First Name" textFill="#444a4c">
          <font>
@@ -91,7 +87,7 @@
             <Font size="14.0" />
          </font>
       </TextField>
-      <Button contentDisplay="CENTER" layoutX="286.0" layoutY="386.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="185.0" style="-fx-background-color: #454b4d;" stylesheets="@../styles/style.css" text="UPDATE INFO" textFill="#d8d9d9">
+      <Button contentDisplay="CENTER" layoutX="286.0" layoutY="386.0" mnemonicParsing="false" onAction="#handleUpdateButton" prefHeight="44.0" prefWidth="185.0" style="-fx-background-color: #454b4d;" stylesheets="@../styles/style.css" text="UPDATE INFO" textFill="#d8d9d9">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
