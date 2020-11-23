@@ -150,7 +150,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Button layoutX="433.0" layoutY="14.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="131.0" style="-fx-background-color: #454b4d;" stylesheets="@../styles/style.css" text="CHANGELOG" textFill="#d8d9d9">
+      <Button layoutX="433.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleChangelogButton" prefHeight="32.0" prefWidth="131.0" style="-fx-background-color: #454b4d;" stylesheets="@../styles/style.css" text="CHANGELOG" textFill="#d8d9d9">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>

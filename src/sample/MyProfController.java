@@ -13,6 +13,13 @@ public class MyProfController implements Initializable {
     private AnchorPane p_pane ;
 
     @FXML
+    private void handleChangelogButton() {
+        FxmlLoader object = new FxmlLoader();
+        Pane view = object.getPage("scenes/changelog");
+        p_pane.getChildren().setAll(view);
+    }
+
+    @FXML
     private void handleAlbumButton() {
         FxmlLoader object = new FxmlLoader();
         Pane view = object.getPage("edit_lists/edit_albums_list");

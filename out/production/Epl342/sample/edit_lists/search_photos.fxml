@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="p_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="495.0" prefWidth="755.0" style="-fx-background-color: #d8d9d9;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.SearchMediaController">
+<AnchorPane fx:id="p_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="495.0" prefWidth="755.0" style="-fx-background-color: #d8d9d9;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.searchMediaControllers.SearchPicController">
     <children>
         <Label layoutX="48.0" layoutY="155.0" text="Height" textFill="#444a4c">
             <font>
@@ -46,6 +46,6 @@
             </font>
         </Label>
         <Separator layoutX="152.0" layoutY="90.0" prefHeight="0.0" prefWidth="465.0" style="-fx-background-color: #444a4c;" />
-      <Spinner layoutX="293.0" layoutY="275.0" prefHeight="26.0" prefWidth="117.0" />
+      <Spinner fx:id="spinn" editable="true" layoutX="293.0" layoutY="275.0" prefHeight="26.0" prefWidth="117.0" />
     </children>
 </AnchorPane>

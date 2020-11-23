@@ -1,7 +1,10 @@
 package sample;
 
+        import javafx.collections.FXCollections;
+        import javafx.collections.ObservableList;
         import javafx.fxml.FXML;
         import javafx.fxml.Initializable;
+        import javafx.scene.control.ComboBox;
         import javafx.scene.layout.AnchorPane;
         import javafx.scene.layout.Pane;
         import sample.FxmlLoader;
@@ -10,6 +13,12 @@ package sample;
         import java.util.ResourceBundle;
 
 public class EditInfoController implements Initializable {
+
+    ObservableList<String> genderList = FXCollections.observableArrayList("Male", "Female", "Other");
+
+    @FXML
+    private ComboBox<String> genderBox;
+
     @FXML
     private AnchorPane p_pane ;
 
@@ -22,6 +31,7 @@ public class EditInfoController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        genderBox.setValue("Male");
+        genderBox.setItems(genderList);
     }
 }

@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="p_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="495.0" prefWidth="755.0" style="-fx-background-color: #d8d9d9;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.AddMediaController">
+<AnchorPane fx:id="p_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="495.0" prefWidth="755.0" style="-fx-background-color: #d8d9d9;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.addMediaControllers.AddAlbumController">
     <children>
         <Label layoutX="108.0" layoutY="115.0" text="Name" textFill="#444a4c">
             <font>
@@ -56,7 +56,7 @@
                 <Font name="System Bold" size="20.0" />
             </font>
         </Label>
-        <ComboBox layoutX="188.0" layoutY="263.0" prefHeight="30.0" prefWidth="220.0" style="-fx-border-color: #444a4c; -fx-background-color: #d8d9d9; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style.css">
+        <ComboBox fx:id="privacyBox" layoutX="188.0" layoutY="263.0" prefHeight="30.0" prefWidth="220.0" style="-fx-border-color: #444a4c; -fx-background-color: #d8d9d9; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style2.css">
             <cursor>
                 <Cursor fx:constant="HAND" />
             </cursor>

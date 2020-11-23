@@ -10,12 +10,12 @@
     <children>
         <VBox alignment="CENTER" layoutX="34.0" layoutY="14.0" prefHeight="494.0" prefWidth="715.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
             <children>
-                <Label alignment="CENTER" prefHeight="45.0" prefWidth="179.0" text="Changelog" textFill="#444a4c">
+                <Label alignment="CENTER" prefHeight="70.0" prefWidth="191.0" text="Changelog" textFill="#444a4c">
                     <font>
                         <Font name="System Bold" size="30.0" />
                     </font>
                 </Label>
-                <ListView prefHeight="412.0" prefWidth="715.0" />
+                <ListView prefHeight="388.0" prefWidth="715.0" />
             </children>
         </VBox>
     </children>

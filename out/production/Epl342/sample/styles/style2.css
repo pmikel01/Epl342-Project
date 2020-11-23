@@ -40,3 +40,9 @@
     -fx-alignment: CENTER;
     -fx-text-fill: #d8d9d9;
 }
+
+.combo-box > .list-cell
+{
+    -fx-text-fill: #444a4c;
+    -fx-font-size: 14;
+}

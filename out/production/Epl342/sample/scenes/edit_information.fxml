@@ -77,7 +77,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </DatePicker>
-      <ComboBox fx:id="genderBox" layoutX="495.0" layoutY="190.0" prefHeight="30.0" prefWidth="215.0" style="-fx-border-color: #444a4c; -fx-background-color: #d8d9d9; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style.css">
+      <ComboBox fx:id="genderBox" layoutX="495.0" layoutY="190.0" prefHeight="30.0" prefWidth="215.0" style="-fx-border-color: #444a4c; -fx-background-color: #d8d9d9; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style2.css">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>

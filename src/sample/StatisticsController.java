@@ -12,6 +12,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Separator;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -30,6 +32,15 @@ import java.util.ResourceBundle;
 
 public class StatisticsController implements Initializable {
 
+    @FXML
+    private AnchorPane p_pane;
+
+    @FXML
+    private Spinner<Integer> imgS;
+
+    @FXML
+    private Spinner<Integer> NetImgS;
+
     private static final Interpolator EXP_IN = new Interpolator() {
         @Override
         protected double curve(double t) {
@@ -45,9 +56,6 @@ public class StatisticsController implements Initializable {
     };
 
     @FXML
-    private AnchorPane p_pane ;
-
-    @FXML
     private void handleMostFamousButton() {
         FxmlLoader object = new FxmlLoader();
         Pane view = object.getPage("lists/friends_list");
@@ -56,6 +64,20 @@ public class StatisticsController implements Initializable {
 
     @FXML
     private void handleSameFriendsButton() {
+        FxmlLoader object = new FxmlLoader();
+        Pane view = object.getPage("lists/friends_list");
+        p_pane.getChildren().setAll(view);
+    }
+
+    @FXML
+    private void handleNetworkButton() {
+        FxmlLoader object = new FxmlLoader();
+        Pane view = object.getPage("lists/friends_list");
+        p_pane.getChildren().setAll(view);
+    }
+
+    @FXML
+    private void handleSameFriendsMoreButton() {
         FxmlLoader object = new FxmlLoader();
         Pane view = object.getPage("lists/friends_list");
         p_pane.getChildren().setAll(view);
@@ -159,6 +181,9 @@ public class StatisticsController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        SpinnerValueFactory<Integer> imgCount = new SpinnerValueFactory.IntegerSpinnerValueFactory(1,999,1);
+        SpinnerValueFactory<Integer> imgCountNet = new SpinnerValueFactory.IntegerSpinnerValueFactory(1,999,1);
+        this.imgS.setValueFactory(imgCount);
+        this.NetImgS.setValueFactory(imgCountNet);
     }
 }
