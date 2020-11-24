@@ -21,27 +21,12 @@ public class ShowVideoController implements Initializable {
     @FXML
     private AnchorPane p_pane;
 
-    ObservableList<String> privacyList = FXCollections.observableArrayList("OPEN", "CLOSED", "FRIEND", "NETWORK");
-
     private String id;
-
-    @FXML
-    private Button play;
-
-    @FXML
-    private Button pause;
-
-    @FXML
-    private Button stop;
 
     @FXML
     private MediaView playVideo;
 
     MediaPlayer mediaPlayer;
-
-    @FXML
-    private ComboBox<String> privacyBox;
-
 
     public void initData(String id) {
         this.id = id;
@@ -49,13 +34,16 @@ public class ShowVideoController implements Initializable {
 
     @FXML
     private void handleBackButton() {
-        FxmlLoader object = new FxmlLoader();
-        Pane view = object.getPage("lists/videos_list");
-        p_pane.getChildren().setAll(view);
+//        FxmlLoader object = new FxmlLoader();
+//        Pane view = object.getPage("lists/videos_list");
+//        p_pane.getChildren().setAll(view);
     }
 
     @FXML
     private void handlePlayButton() {
+        if (mediaPlayer.getStatus()== MediaPlayer.Status.PLAYING) {
+            mediaPlayer.stop();
+        }
         mediaPlayer.play();
     }
 
@@ -71,14 +59,9 @@ public class ShowVideoController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Media videoFile = new Media(
-                "file:///E:/Users/Dennis/....Channel%20Trailer.mp4");
-
-        mediaPlayer = new MediaPlayer(videoFile);
-        mediaPlayer.setVolume(0.1);
-
+        String Vurl = "file:///home/pmikel01/Downloads/video1.mp4";
+        Media media = new Media(Vurl);
+        mediaPlayer = new MediaPlayer(media);
         playVideo.setMediaPlayer(mediaPlayer);
-
-
     }
 }

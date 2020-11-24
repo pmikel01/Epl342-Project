@@ -7,7 +7,6 @@ package sample.ShowMedia;
         import javafx.fxml.FXML;
         import javafx.fxml.FXMLLoader;
         import javafx.fxml.Initializable;
-        import javafx.geometry.Insets;
         import javafx.geometry.Pos;
         import javafx.scene.Cursor;
         import javafx.scene.control.Button;
@@ -18,10 +17,7 @@ package sample.ShowMedia;
         import javafx.scene.layout.HBox;
         import javafx.scene.layout.Pane;
         import javafx.scene.layout.Priority;
-        import sample.FxmlLoader;
-        import sample.Profile;
-        import sample.ShowProfileController;
-        import sample.ShowProfileListController;
+        import sample.*;
 
         import java.io.IOException;
         import java.net.URL;
@@ -172,21 +168,14 @@ public class MediaController implements Initializable {
             button2.setCursor(Cursor.HAND);
             hbox.getChildren().addAll(label, pane, button, pane2, button2);
             hbox.setAlignment(Pos.CENTER);
-//            hbox.setPadding(new Insets(0, 30, 0, 0));
             hbox.setSpacing(5);
             HBox.setHgrow(pane, Priority.ALWAYS);
-//            button.setPadding(new Insets(0, 0, 0, 30));
-//            button.setOnAction(event -> getListView().getItems().remove(getItem()));
             button.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent e) {
                     try {
-//                        FXMLLoader loader = new FXMLLoader();
-//                        loader.setLocation(getClass().getResource("scenes/profile.fxml"));
-//                        Pane showProfParent = null;
-
                         FXMLLoader loader = new FXMLLoader();
-                        loader.setLocation(getClass().getResource("/media/show_album.fxml"));
+                        loader.setLocation(getClass().getResource("../media/show_album.fxml"));
                         Pane view = null;
                         view = loader.load();
                         //access the controller and call a method
@@ -206,7 +195,7 @@ public class MediaController implements Initializable {
                 public void handle(ActionEvent e) {
                     try {
                         FXMLLoader loader = new FXMLLoader();
-                        loader.setLocation(getClass().getResource("lists/comments.fxml"));
+                        loader.setLocation(getClass().getResource("../lists/comments.fxml"));
                         Pane view = null;
                         view = loader.load();
                         //access the controller and call a method
@@ -248,13 +237,13 @@ public class MediaController implements Initializable {
             hbox.getChildren().addAll(label, pane, button);
             hbox.setAlignment(Pos.CENTER);
             HBox.setHgrow(pane, Priority.ALWAYS);
-            button.setPadding(new Insets(0, 30, 0, 0));
+            hbox.setSpacing(5);
             button.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent e) {
                     try {
                         FXMLLoader loader = new FXMLLoader();
-                        loader.setLocation(getClass().getResource("media/show_photo.fxml"));
+                        loader.setLocation(getClass().getResource("../media/show_photo.fxml"));
                         Pane view = null;
                         view = loader.load();
                         //access the controller and call a method
@@ -299,13 +288,13 @@ public class MediaController implements Initializable {
             hbox.getChildren().addAll(label, pane, button, pane2, button2);
             hbox.setAlignment(Pos.CENTER);
             HBox.setHgrow(pane, Priority.ALWAYS);
-            button.setPadding(new Insets(0, 30, 0, 0));
+            hbox.setSpacing(5);
             button.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent e) {
                     try {
                         FXMLLoader loader = new FXMLLoader();
-                        loader.setLocation(getClass().getResource("media/show_video.fxml"));
+                        loader.setLocation(getClass().getResource("../media/show_video.fxml"));
                         Pane view = null;
                         view = loader.load();
                         //access the controller and call a method
@@ -325,7 +314,7 @@ public class MediaController implements Initializable {
                 public void handle(ActionEvent e) {
                     try {
                         FXMLLoader loader = new FXMLLoader();
-                        loader.setLocation(getClass().getResource("lists/comments.fxml"));
+                        loader.setLocation(getClass().getResource("../lists/comments.fxml"));
                         Pane view = null;
                         view = loader.load();
                         //access the controller and call a method
@@ -367,13 +356,13 @@ public class MediaController implements Initializable {
             hbox.getChildren().addAll(label, pane, button);
             hbox.setAlignment(Pos.CENTER);
             HBox.setHgrow(pane, Priority.ALWAYS);
-            button.setPadding(new Insets(0, 30, 0, 0));
+            hbox.setSpacing(5);
             button.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent e) {
                     try {
                         FXMLLoader loader = new FXMLLoader();
-                        loader.setLocation(getClass().getResource("media/show_event.fxml"));
+                        loader.setLocation(getClass().getResource("../media/show_event.fxml"));
                         Pane view = null;
                         view = loader.load();
                         //access the controller and call a method
@@ -415,13 +404,13 @@ public class MediaController implements Initializable {
             hbox.getChildren().addAll(label, pane, button);
             hbox.setAlignment(Pos.CENTER);
             HBox.setHgrow(pane, Priority.ALWAYS);
-            button.setPadding(new Insets(0, 30, 0, 0));
+            hbox.setSpacing(5);
             button.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent e) {
                     try {
                         FXMLLoader loader = new FXMLLoader();
-                        loader.setLocation(getClass().getResource("media/show_link.fxml"));
+                        loader.setLocation(getClass().getResource("../media/show_link.fxml"));
                         Pane view = null;
                         view = loader.load();
                         //access the controller and call a method
