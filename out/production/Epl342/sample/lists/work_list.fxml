@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
@@ -17,21 +16,14 @@
                             </font>
                         </Label>
                     </center>
-                    <right>
-                        <Button mnemonicParsing="false" onAction="#pressAddWorkButton" prefHeight="50.0" prefWidth="144.0" style="-fx-background-color: #454b4d;" stylesheets="@../styles/style.css" text="ADD" textFill="#d8d9d9" BorderPane.alignment="CENTER">
-                            <font>
-                                <Font name="System Bold" size="23.0" />
-                            </font>
-                            <cursor>
-                                <Cursor fx:constant="HAND" />
-                            </cursor>
-                        </Button>
-                    </right>
                     <left>
                         <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
                     </left>
+               <right>
+                  <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+               </right>
                 </BorderPane>
-                <ListView prefHeight="382.0" prefWidth="756.0" />
+                <ListView fx:id="listV" prefHeight="382.0" prefWidth="756.0" />
             </children>
         </VBox>
     </children>

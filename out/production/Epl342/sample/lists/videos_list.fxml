@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="p_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="495.0" prefWidth="755.0" style="-fx-background-color: #d8d9d9;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.MediaController">
+<AnchorPane fx:id="p_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="495.0" prefWidth="755.0" style="-fx-background-color: #d8d9d9;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ShowMedia.MediaController">
    <children>
       <VBox alignment="CENTER" layoutX="34.0" layoutY="14.0" prefHeight="494.0" prefWidth="715.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
          <children>
@@ -31,7 +31,7 @@
                   <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
                </right>
             </BorderPane>
-            <ListView prefHeight="382.0" prefWidth="756.0" />
+            <ListView fx:id="listV" prefHeight="382.0" prefWidth="756.0" />
          </children>
       </VBox>
    </children>

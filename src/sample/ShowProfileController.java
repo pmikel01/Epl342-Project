@@ -2,21 +2,31 @@ package sample;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 
+import java.io.IOException;
 import java.net.URL;
+import java.util.Date;
 import java.util.ResourceBundle;
 
-public class ShowProfileController implements Initializable {
+public class ShowProfileListController implements Initializable {
+
+    @FXML
+    public AnchorPane p_pane;
 
     private ProfSelection pSel;
 
@@ -27,6 +37,15 @@ public class ShowProfileController implements Initializable {
 
     public void initData(ProfSelection profile) {
         pSel = profile;
+
+        profList.setItems(items);
+        //loop
+        items.add("903458   Pantelis Mikelli");
+        profList.setCellFactory(param -> new XCell(p_pane));
+    }
+
+    public AnchorPane getP_pane() {
+        return p_pane;
     }
 
     static class XCell extends ListCell<String> {
@@ -34,17 +53,40 @@ public class ShowProfileController implements Initializable {
         Label label = new Label("");
         Pane pane = new Pane();
         Button button = new Button("Show Profile");
-        Pane pane2 = new Pane();
-        Button button2 = new Button("Delete");
 
-        public XCell() {
+        public XCell(AnchorPane p_pa) {
             super();
 
-            hbox.getChildren().addAll(label, pane, button, pane2, button2);
+            button.setCursor(Cursor.HAND);
+            hbox.getChildren().addAll(label, pane, button);
             hbox.setAlignment(Pos.CENTER);
             HBox.setHgrow(pane, Priority.ALWAYS);
-            HBox.setHgrow(pane2, Priority.ALWAYS);
-            button2.setOnAction(event -> getListView().getItems().remove(getItem()));
+//            button.setOnAction(event -> getListView().getItems().remove(getItem()));
+            button.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent e) {
+//                    FxmlLoader object = new FxmlLoader();
+//                    Pane view = object.getPage("scenes/profile");
+//                    p_pa.getChildren().setAll(view);
+                    FXMLLoader loader = new FXMLLoader();
+                    loader.setLocation(getClass().getResource("lists/profiles_list.fxml"));
+                    Pane showProfParent = null;
+                    try {
+                        showProfParent = loader.load();
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+
+                    //access the controller and call a method
+                    ShowProfileListController controller = loader.getController();
+
+                    //create query
+                    ProfSelection prof = new ProfSelection("Pantelis","sd", "df", "gh", "fg",new Date());
+                    controller.initData(prof);
+
+                    p_pa.getChildren().setAll(showProfParent);
+                }
+            });
         }
 
         @Override
@@ -62,10 +104,6 @@ public class ShowProfileController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        profList.setItems(items);
-        items.add("First Prof");
-        items.add("Second Prof");
-        items.add("Third Prof");
-        profList.setCellFactory(param -> new XCell());
+
     }
 }
