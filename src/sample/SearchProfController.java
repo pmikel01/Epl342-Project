@@ -4,12 +4,8 @@ package sample;
         import javafx.fxml.FXML;
         import javafx.fxml.FXMLLoader;
         import javafx.fxml.Initializable;
-        import javafx.scene.Node;
-        import javafx.scene.Parent;
-        import javafx.scene.Scene;
         import javafx.scene.layout.AnchorPane;
         import javafx.scene.layout.Pane;
-        import javafx.stage.Stage;
 
         import java.io.IOException;
         import java.net.URL;
@@ -28,10 +24,10 @@ public class SearchProfController implements Initializable {
         Pane showProfParent = loader.load();
 
         //access the controller and call a method
-        ShowProfileController controller = loader.getController();
+        ShowProfileListController controller = loader.getController();
 
         //create query
-        ProfSelection prof = new ProfSelection("as","sd", "df", "gh", "fg",new Date());
+        ProfSelection prof = new ProfSelection("Pantelis","sd", "df", "gh", "fg",new Date());
         controller.initData(prof);
 
         p_pane.getChildren().setAll(showProfParent);

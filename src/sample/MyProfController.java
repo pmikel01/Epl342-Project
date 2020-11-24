@@ -71,28 +71,28 @@ public class MyProfController implements Initializable {
     @FXML
     private void handleEducationButton() {
         FxmlLoader object = new FxmlLoader();
-        Pane view = object.getPage("lists/education_list");
+        Pane view = object.getPage("edit_lists/edit_education_list");
         p_pane.getChildren().setAll(view);
     }
 
     @FXML
     private void handleInterestsButton() {
         FxmlLoader object = new FxmlLoader();
-        Pane view = object.getPage("lists/interests_list");
+        Pane view = object.getPage("edit_lists/edit_interests_list");
         p_pane.getChildren().setAll(view);
     }
 
     @FXML
     private void handleQuotesButton() {
         FxmlLoader object = new FxmlLoader();
-        Pane view = object.getPage("lists/quotes_list");
+        Pane view = object.getPage("edit_lists/edit_quotes_list");
         p_pane.getChildren().setAll(view);
     }
 
     @FXML
     private void handleWorkButton() {
         FxmlLoader object = new FxmlLoader();
-        Pane view = object.getPage("lists/work_list");
+        Pane view = object.getPage("edit_lists/edit_work_list");
         p_pane.getChildren().setAll(view);
     }
 

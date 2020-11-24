@@ -7,7 +7,7 @@ import javafx.scene.layout.AnchorPane;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ShowVideoController implements Initializable {
+public class ShowEventController implements Initializable {
 
     @FXML
     private AnchorPane p_pane;

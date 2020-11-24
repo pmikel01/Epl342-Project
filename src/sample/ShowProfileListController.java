@@ -23,10 +23,10 @@ import java.net.URL;
 import java.util.Date;
 import java.util.ResourceBundle;
 
-public class ShowProfileController implements Initializable {
+public class ShowProfileListController implements Initializable {
 
     @FXML
-    public AnchorPane p_pane;
+    private AnchorPane p_pane;
 
     private ProfSelection pSel;
 
@@ -54,7 +54,7 @@ public class ShowProfileController implements Initializable {
         Pane pane = new Pane();
         Button button = new Button("Show Profile");
 
-        public XCell(AnchorPane p_pa) {
+        public XCell(AnchorPane p_pane) {
             super();
 
             button.setCursor(Cursor.HAND);
@@ -65,26 +65,22 @@ public class ShowProfileController implements Initializable {
             button.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent e) {
-//                    FxmlLoader object = new FxmlLoader();
-//                    Pane view = object.getPage("scenes/profile");
-//                    p_pa.getChildren().setAll(view);
-                    FXMLLoader loader = new FXMLLoader();
-                    loader.setLocation(getClass().getResource("lists/profiles_list.fxml"));
-                    Pane showProfParent = null;
                     try {
+                        FXMLLoader loader = new FXMLLoader();
+                        loader.setLocation(getClass().getResource("scenes/profile.fxml"));
+                        Pane showProfParent = null;
                         showProfParent = loader.load();
+                        //access the controller and call a method
+                        ShowProfileController controller = loader.getController();
+
+                        //create query
+                        Profile prof = new Profile("272727");
+                        controller.initData(prof);
+
+                        p_pane.getChildren().setAll(showProfParent);
                     } catch (IOException ioException) {
                         ioException.printStackTrace();
                     }
-
-                    //access the controller and call a method
-                    ShowProfileController controller = loader.getController();
-
-                    //create query
-                    ProfSelection prof = new ProfSelection("Pantelis","sd", "df", "gh", "fg",new Date());
-                    controller.initData(prof);
-
-                    p_pa.getChildren().setAll(showProfParent);
                 }
             });
         }

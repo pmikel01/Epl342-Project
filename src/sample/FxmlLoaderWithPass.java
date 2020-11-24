@@ -3,22 +3,16 @@ package sample;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 
+import java.io.IOException;
 import java.net.URL;
 
-public class FxmlLoader {
+public class FxmlLoaderWithPass {
     private Pane view;
 
-    public Pane getPage(String fileName) {
-        try {
-            URL fileUrl = Main.class.getResource(fileName + ".fxml");
-            if (fileUrl == null) {
-                throw new java.io.FileNotFoundException("FXML not found");
-            }
-            new FXMLLoader();
-            view = FXMLLoader.load(fileUrl);
-        }catch (Exception e) {
-            System.out.println("No page error");
-        }
+    public Pane getPage(String fileName) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource(fileName+".fxml"));
+        view = loader.load();
         return view;
     }
 }

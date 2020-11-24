@@ -17,89 +17,173 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
+import sample.ShowMedia.MediaController;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
 import java.util.ResourceBundle;
 
-public class ShowProfileListController implements Initializable {
+public class ShowProfileController implements Initializable {
 
     @FXML
-    public AnchorPane p_pane;
+    private AnchorPane p_pane;
 
-    private ProfSelection pSel;
+    private String id;
 
     private ObservableList<String> items = FXCollections.observableArrayList();
 
+    private Profile prof;
+
     @FXML
-    ListView<String> profList;
+    ListView<String> infoList;
 
-    public void initData(ProfSelection profile) {
-        pSel = profile;
+    public void initData(Profile prof) {
+        this.prof = prof;
 
-        profList.setItems(items);
+        infoList.setItems(items);
         //loop
         items.add("903458   Pantelis Mikelli");
-        profList.setCellFactory(param -> new XCell(p_pane));
     }
 
-    public AnchorPane getP_pane() {
-        return p_pane;
+    @FXML
+    private void handleAlbumButton() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("lists/albums_list.fxml"));
+        Pane view = loader.load();
+
+        //access the controller and call a method
+        MediaController controller = loader.getController();
+
+        //create query
+        controller.initData("album","id");
+
+        p_pane.getChildren().setAll(view);
     }
 
-    static class XCell extends ListCell<String> {
-        HBox hbox = new HBox();
-        Label label = new Label("");
-        Pane pane = new Pane();
-        Button button = new Button("Show Profile");
+    @FXML
+    private void handlePictureButton() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("lists/photos_list.fxml"));
+        Pane view = loader.load();
 
-        public XCell(AnchorPane p_pa) {
-            super();
+        //access the controller and call a method
+        MediaController controller = loader.getController();
 
-            button.setCursor(Cursor.HAND);
-            hbox.getChildren().addAll(label, pane, button);
-            hbox.setAlignment(Pos.CENTER);
-            HBox.setHgrow(pane, Priority.ALWAYS);
-//            button.setOnAction(event -> getListView().getItems().remove(getItem()));
-            button.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent e) {
-//                    FxmlLoader object = new FxmlLoader();
-//                    Pane view = object.getPage("scenes/profile");
-//                    p_pa.getChildren().setAll(view);
-                    FXMLLoader loader = new FXMLLoader();
-                    loader.setLocation(getClass().getResource("lists/profiles_list.fxml"));
-                    Pane showProfParent = null;
-                    try {
-                        showProfParent = loader.load();
-                    } catch (IOException ioException) {
-                        ioException.printStackTrace();
-                    }
+        //create query
+        controller.initData("picture","id");
 
-                    //access the controller and call a method
-                    ShowProfileListController controller = loader.getController();
+        p_pane.getChildren().setAll(view);
+    }
 
-                    //create query
-                    ProfSelection prof = new ProfSelection("Pantelis","sd", "df", "gh", "fg",new Date());
-                    controller.initData(prof);
+    @FXML
+    private void handleVideoButton() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("lists/videos_list.fxml"));
+        Pane view = loader.load();
 
-                    p_pa.getChildren().setAll(showProfParent);
-                }
-            });
-        }
+        //access the controller and call a method
+        MediaController controller = loader.getController();
 
-        @Override
-        protected void updateItem(String item, boolean empty) {
-            super.updateItem(item, empty);
-            setText(null);
-            setGraphic(null);
+        //create query
+        controller.initData("video","id");
 
-            if (item != null && !empty) {
-                label.setText(item);
-                setGraphic(hbox);
-            }
-        }
+        p_pane.getChildren().setAll(view);
+    }
+
+    @FXML
+    private void handleSpecEventButton() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("lists/events_list.fxml"));
+        Pane view = loader.load();
+
+        //access the controller and call a method
+        MediaController controller = loader.getController();
+
+        //create query
+        controller.initData("event","id");
+
+        p_pane.getChildren().setAll(view);
+    }
+
+    @FXML
+    private void handleLinkButton() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("lists/links_list.fxml"));
+        Pane view = loader.load();
+
+        //access the controller and call a method
+        MediaController controller = loader.getController();
+
+        //create query
+        controller.initData("link","id");
+
+        p_pane.getChildren().setAll(view);
+    }
+
+    @FXML
+    private void handleSendFRButton() throws IOException {
+        //handle FR
+    }
+
+    @FXML
+    private void handleEducationButton() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("lists/education_list.fxml"));
+        Pane view = loader.load();
+
+        //access the controller and call a method
+        QewiController controller = loader.getController();
+
+        //create query
+        controller.initData("education","id");
+
+        p_pane.getChildren().setAll(view);
+    }
+
+    @FXML
+    private void handleInterestsButton() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("lists/interests_list.fxml"));
+        Pane view = loader.load();
+
+        //access the controller and call a method
+        QewiController controller = loader.getController();
+
+        //create query
+        controller.initData("interest","id");
+
+        p_pane.getChildren().setAll(view);
+    }
+
+    @FXML
+    private void handleQuotesButton() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("lists/quotes_list.fxml"));
+        Pane view = loader.load();
+
+        //access the controller and call a method
+        QewiController controller = loader.getController();
+
+        //create query
+        controller.initData("quote","id");
+
+        p_pane.getChildren().setAll(view);
+    }
+
+    @FXML
+    private void handleWorkButton() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("lists/work_list.fxml"));
+        Pane view = loader.load();
+
+        //access the controller and call a method
+        QewiController controller = loader.getController();
+
+        //create query
+        controller.initData("work","id");
+
+        p_pane.getChildren().setAll(view);
     }
 
     @Override
