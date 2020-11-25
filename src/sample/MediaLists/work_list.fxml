@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="p_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="495.0" prefWidth="755.0" style="-fx-background-color: #d8d9d9;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.MainScenesControllers.QewiController">
+    <children>
+        <VBox alignment="CENTER" layoutX="34.0" layoutY="14.0" prefHeight="494.0" prefWidth="715.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
+            <children>
+                <BorderPane prefHeight="82.0" prefWidth="715.0">
+                    <center>
+                        <Label alignment="CENTER" prefHeight="36.0" prefWidth="147.0" text="Work" textFill="#444a4c" BorderPane.alignment="CENTER">
+                            <font>
+                                <Font name="System Bold" size="30.0" />
+                            </font>
+                        </Label>
+                    </center>
+                    <left>
+                        <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                    </left>
+               <right>
+                  <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+               </right>
+                </BorderPane>
+                <ListView fx:id="listV" prefHeight="382.0" prefWidth="756.0" />
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

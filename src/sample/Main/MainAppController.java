@@ -1,0 +1,143 @@
+package sample.Main;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import sample.MainScenesControllers.MyProfController;
+import sample.SearchMediaControllers.SearchEventController;
+
+import java.io.IOException;
+
+public class MainAppController {
+    @FXML
+    public Button closeButton;
+
+    public String myID="";
+
+    public void initData(String id) {
+        this.myID = id;
+    }
+
+    @FXML
+    public void pressExitButton(ActionEvent event) {
+        Stage stage = (Stage) closeButton.getScene().getWindow();
+        stage.close();
+        openStage("../MainScenes/sign_in.fxml");
+    }
+
+    @FXML
+    public Button signOutButton;
+
+    @FXML
+    public void pressSignOutButton(ActionEvent event) {
+        Stage stage = (Stage) signOutButton.getScene().getWindow();
+        stage.close();
+        openStage("../MainScenes/sign_in.fxml");
+    }
+
+    @FXML
+    private BorderPane mainPane;
+
+    @FXML
+    private void handleSearchProfileButton() throws IOException{
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("../MainScenes/search_profiles.fxml"));
+        Pane view = null;
+        view = loader.load();
+        //access the controller and call a method
+        MyProfController controller = loader.getController();
+
+        //create query
+        controller.initData("my id");
+
+        mainPane.setCenter(view);
+    }
+
+    @FXML
+    private void handleMyProfileButton(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("../MainScenes/my_profile.fxml"));
+        Pane view = null;
+        view = loader.load();
+        //access the controller and call a method
+        MyProfController controller = loader.getController();
+
+        //create query
+        controller.initData("user id");
+
+        mainPane.setCenter(view);
+    }
+
+    @FXML
+    private void handleEventButton(ActionEvent event) {
+        FxmlLoader object = new FxmlLoader();
+        Pane view = object.getPage("../MainScenes/events");
+        mainPane.setCenter(view);
+    }
+
+    @FXML
+    private void handleStatisticsButton(ActionEvent event) {
+        FxmlLoader object = new FxmlLoader();
+        Pane view = object.getPage("../MainScenes/statistics");
+        mainPane.setCenter(view);
+    }
+
+    @FXML
+    private void handleFriendRequestsButton(ActionEvent event) {
+        FxmlLoader object = new FxmlLoader();
+        Pane view = object.getPage("../MainScenes/friend_requests");
+        mainPane.setCenter(view);
+    }
+
+    @FXML
+    private void handleHomeButton() {
+        FxmlLoader object = new FxmlLoader();
+        Pane view = object.getPage("../MainScenes/home");
+        mainPane.setCenter(view);
+    }
+
+    @FXML
+    private AnchorPane main_stage;
+
+    @FXML
+    private void handleMinimize(ActionEvent event) {
+        Stage stage = (Stage) main_stage.getScene().getWindow();
+        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        stage.setIconified(true);
+    }
+
+    private double x, y;
+
+    private void openStage(String fileName) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fileName));
+            Parent root1 = (Parent) fxmlLoader.load();
+            Stage stage = new Stage();
+
+            stage.setScene(new Scene(root1));
+            stage.initStyle(StageStyle.UNDECORATED);
+
+            //we gonna drag the frame
+            root1.setOnMousePressed(mouseEvent -> {
+                x = mouseEvent.getSceneX();
+                y = mouseEvent.getSceneY();
+            });
+
+            root1.setOnMouseDragged(mouseEvent -> {
+                stage.setX(mouseEvent.getScreenX() - x);
+                stage.setY(mouseEvent.getScreenY() - y);
+            });
+            stage.show();
+        } catch (Exception e) {
+            System.out.println("Cant load window");
+        }
+    }
+}
