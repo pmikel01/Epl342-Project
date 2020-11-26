@@ -178,6 +178,19 @@ public class ShowProfController implements Initializable {
         p_pane.getChildren().setAll(view);
     }
 
+    @FXML
+    private void handleFRButton() {
+//        if (user already likes photo) {
+//            sample.Main.CustomDialog dialog = new sample.Main.CustomDialog("Send Friend Request", "Already friends with this user");
+//            dialog.openDialog();
+//        } else {
+//            sample.Main.CustomDialog dialog = new sample.Main.CustomDialog("Send Friend Request", "Congratulations you liked the photo");
+//            dialog.openDialog();
+//        }
+        sample.Main.CustomDialog dialog = new sample.Main.CustomDialog("Send Friend Request", "Congratulations request sent", "fr");
+        dialog.openDialog();
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 

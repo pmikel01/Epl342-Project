@@ -17,10 +17,10 @@ public class SearchProfController implements Initializable {
     @FXML
     private AnchorPane p_pane ;
 
-    public String myID="";
+    public String myID;
 
-    public void initData(String id) {
-        this.myID = id;
+    public void initData(String myID) {
+        this.myID = myID;
     }
 
     @FXML
@@ -35,7 +35,7 @@ public class SearchProfController implements Initializable {
 
         //create query
         ProfSelection prof = new ProfSelection("Pantelis","sd", "df", "gh", "fg",new Date());
-        controller.initData(prof,"my id");
+        controller.initData(prof,myID);
 
         p_pane.getChildren().setAll(showProfParent);
     }

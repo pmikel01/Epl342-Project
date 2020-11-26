@@ -28,7 +28,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import sample.Main.FxmlLoader;
-import sample.MediaControllers.ShowCommentsController;
 import sample.MediaListsControllers.FriendListController;
 
 import java.io.IOException;
@@ -52,20 +51,6 @@ public class StatisticsController implements Initializable {
         this.myID = myID;
     }
 
-    private static final Interpolator EXP_IN = new Interpolator() {
-        @Override
-        protected double curve(double t) {
-            return (t == 1.0) ? 1.0 : 1 - Math.pow(2.0, -10 * t);
-        }
-    };
-
-    private static final Interpolator EXP_OUT = new Interpolator() {
-        @Override
-        protected double curve(double t) {
-            return (t == 0.0) ? 0.0 : Math.pow(2.0, 10 * (t - 1));
-        }
-    };
-
     @FXML
     private void handleMostFamousButton() throws IOException {
         FXMLLoader loader = new FXMLLoader();
@@ -76,7 +61,7 @@ public class StatisticsController implements Initializable {
         FriendListController controller = loader.getController();
 
         //create query
-        controller.initData("stat1", "my id");
+        controller.initData("stat1", myID);
 
         p_pane.getChildren().setAll(view);
     }
@@ -91,7 +76,7 @@ public class StatisticsController implements Initializable {
         FriendListController controller = loader.getController();
 
         //create query
-        controller.initData("stat2", "my id");
+        controller.initData("stat2", myID);
 
         p_pane.getChildren().setAll(view);
     }
@@ -113,7 +98,7 @@ public class StatisticsController implements Initializable {
         FriendListController controller = loader.getController();
 
         //create query
-        controller.initData("stat3", "my id");
+        controller.initData("stat3", myID);
 
         p_pane.getChildren().setAll(view);
     }
@@ -128,7 +113,7 @@ public class StatisticsController implements Initializable {
         FriendListController controller = loader.getController();
 
         //create query
-        controller.initData("stat4", "my id");
+        controller.initData("stat4", myID);
 
         p_pane.getChildren().setAll(view);
     }
@@ -150,7 +135,7 @@ public class StatisticsController implements Initializable {
         FriendListController controller = loader.getController();
 
         //create query
-        controller.initData("stat5", "my id");
+        controller.initData("stat5", myID);
 
         p_pane.getChildren().setAll(view);
     }
@@ -160,74 +145,8 @@ public class StatisticsController implements Initializable {
 
     @FXML
     public void pressAvgButton(ActionEvent event) {
-        CustomDialog dialog = new CustomDialog("Average Age Of Network", "45");
+        sample.Main.CustomDialog dialog = new sample.Main.CustomDialog("Average Age Of Network", "45", "avg");
         dialog.openDialog();
-    }
-
-    private static class CustomDialog extends Stage {
-
-        private ScaleTransition scaleLeft = new ScaleTransition();
-        private ScaleTransition scaleRight = new ScaleTransition();
-
-        private SequentialTransition animation = new SequentialTransition(scaleLeft, scaleRight);
-
-        CustomDialog(String header, String content) {
-            Pane root = new Pane();
-
-            scaleLeft.setFromX(0.01);
-            scaleLeft.setFromY(0.01);
-            scaleLeft.setToY(1.0);
-            scaleLeft.setDuration(Duration.seconds(0.15));
-            scaleLeft.setInterpolator(EXP_IN);
-            scaleLeft.setNode(root);
-
-            scaleRight.setFromX(0.01);
-            scaleRight.setToX(1.0);
-            scaleRight.setDuration(Duration.seconds(0.15));
-            scaleRight.setInterpolator(EXP_OUT);
-            scaleRight.setNode(root);
-
-            initStyle(StageStyle.TRANSPARENT);
-            initModality(Modality.APPLICATION_MODAL);
-
-            Rectangle background = new Rectangle(283, 150, Color.LIGHTGREY);
-            background.setStroke(Color.DARKGREY);
-            background.setStrokeWidth(1.5);
-
-            Text headerText = new Text(header);
-            headerText.setTextAlignment(TextAlignment.CENTER);
-            headerText.setFont(Font.font(20));
-
-            Text contentText = new Text(content);
-            contentText.setTextAlignment(TextAlignment.CENTER);
-            contentText.setFont(Font.font(25));
-
-            VBox box = new VBox(10,
-                    headerText,
-                    new Separator(Orientation.HORIZONTAL),
-                    contentText
-            );
-            box.setPadding(new Insets(15));
-            box.setAlignment(Pos.CENTER);
-
-            Button btn = new Button("OK");
-            btn.setTranslateX(background.getWidth() - 50);
-            btn.setTranslateY(background.getHeight() - 50);
-            btn.setOnAction(e -> closeDialog());
-
-            root.getChildren().addAll(background, box, btn);
-            setScene(new Scene(root, null));
-        }
-        void openDialog() {
-            show();
-            animation.play();
-        }
-        void closeDialog() {
-            animation.setOnFinished(e -> close());
-            animation.setAutoReverse(true);
-            animation.setCycleCount(2);
-            animation.playFrom(Duration.seconds(0.35));
-        }
     }
 
     @Override

@@ -39,7 +39,7 @@ public class SearchEventController implements Initializable {
 
         //create query
         SearchEvents event = new SearchEvents("","", "", "", new Date());
-        controller.initData(event, "id", "myID");
+        controller.initData(event, id, myID);
 
         p_pane.getChildren().setAll(view);
     }
@@ -56,7 +56,7 @@ public class SearchEventController implements Initializable {
 
             //create query
             SearchAlbums album = new SearchAlbums("","", "", "");
-            controller.initData("event", "id");
+            controller.initData("event", myID);
 
             p_pane.getChildren().setAll(view);
         } else {
@@ -69,7 +69,7 @@ public class SearchEventController implements Initializable {
 
             //create query
             SearchAlbums album = new SearchAlbums("","", "", "");
-            controller.initData("event", "id", "my id");
+            controller.initData("event", id, myID);
 
             p_pane.getChildren().setAll(view);
         }

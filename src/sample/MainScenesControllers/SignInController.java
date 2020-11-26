@@ -31,7 +31,7 @@ public class SignInController {
     public void handleRegisterButton(ActionEvent event) {
         Stage stage = (Stage) registerButton.getScene().getWindow();
         stage.close();
-        openStage("../MainScenes/register.fxml");
+        openStageRegister("../MainScenes/register.fxml");
     }
 
     @FXML
@@ -56,7 +56,32 @@ public class SignInController {
             MainAppController controller = fxmlLoader.getController();
 
             //create query
-            controller.initData("id");
+            controller.initData("my ID");
+
+            //we gonna drag the frame
+            root1.setOnMousePressed(mouseEvent -> {
+                x = mouseEvent.getSceneX();
+                y = mouseEvent.getSceneY();
+            });
+
+            root1.setOnMouseDragged(mouseEvent -> {
+                stage.setX(mouseEvent.getScreenX() - x);
+                stage.setY(mouseEvent.getScreenY() - y);
+            });
+            stage.show();
+        } catch (Exception e) {
+            System.out.println("Cant load window");
+        }
+    }
+
+    private void openStageRegister(String fileName) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fileName));
+            Parent root1 = (Parent) fxmlLoader.load();
+            Stage stage = new Stage();
+
+            stage.setScene(new Scene(root1));
+            stage.initStyle(StageStyle.UNDECORATED);
 
             //we gonna drag the frame
             root1.setOnMousePressed(mouseEvent -> {

@@ -2,10 +2,13 @@ package sample.MediaControllers;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import sample.MediaListsControllers.EditMediaListController;
@@ -13,6 +16,7 @@ import sample.MediaListsControllers.MediaListController;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class ShowCommentsController implements Initializable {
@@ -53,7 +57,7 @@ public class ShowCommentsController implements Initializable {
                 EditMediaListController controller = loader.getController();
 
                 //create query
-                controller.initData("album", "my id");
+                controller.initData("album", myID);
 
                 p_pane.getChildren().setAll(showProfParent);
             } else {
@@ -65,7 +69,7 @@ public class ShowCommentsController implements Initializable {
                 MediaListController controller = loader.getController();
 
                 //create query
-                controller.initData("album","id", "my id");
+                controller.initData("album",id, myID);
 
                 p_pane.getChildren().setAll(view);
             }
@@ -79,7 +83,7 @@ public class ShowCommentsController implements Initializable {
                 EditMediaListController controller = loader.getController();
 
                 //create query
-                controller.initData("video", "my id");
+                controller.initData("video", myID);
 
                 p_pane.getChildren().setAll(showProfParent);
             } else {
@@ -91,11 +95,27 @@ public class ShowCommentsController implements Initializable {
                 MediaListController controller = loader.getController();
 
                 //create query
-                controller.initData("video","id", "my id");
+                controller.initData("video",id, myID);
 
                 p_pane.getChildren().setAll(view);
             }
         }
+    }
+
+    @FXML
+    public void pressAddButton(ActionEvent event) {
+        TextInputDialog textIn = new TextInputDialog();
+        textIn.setTitle("Make A Comment");
+        textIn.setHeaderText(null);
+        textIn.setGraphic(null);
+
+        textIn.getDialogPane().setContentText("Comment: ");
+        Optional<String> result = textIn.showAndWait();
+        TextField input = textIn.getEditor();
+        if(input.getText() != null && input.getText().toString().length() != 0)
+            System.out.println("correct");
+        else
+            System.out.println("");
     }
 
     @Override

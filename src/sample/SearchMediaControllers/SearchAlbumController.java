@@ -36,7 +36,7 @@ public class SearchAlbumController implements Initializable {
 
         //create query
         SearchAlbums album = new SearchAlbums("","", "", "");
-        controller.initData(album, "id", "id");
+        controller.initData(album, id, myID);
 
         p_pane.getChildren().setAll(view);
     }
@@ -53,7 +53,7 @@ public class SearchAlbumController implements Initializable {
 
             //create query
             SearchAlbums album = new SearchAlbums("","", "", "");
-            controller.initData("album", "id");
+            controller.initData("album", myID);
 
             p_pane.getChildren().setAll(view);
         } else {
@@ -66,7 +66,7 @@ public class SearchAlbumController implements Initializable {
 
             //create query
             SearchAlbums album = new SearchAlbums("","", "", "");
-            controller.initData("album", "id", "my id");
+            controller.initData("album", id, myID);
 
             p_pane.getChildren().setAll(view);
         }

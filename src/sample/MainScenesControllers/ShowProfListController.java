@@ -44,7 +44,7 @@ public class ShowProfListController implements Initializable {
         profList.setItems(items);
         //loop
         items.add("903458   Pantelis Mikelli");
-        profList.setCellFactory(param -> new XCell(p_pane));
+        profList.setCellFactory(param -> new XCell(p_pane, myID));
     }
 
     public AnchorPane getP_pane() {
@@ -57,7 +57,7 @@ public class ShowProfListController implements Initializable {
         Pane pane = new Pane();
         Button button = new Button("Show Profile");
 
-        public XCell(AnchorPane p_pane) {
+        public XCell(AnchorPane p_pane, String myID) {
             super();
 
             button.setCursor(Cursor.HAND);
@@ -77,7 +77,7 @@ public class ShowProfListController implements Initializable {
                         ShowProfController controller = loader.getController();
 
                         //create query
-                        controller.initData("id", "my id");
+                        controller.initData("id", myID);
 
                         p_pane.getChildren().setAll(showProfParent);
                     } catch (IOException ioException) {

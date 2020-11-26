@@ -25,10 +25,10 @@ public class AddAlbumController implements Initializable {
     @FXML
     private AnchorPane p_pane ;
 
-    private String id;
+    private String myID;
 
-    public void initData(String id) {
-        this.id = id;
+    public void initData(String myID) {
+        this.myID = myID;
     }
 
     @FXML
@@ -41,7 +41,7 @@ public class AddAlbumController implements Initializable {
         EditMediaListController controller = loader.getController();
 
         //create query
-        controller.initData("album", "my id");
+        controller.initData("album", myID);
 
         p_pane.getChildren().setAll(showProfParent);
     }
@@ -56,7 +56,7 @@ public class AddAlbumController implements Initializable {
         EditMediaListController controller = loader.getController();
 
         //create query
-        controller.initData("album", "my id");
+        controller.initData("album", myID);
 
         p_pane.getChildren().setAll(showProfParent);
     }

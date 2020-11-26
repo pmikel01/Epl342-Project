@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="495.0" prefWidth="755.0" style="-fx-background-color: #d8d9d9;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="p_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="495.0" prefWidth="755.0" style="-fx-background-color: #d8d9d9;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.MediaListsControllers.FriendListController">
     <children>
         <VBox alignment="CENTER" layoutX="34.0" layoutY="14.0" prefHeight="494.0" prefWidth="715.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
             <children>

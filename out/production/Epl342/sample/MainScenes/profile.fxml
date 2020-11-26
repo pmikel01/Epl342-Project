@@ -28,7 +28,7 @@
             <children>
                 <VBox alignment="TOP_CENTER" prefHeight="169.0" prefWidth="189.0">
                     <children>
-                        <ImageView accessibleRole="BUTTON" fitHeight="120.0" fitWidth="125.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView accessibleRole="BUTTON" fitHeight="120.0" fitWidth="125.0" onMouseReleased="#handleFRButton" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../../friends.png" />
                             </image>

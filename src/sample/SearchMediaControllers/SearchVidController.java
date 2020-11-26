@@ -44,7 +44,7 @@ public class SearchVidController implements Initializable {
 
         //create query
         SearchVideos video = new SearchVideos("","", "", 0);
-        controller.initData(video, "id", "myID");
+        controller.initData(video, id, myID);
 
         p_pane.getChildren().setAll(view);
     }
@@ -61,7 +61,7 @@ public class SearchVidController implements Initializable {
 
             //create query
             SearchAlbums album = new SearchAlbums("","", "", "");
-            controller.initData("video", "id");
+            controller.initData("video", myID);
 
             p_pane.getChildren().setAll(view);
         } else {
@@ -74,7 +74,7 @@ public class SearchVidController implements Initializable {
 
             //create query
             SearchAlbums album = new SearchAlbums("","", "", "");
-            controller.initData("video", "id", "my id");
+            controller.initData("video", id, myID);
 
             p_pane.getChildren().setAll(view);
         }

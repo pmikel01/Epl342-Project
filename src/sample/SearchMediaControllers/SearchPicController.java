@@ -44,7 +44,7 @@ public class SearchPicController implements Initializable {
 
         //create query
         SearchPhotos pic = new SearchPhotos("","", "", 0);
-        controller.initData(pic, "id", "myID");
+        controller.initData(pic, id, myID);
 
         p_pane.getChildren().setAll(view);
     }
@@ -61,7 +61,7 @@ public class SearchPicController implements Initializable {
 
             //create query
             SearchAlbums album = new SearchAlbums("","", "", "");
-            controller.initData("picture", "id");
+            controller.initData("picture", myID);
 
             p_pane.getChildren().setAll(view);
         } else {
@@ -74,7 +74,7 @@ public class SearchPicController implements Initializable {
 
             //create query
             SearchAlbums album = new SearchAlbums("","", "", "");
-            controller.initData("picture", "id", "my id");
+            controller.initData("picture", id, myID);
 
             p_pane.getChildren().setAll(view);
         }

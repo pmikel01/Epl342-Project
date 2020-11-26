@@ -22,10 +22,10 @@ public class AddPhotoController implements Initializable {
     @FXML
     private TextField sourcePath;
 
-    private String id;
+    private String myID;
 
-    public void initData(String id) {
-        this.id = id;
+    public void initData(String myID) {
+        this.myID = myID;
     }
 
     @FXML
@@ -54,7 +54,7 @@ public class AddPhotoController implements Initializable {
         EditMediaListController controller = loader.getController();
 
         //create query
-        controller.initData("picture", "my id");
+        controller.initData("picture", myID);
 
         p_pane.getChildren().setAll(showProfParent);
     }
@@ -69,7 +69,7 @@ public class AddPhotoController implements Initializable {
         EditMediaListController controller = loader.getController();
 
         //create query
-        controller.initData("picture", "my id");
+        controller.initData("picture", myID);
 
         p_pane.getChildren().setAll(showProfParent);
     }

@@ -53,18 +53,11 @@ public class ShowAlbumListController implements Initializable {
         items.add("album name");
 
         if (id.equals(myID)) {
-            listV.setCellFactory(param -> new ShowAlbumListController.MyAlbumCell(p_pane));
+            listV.setCellFactory(param -> new ShowAlbumListController.MyAlbumCell(p_pane, myID, id));
         } else {
-            listV.setCellFactory(param -> new ShowAlbumListController.AlbumCell(p_pane));
+            listV.setCellFactory(param -> new ShowAlbumListController.AlbumCell(p_pane, myID, id));
         }
     }
-
-//    @FXML
-//    private void handleSearchAlbumButton() {
-//        FxmlLoader object = new FxmlLoader();
-//        Pane view = object.getPage("../MediaLists/search_albums_list");
-//        p_pane.getChildren().setAll(view);
-//    }
 
     static class AlbumCell extends ListCell<String> {
         HBox hbox = new HBox();
@@ -74,7 +67,7 @@ public class ShowAlbumListController implements Initializable {
         Pane pane2 = new Pane();
         Button button2 = new Button("Show Comments");
 
-        public AlbumCell(AnchorPane p_pane) {
+        public AlbumCell(AnchorPane p_pane, String myID, String id) {
             super();
 
             button.setCursor(Cursor.HAND);
@@ -95,7 +88,7 @@ public class ShowAlbumListController implements Initializable {
                         ShowAlbumController controller = loader.getController();
 
                         //create query
-                        controller.initData("id", "my id", "album id");
+                        controller.initData(id,myID, "album id");
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -115,7 +108,7 @@ public class ShowAlbumListController implements Initializable {
                         ShowCommentsController controller = loader.getController();
 
                         //create query
-                        controller.initData("id", "my id", "album", "album id");
+                        controller.initData(id,myID, "album", "album id");
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -149,7 +142,7 @@ public class ShowAlbumListController implements Initializable {
         Pane pane4 = new Pane();
         Button button4 = new Button("Delete Album");
 
-        public MyAlbumCell(AnchorPane p_pane) {
+        public MyAlbumCell(AnchorPane p_pane, String myID, String id) {
             super();
 
             button.setCursor(Cursor.HAND);
@@ -172,7 +165,7 @@ public class ShowAlbumListController implements Initializable {
                         ShowAlbumController controller = loader.getController();
 
                         //create query
-                        controller.initData("id", "my id", "album id");
+                        controller.initData(id,myID, "album id");
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -192,7 +185,7 @@ public class ShowAlbumListController implements Initializable {
                         ShowCommentsController controller = loader.getController();
 
                         //create query
-                        controller.initData("id", "my id", "album", "album id");
+                        controller.initData(id, myID, "album", "album id");
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -212,7 +205,7 @@ public class ShowAlbumListController implements Initializable {
                         EditAlbumController controller = loader.getController();
 
                         //create query
-                        controller.initData("album id");
+                        controller.initData("album id", myID);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -251,7 +244,7 @@ public class ShowAlbumListController implements Initializable {
         SearchAlbumController controller = loader.getController();
 
         //create query
-        controller.initData("id", "my id");
+        controller.initData(id, myID);
 
         p_pane.getChildren().setAll(showProfParent);
     }

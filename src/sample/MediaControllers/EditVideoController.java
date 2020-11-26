@@ -22,10 +22,12 @@ public class EditVideoController implements Initializable {
     @FXML
     private TextField sourcePath;
 
-    private String id;
+    private String mediaID;
+    private String myID;
 
-    public void initData(String id) {
-        this.id = id;
+    public void initData(String mediaID, String myID) {
+        this.mediaID = mediaID;
+        this.myID = myID;
     }
 
     @FXML
@@ -54,7 +56,7 @@ public class EditVideoController implements Initializable {
         EditMediaListController controller = loader.getController();
 
         //create query
-        controller.initData("video", "my id");
+        controller.initData("video", myID);
 
         p_pane.getChildren().setAll(showProfParent);
     }
@@ -69,7 +71,7 @@ public class EditVideoController implements Initializable {
         EditMediaListController controller = loader.getController();
 
         //create query
-        controller.initData("video", "my id");
+        controller.initData("video", myID);
 
         p_pane.getChildren().setAll(showProfParent);
     }

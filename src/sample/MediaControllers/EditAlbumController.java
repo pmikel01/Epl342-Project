@@ -25,10 +25,12 @@ public class EditAlbumController implements Initializable {
     @FXML
     private AnchorPane p_pane ;
 
-    private String id;
+    private String mediaID;
+    private String myID;
 
-    public void initData(String id) {
-        this.id = id;
+    public void initData(String mediaID, String myID) {
+        this.mediaID = mediaID;
+        this.myID = myID;
     }
 
     @FXML
@@ -41,7 +43,7 @@ public class EditAlbumController implements Initializable {
         AddPhotoInAlbumController controller = loader.getController();
 
         //create query
-        controller.initData("id");
+        controller.initData(myID, mediaID);
 
         p_pane.getChildren().setAll(view);
     }
@@ -56,7 +58,7 @@ public class EditAlbumController implements Initializable {
         EditMediaListController controller = loader.getController();
 
         //create query
-        controller.initData("album", "my id");
+        controller.initData("album", myID);
 
         p_pane.getChildren().setAll(showProfParent);
     }
@@ -71,7 +73,7 @@ public class EditAlbumController implements Initializable {
         EditMediaListController controller = loader.getController();
 
         //create query
-        controller.initData("album", "my id");
+        controller.initData("album", myID);
 
         p_pane.getChildren().setAll(showProfParent);
     }

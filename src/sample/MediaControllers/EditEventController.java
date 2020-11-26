@@ -39,10 +39,12 @@ public class EditEventController implements Initializable {
     @FXML
     private Spinner<Integer> endL;
 
-    private String id;
+    private String mediaID;
+    private String myID;
 
-    public void initData(String id) {
-        this.id = id;
+    public void initData(String mediaID, String myID) {
+        this.mediaID = mediaID;
+        this.myID = myID;
     }
 
     @FXML
@@ -55,7 +57,7 @@ public class EditEventController implements Initializable {
         EditMediaListController controller = loader.getController();
 
         //create query
-        controller.initData("event", "my id");
+        controller.initData("event", myID);
 
         p_pane.getChildren().setAll(showProfParent);
     }
@@ -70,7 +72,7 @@ public class EditEventController implements Initializable {
         EditMediaListController controller = loader.getController();
 
         //create query
-        controller.initData("event", "my id");
+        controller.initData("event", myID);
 
         p_pane.getChildren().setAll(showProfParent);
     }

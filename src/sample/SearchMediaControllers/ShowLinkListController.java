@@ -52,9 +52,9 @@ public class ShowLinkListController implements Initializable {
         items.add("link name");
 
         if (id.equals(myID)) {
-            listV.setCellFactory(param -> new ShowLinkListController.MyLinkCell(p_pane));
+            listV.setCellFactory(param -> new ShowLinkListController.MyLinkCell(p_pane, myID, id));
         } else {
-            listV.setCellFactory(param -> new ShowLinkListController.LinkCell(p_pane));
+            listV.setCellFactory(param -> new ShowLinkListController.LinkCell(p_pane, myID, id));
         }
     }
 
@@ -64,7 +64,7 @@ public class ShowLinkListController implements Initializable {
         Pane pane = new Pane();
         Button button = new Button("Show Link");
 
-        public LinkCell(AnchorPane p_pane) {
+        public LinkCell(AnchorPane p_pane, String myID, String id) {
             super();
 
             button.setCursor(Cursor.HAND);
@@ -84,7 +84,7 @@ public class ShowLinkListController implements Initializable {
                         ShowLinkController controller = loader.getController();
 
                         //create query
-                        controller.initData("id", "my id", "link id");
+                        controller.initData(id, myID, "link id");
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -116,7 +116,7 @@ public class ShowLinkListController implements Initializable {
         Pane pane3 = new Pane();
         Button button3 = new Button("Delete Link");
 
-        public MyLinkCell(AnchorPane p_pane) {
+        public MyLinkCell(AnchorPane p_pane, String myID, String id) {
             super();
 
             button.setCursor(Cursor.HAND);
@@ -138,7 +138,7 @@ public class ShowLinkListController implements Initializable {
                         ShowLinkController controller = loader.getController();
 
                         //create query
-                        controller.initData("id", "my id", "link id");
+                        controller.initData(id, myID, "link id");
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -158,7 +158,7 @@ public class ShowLinkListController implements Initializable {
                         EditLinkController controller = loader.getController();
 
                         //create query
-                        controller.initData("link id");
+                        controller.initData("link id", myID);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -197,7 +197,7 @@ public class ShowLinkListController implements Initializable {
         SearchLinkController controller = loader.getController();
 
         //create query
-        controller.initData("id", "my id");
+        controller.initData(id, myID);
 
         p_pane.getChildren().setAll(showProfParent);
     }

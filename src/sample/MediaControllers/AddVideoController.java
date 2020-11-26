@@ -23,10 +23,10 @@ public class AddVideoController implements Initializable {
     @FXML
     private TextField sourcePath;
 
-    private String id;
+    private String myID;
 
-    public void initData(String id) {
-        this.id = id;
+    public void initData(String myID) {
+        this.myID = myID;
     }
 
     @FXML
@@ -55,7 +55,7 @@ public class AddVideoController implements Initializable {
         EditMediaListController controller = loader.getController();
 
         //create query
-        controller.initData("video", "my id");
+        controller.initData("video", myID);
 
         p_pane.getChildren().setAll(showProfParent);
     }
@@ -70,7 +70,7 @@ public class AddVideoController implements Initializable {
         EditMediaListController controller = loader.getController();
 
         //create query
-        controller.initData("video", "my id");
+        controller.initData("video", myID);
 
         p_pane.getChildren().setAll(showProfParent);
     }

@@ -40,7 +40,7 @@ public class SearchLinkController implements Initializable {
 
         //create query
         SearchLinks link = new SearchLinks("","", "", "");
-        controller.initData(link, "id", "myID");
+        controller.initData(link, id, myID);
 
         p_pane.getChildren().setAll(view);
     }
@@ -57,7 +57,7 @@ public class SearchLinkController implements Initializable {
 
             //create query
             SearchAlbums album = new SearchAlbums("","", "", "");
-            controller.initData("link", "id");
+            controller.initData("link", myID);
 
             p_pane.getChildren().setAll(view);
         } else {
@@ -70,7 +70,7 @@ public class SearchLinkController implements Initializable {
 
             //create query
             SearchAlbums album = new SearchAlbums("","", "", "");
-            controller.initData("link", "id", "my id");
+            controller.initData("link", id, myID);
 
             p_pane.getChildren().setAll(view);
         }

@@ -20,10 +20,10 @@ public class MainAppController {
     @FXML
     public Button closeButton;
 
-    public String myID="";
+    public String myID;
 
-    public void initData(String id) {
-        this.myID = id;
+    public void initData(String myID) {
+        this.myID = myID;
     }
 
     @FXML
@@ -56,7 +56,7 @@ public class MainAppController {
         SearchProfController controller = loader.getController();
 
         //create query
-        controller.initData("my id");
+        controller.initData(myID);
 
         mainPane.setCenter(view);
     }
@@ -71,7 +71,7 @@ public class MainAppController {
         MyProfController controller = loader.getController();
 
         //create query
-        controller.initData("user id");
+        controller.initData(myID);
 
         mainPane.setCenter(view);
     }
@@ -86,7 +86,7 @@ public class MainAppController {
         EventsController controller = loader.getController();
 
         //create query
-        controller.initData("user id");
+        controller.initData(myID);
 
         mainPane.setCenter(view);
     }
@@ -101,7 +101,7 @@ public class MainAppController {
         StatisticsController controller = loader.getController();
 
         //create query
-        controller.initData("user id");
+        controller.initData(myID);
 
         mainPane.setCenter(view);
     }
@@ -116,7 +116,7 @@ public class MainAppController {
         FriendRequestsController controller = loader.getController();
 
         //create query
-        controller.initData("user id");
+        controller.initData(myID);
 
         mainPane.setCenter(view);
     }

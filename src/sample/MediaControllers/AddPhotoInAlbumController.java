@@ -22,10 +22,12 @@ public class AddPhotoInAlbumController implements Initializable {
     @FXML
     private TextField sourcePath;
 
-    private String id;
+    private String myID;
+    private String albumID;
 
-    public void initData(String id) {
-        this.id = id;
+    public void initData(String myID, String albumID) {
+        this.myID = myID;
+        this.albumID = albumID;
     }
 
     @FXML
@@ -54,7 +56,7 @@ public class AddPhotoInAlbumController implements Initializable {
         EditMediaListController controller = loader.getController();
 
         //create query
-        controller.initData("album", "id");
+        controller.initData("album", myID);
 
         p_pane.getChildren().setAll(view);
     }
@@ -69,7 +71,7 @@ public class AddPhotoInAlbumController implements Initializable {
         EditAlbumController controller = loader.getController();
 
         //create query
-        controller.initData("my id");
+        controller.initData(albumID, myID);
 
         p_pane.getChildren().setAll(showProfParent);
     }

@@ -1,5 +1,6 @@
 package sample.MediaControllers;
 
+import javafx.animation.Interpolator;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -50,10 +51,23 @@ public class ShowPictureController implements Initializable {
             MediaListController controller = loader.getController();
 
             //create query
-            controller.initData("picture","id", "my id");
+            controller.initData("picture",id, myID);
 
             p_pane.getChildren().setAll(view);
         }
+    }
+
+    @FXML
+    private void handleLikeButton(){
+//        if (user already likes photo) {
+//            sample.Main.CustomDialog dialog = new sample.Main.CustomDialog("LIKE", "Already liked this Picture");
+//            dialog.openDialog();
+//        } else {
+//            sample.Main.CustomDialog dialog = new sample.Main.CustomDialog("LIKE", "Congratulations you liked the photo");
+//            dialog.openDialog();
+//        }
+        sample.Main.CustomDialog dialog = new sample.Main.CustomDialog("LIKE", "Congratulations you liked the photo", "like");
+        dialog.openDialog();
     }
 
     @Override

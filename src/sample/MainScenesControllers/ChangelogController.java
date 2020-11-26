@@ -30,10 +30,10 @@ public class ChangelogController implements Initializable {
     @FXML
     private Spinner<Integer> allChangeC;
 
-    private String id;
+    private String myID;
 
-    public void initData(String id) {
-        this.id = id;
+    public void initData(String myID) {
+        this.myID = myID;
     }
 
     @FXML

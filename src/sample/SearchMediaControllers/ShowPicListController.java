@@ -52,18 +52,11 @@ public class ShowPicListController implements Initializable {
         items.add("picture name");
 
         if (id.equals(myID)) {
-            listV.setCellFactory(param -> new ShowPicListController.MyPictureCell(p_pane));
+            listV.setCellFactory(param -> new ShowPicListController.MyPictureCell(p_pane, myID, id));
         } else {
-            listV.setCellFactory(param -> new ShowPicListController.PictureCell(p_pane));
+            listV.setCellFactory(param -> new ShowPicListController.PictureCell(p_pane, myID, id));
         }
     }
-
-//    @FXML
-//    private void handleSearchAlbumButton() {
-//        FxmlLoader object = new FxmlLoader();
-//        Pane view = object.getPage("../MediaLists/search_albums_list");
-//        p_pane.getChildren().setAll(view);
-//    }
 
     static class PictureCell extends ListCell<String> {
         HBox hbox = new HBox();
@@ -71,7 +64,7 @@ public class ShowPicListController implements Initializable {
         Pane pane = new Pane();
         Button button = new Button("Show Picture");
 
-        public PictureCell(AnchorPane p_pane) {
+        public PictureCell(AnchorPane p_pane, String myID, String id) {
             super();
 
             button.setCursor(Cursor.HAND);
@@ -91,7 +84,7 @@ public class ShowPicListController implements Initializable {
                         ShowPictureController controller = loader.getController();
 
                         //create query
-                        controller.initData("id", "my id", "picture id");
+                        controller.initData(id, myID, "picture id");
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -123,7 +116,7 @@ public class ShowPicListController implements Initializable {
         Pane pane3 = new Pane();
         Button button3 = new Button("Delete Picture");
 
-        public MyPictureCell(AnchorPane p_pane) {
+        public MyPictureCell(AnchorPane p_pane, String myID, String id) {
             super();
 
             button.setCursor(Cursor.HAND);
@@ -145,7 +138,7 @@ public class ShowPicListController implements Initializable {
                         ShowPictureController controller = loader.getController();
 
                         //create query
-                        controller.initData("id", "my id", "picture id");
+                        controller.initData(id, myID, "picture id");
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -165,7 +158,7 @@ public class ShowPicListController implements Initializable {
                         EditPhotoController controller = loader.getController();
 
                         //create query
-                        controller.initData("pic id");
+                        controller.initData("pic id", myID);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -204,7 +197,7 @@ public class ShowPicListController implements Initializable {
         SearchPicController controller = loader.getController();
 
         //create query
-        controller.initData("id", "my id");
+        controller.initData(id, myID);
 
         p_pane.getChildren().setAll(showProfParent);
     }

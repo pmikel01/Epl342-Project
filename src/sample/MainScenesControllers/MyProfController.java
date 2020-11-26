@@ -24,10 +24,10 @@ public class MyProfController implements Initializable {
 
     private ObservableList<String> items = FXCollections.observableArrayList();
 
-    private String id;
+    private String myID;
 
-    public void initData(String id) {
-        this.id = id;
+    public void initData(String myID) {
+        this.myID = myID;
 
         listV.setItems(items);
         //loop
@@ -45,7 +45,7 @@ public class MyProfController implements Initializable {
         ChangelogController controller = loader.getController();
 
         //create query
-        controller.initData("id");
+        controller.initData(myID);
 
         p_pane.getChildren().setAll(view);
     }
@@ -60,7 +60,7 @@ public class MyProfController implements Initializable {
         EditMediaListController controller = loader.getController();
 
         //create query
-        controller.initData("album","id");
+        controller.initData("album",myID);
 
         p_pane.getChildren().setAll(view);
     }
@@ -75,7 +75,7 @@ public class MyProfController implements Initializable {
         EditMediaListController controller = loader.getController();
 
         //create query
-        controller.initData("picture","id");
+        controller.initData("picture",myID);
 
         p_pane.getChildren().setAll(view);
     }
@@ -90,7 +90,7 @@ public class MyProfController implements Initializable {
         EditMediaListController controller = loader.getController();
 
         //create query
-        controller.initData("video","id");
+        controller.initData("video",myID);
 
         p_pane.getChildren().setAll(view);
     }
@@ -105,7 +105,7 @@ public class MyProfController implements Initializable {
         EditMediaListController controller = loader.getController();
 
         //create query
-        controller.initData("event","id");
+        controller.initData("event",myID);
 
         p_pane.getChildren().setAll(view);
     }
@@ -120,7 +120,7 @@ public class MyProfController implements Initializable {
         EditMediaListController controller = loader.getController();
 
         //create query
-        controller.initData("link","id");
+        controller.initData("link",myID);
 
         p_pane.getChildren().setAll(view);
     }
@@ -135,7 +135,7 @@ public class MyProfController implements Initializable {
         EditMediaListController controller = loader.getController();
 
         //create query
-        controller.initData("friend","id");
+        controller.initData("friend",myID);
 
         p_pane.getChildren().setAll(view);
     }
@@ -150,7 +150,7 @@ public class MyProfController implements Initializable {
         EditInfoController controller = loader.getController();
 
         //create query
-        controller.initData("id");
+        controller.initData(myID);
 
         p_pane.getChildren().setAll(view);
     }
@@ -165,7 +165,7 @@ public class MyProfController implements Initializable {
         EditMediaListController controller = loader.getController();
 
         //create query
-        controller.initData("education","id");
+        controller.initData("education",myID);
 
         p_pane.getChildren().setAll(view);
     }
@@ -180,7 +180,7 @@ public class MyProfController implements Initializable {
         EditMediaListController controller = loader.getController();
 
         //create query
-        controller.initData("interest","id");
+        controller.initData("interest",myID);
 
         p_pane.getChildren().setAll(view);
     }
@@ -195,7 +195,7 @@ public class MyProfController implements Initializable {
         EditMediaListController controller = loader.getController();
 
         //create query
-        controller.initData("quote","id");
+        controller.initData("quote",myID);
 
         p_pane.getChildren().setAll(view);
     }
@@ -210,7 +210,7 @@ public class MyProfController implements Initializable {
         EditMediaListController controller = loader.getController();
 
         //create query
-        controller.initData("work","id");
+        controller.initData("work",myID);
 
         p_pane.getChildren().setAll(view);
     }

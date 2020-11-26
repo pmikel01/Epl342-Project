@@ -53,7 +53,7 @@
                         <Font size="15.0" />
                      </font>
                   </Label>
-                  <Button contentDisplay="CENTER" layoutX="190.0" layoutY="322.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="79.0" style="-fx-background-color: #454b4d;" stylesheets="@../styles/style.css" text="LIKE" textFill="#d8d9d9">
+                  <Button contentDisplay="CENTER" layoutX="190.0" layoutY="322.0" mnemonicParsing="false" onAction="#handleLikeButton" prefHeight="17.0" prefWidth="79.0" style="-fx-background-color: #454b4d;" stylesheets="@../styles/style.css" text="LIKE" textFill="#d8d9d9">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>

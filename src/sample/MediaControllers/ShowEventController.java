@@ -38,7 +38,7 @@ public class ShowEventController implements Initializable {
             EditMediaListController controller = loader.getController();
 
             //create query
-            controller.initData("event", "my id");
+            controller.initData("event", myID);
 
             p_pane.getChildren().setAll(showProfParent);
         } else {
@@ -50,7 +50,7 @@ public class ShowEventController implements Initializable {
             MediaListController controller = loader.getController();
 
             //create query
-            controller.initData("event","id", "my id");
+            controller.initData("event",id, myID);
 
             p_pane.getChildren().setAll(view);
         }

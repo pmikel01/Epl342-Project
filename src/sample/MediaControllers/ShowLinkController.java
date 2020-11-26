@@ -38,7 +38,7 @@ public class ShowLinkController implements Initializable {
             EditMediaListController controller = loader.getController();
 
             //create query
-            controller.initData("link", "my id");
+            controller.initData("link", myID);
 
             p_pane.getChildren().setAll(showProfParent);
         } else {
@@ -50,7 +50,7 @@ public class ShowLinkController implements Initializable {
             MediaListController controller = loader.getController();
 
             //create query
-            controller.initData("link","id", "my id");
+            controller.initData("link",id, myID);
 
             p_pane.getChildren().setAll(view);
         }

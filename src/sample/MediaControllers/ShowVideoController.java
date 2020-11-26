@@ -64,7 +64,7 @@ public class ShowVideoController implements Initializable {
             EditMediaListController controller = loader.getController();
 
             //create query
-            controller.initData("video", "my id");
+            controller.initData("video", myID);
 
             p_pane.getChildren().setAll(showProfParent);
         } else {
@@ -76,7 +76,7 @@ public class ShowVideoController implements Initializable {
             MediaListController controller = loader.getController();
 
             //create query
-            controller.initData("video","id", "my id");
+            controller.initData("video",id, myID);
 
             p_pane.getChildren().setAll(view);
         }
