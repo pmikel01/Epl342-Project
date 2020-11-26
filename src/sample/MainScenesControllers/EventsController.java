@@ -13,6 +13,12 @@ public class EventsController implements Initializable {
     @FXML
     private AnchorPane p_pane ;
 
+    private String myID;
+
+    public void initData(String myID) {
+        this.myID = myID;
+    }
+
     @FXML
     private void handleSearchButton() {
         FxmlLoader object = new FxmlLoader();

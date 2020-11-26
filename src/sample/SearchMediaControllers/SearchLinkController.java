@@ -6,6 +6,9 @@ package sample.SearchMediaControllers;
         import javafx.scene.layout.AnchorPane;
         import javafx.scene.layout.Pane;
         import sample.Main.FxmlLoader;
+        import sample.MediaListsControllers.EditMediaListController;
+        import sample.MediaListsControllers.MediaListController;
+        import sample.Objects.SearchAlbums;
         import sample.Objects.SearchEvents;
         import sample.Objects.SearchLinks;
 
@@ -19,9 +22,11 @@ public class SearchLinkController implements Initializable {
     private AnchorPane p_pane ;
 
     private String id;
+    private String myID;
 
-    public void initData(String id) {
+    public void initData(String id, String myID) {
         this.id = id;
+        this.myID = myID;
     }
 
     @FXML
@@ -35,9 +40,40 @@ public class SearchLinkController implements Initializable {
 
         //create query
         SearchLinks link = new SearchLinks("","", "", "");
-        controller.initData(link);
+        controller.initData(link, "id", "myID");
 
         p_pane.getChildren().setAll(view);
+    }
+
+    @FXML
+    private void handleBackButton() throws IOException {
+        if (myID.equals(id)) {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("../MediaLists/edit_links_list.fxml"));
+            Pane view = null;
+            view = loader.load();
+            //access the controller and call a method
+            EditMediaListController controller = loader.getController();
+
+            //create query
+            SearchAlbums album = new SearchAlbums("","", "", "");
+            controller.initData("link", "id");
+
+            p_pane.getChildren().setAll(view);
+        } else {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("../MediaLists/links_list.fxml"));
+            Pane view = null;
+            view = loader.load();
+            //access the controller and call a method
+            MediaListController controller = loader.getController();
+
+            //create query
+            SearchAlbums album = new SearchAlbums("","", "", "");
+            controller.initData("link", "id", "my id");
+
+            p_pane.getChildren().setAll(view);
+        }
     }
 
     @Override

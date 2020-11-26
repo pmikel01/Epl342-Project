@@ -3,6 +3,7 @@ package sample.MediaControllers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Spinner;
@@ -10,7 +11,9 @@ import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import sample.Main.FxmlLoader;
+import sample.MediaListsControllers.EditMediaListController;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -43,10 +46,33 @@ public class AddEventController implements Initializable {
     }
 
     @FXML
-    private void handleAddEventButton() {
-        FxmlLoader object = new FxmlLoader();
-        Pane view = object.getPage("../MediaLists/edit_events_list");
-        p_pane.getChildren().setAll(view);
+    private void handleAddEventButton() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("../MediaLists/edit_events_list.fxml"));
+        Pane showProfParent = null;
+        showProfParent = loader.load();
+        //access the controller and call a method
+        EditMediaListController controller = loader.getController();
+
+        //create query
+        controller.initData("event", "my id");
+
+        p_pane.getChildren().setAll(showProfParent);
+    }
+
+    @FXML
+    private void handleBackButton() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("../MediaLists/edit_events_list.fxml"));
+        Pane showProfParent = null;
+        showProfParent = loader.load();
+        //access the controller and call a method
+        EditMediaListController controller = loader.getController();
+
+        //create query
+        controller.initData("event", "my id");
+
+        p_pane.getChildren().setAll(showProfParent);
     }
 
     @Override

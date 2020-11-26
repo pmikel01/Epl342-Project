@@ -17,10 +17,12 @@ public class QewiController implements Initializable {
 
     private String choose;
     private String id;
+    private String myID;
 
-    public void initData(String choose, String id) {
+    public void initData(String choose, String id, String myID) {
         this.choose = choose;
         this.id = id;
+        this.myID = myID;
     }
 
     @Override

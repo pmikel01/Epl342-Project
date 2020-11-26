@@ -5,6 +5,7 @@ import javafx.animation.ScaleTransition;
 import javafx.animation.SequentialTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
@@ -27,7 +28,10 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import sample.Main.FxmlLoader;
+import sample.MediaControllers.ShowCommentsController;
+import sample.MediaListsControllers.FriendListController;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -41,6 +45,12 @@ public class StatisticsController implements Initializable {
 
     @FXML
     private Spinner<Integer> NetImgS;
+
+    private String myID;
+
+    public void initData(String myID) {
+        this.myID = myID;
+    }
 
     private static final Interpolator EXP_IN = new Interpolator() {
         @Override
@@ -57,51 +67,91 @@ public class StatisticsController implements Initializable {
     };
 
     @FXML
-    private void handleMostFamousButton() {
+    private void handleMostFamousButton() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("../MediaLists/friends_list.fxml"));
+        Pane view = null;
+        view = loader.load();
+        //access the controller and call a method
+        FriendListController controller = loader.getController();
+
+        //create query
+        controller.initData("stat1", "my id");
+
+        p_pane.getChildren().setAll(view);
+    }
+
+    @FXML
+    private void handleSameFriendsButton() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("../MediaLists/friends_list.fxml"));
+        Pane view = null;
+        view = loader.load();
+        //access the controller and call a method
+        FriendListController controller = loader.getController();
+
+        //create query
+        controller.initData("stat2", "my id");
+
+        p_pane.getChildren().setAll(view);
+    }
+
+    @FXML
+    private void handleNetworkButton() throws IOException {
         FxmlLoader object = new FxmlLoader();
         Pane view = object.getPage("../MediaLists/friends_list");
         p_pane.getChildren().setAll(view);
     }
 
     @FXML
-    private void handleSameFriendsButton() {
+    private void handleSameFriendsMoreButton() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("../MediaLists/friends_list.fxml"));
+        Pane view = null;
+        view = loader.load();
+        //access the controller and call a method
+        FriendListController controller = loader.getController();
+
+        //create query
+        controller.initData("stat3", "my id");
+
+        p_pane.getChildren().setAll(view);
+    }
+
+    @FXML
+    private void handleFriendsMoreAlbumsButton() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("../MediaLists/friends_list.fxml"));
+        Pane view = null;
+        view = loader.load();
+        //access the controller and call a method
+        FriendListController controller = loader.getController();
+
+        //create query
+        controller.initData("stat4", "my id");
+
+        p_pane.getChildren().setAll(view);
+    }
+
+    @FXML
+    private void handleUsersMoreAlbumsButton() throws IOException {
         FxmlLoader object = new FxmlLoader();
         Pane view = object.getPage("../MediaLists/friends_list");
         p_pane.getChildren().setAll(view);
     }
 
     @FXML
-    private void handleNetworkButton() {
-        FxmlLoader object = new FxmlLoader();
-        Pane view = object.getPage("../MediaLists/friends_list");
-        p_pane.getChildren().setAll(view);
-    }
+    private void handleSameInterestsButton() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("../MediaLists/friends_list.fxml"));
+        Pane view = null;
+        view = loader.load();
+        //access the controller and call a method
+        FriendListController controller = loader.getController();
 
-    @FXML
-    private void handleSameFriendsMoreButton() {
-        FxmlLoader object = new FxmlLoader();
-        Pane view = object.getPage("../MediaLists/friends_list");
-        p_pane.getChildren().setAll(view);
-    }
+        //create query
+        controller.initData("stat5", "my id");
 
-    @FXML
-    private void handleFriendsMoreAlbumsButton() {
-        FxmlLoader object = new FxmlLoader();
-        Pane view = object.getPage("../MediaLists/friends_list");
-        p_pane.getChildren().setAll(view);
-    }
-
-    @FXML
-    private void handleUsersMoreAlbumsButton() {
-        FxmlLoader object = new FxmlLoader();
-        Pane view = object.getPage("../MediaLists/friends_list");
-        p_pane.getChildren().setAll(view);
-    }
-
-    @FXML
-    private void handleSameInterestsButton() {
-        FxmlLoader object = new FxmlLoader();
-        Pane view = object.getPage("../MediaLists/friends_list");
         p_pane.getChildren().setAll(view);
     }
 

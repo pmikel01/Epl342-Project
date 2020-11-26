@@ -18,6 +18,7 @@ package sample.MediaListsControllers;
         import javafx.scene.layout.Pane;
         import javafx.scene.layout.Priority;
         import sample.Main.FxmlLoader;
+        import sample.MainScenesControllers.ShowProfController;
         import sample.MediaControllers.*;
         import sample.SearchMediaControllers.*;
 
@@ -36,10 +37,12 @@ public class MediaListController implements Initializable {
 
     private String choose;
     private String id;
+    private String myID;
 
-    public void initData(String choose, String id) {
+    public void initData(String choose, String id, String myID) {
         this.choose = choose;
         this.id = id;
+        this.myID = myID;
 
         if (choose.equals("album")) {
             listV.setItems(items);
@@ -95,7 +98,7 @@ public class MediaListController implements Initializable {
         SearchAlbumController controller = loader.getController();
 
         //create query
-        controller.initData("user id");
+        controller.initData("user id", "myID");
 
         p_pane.getChildren().setAll(view);
     }
@@ -110,7 +113,7 @@ public class MediaListController implements Initializable {
         SearchEventController controller = loader.getController();
 
         //create query
-        controller.initData("user id");
+        controller.initData("user id", "myID");
 
         p_pane.getChildren().setAll(view);
     }
@@ -125,7 +128,7 @@ public class MediaListController implements Initializable {
         SearchLinkController controller = loader.getController();
 
         //create query
-        controller.initData("user id");
+        controller.initData("user id", "myID");
 
         p_pane.getChildren().setAll(view);
     }
@@ -140,7 +143,7 @@ public class MediaListController implements Initializable {
         SearchPicController controller = loader.getController();
 
         //create query
-        controller.initData("user id");
+        controller.initData("user id", "myID");
 
         p_pane.getChildren().setAll(view);
     }
@@ -155,7 +158,7 @@ public class MediaListController implements Initializable {
         SearchVidController controller = loader.getController();
 
         //create query
-        controller.initData("user id");
+        controller.initData("user id", "myID");
 
         p_pane.getChildren().setAll(view);
     }
@@ -264,7 +267,7 @@ public class MediaListController implements Initializable {
                         ShowAlbumController controller = loader.getController();
 
                         //create query
-                        controller.initData("album id");
+                        controller.initData("id", "my id", "album id");
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -284,7 +287,7 @@ public class MediaListController implements Initializable {
                         ShowCommentsController controller = loader.getController();
 
                         //create query
-                        controller.initData("album id");
+                        controller.initData("id", "myID", "album", "album ID");
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -332,7 +335,7 @@ public class MediaListController implements Initializable {
                         ShowPictureController controller = loader.getController();
 
                         //create query
-                        controller.initData("picture id");
+                        controller.initData("id", "my id", "picture id");
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -383,7 +386,7 @@ public class MediaListController implements Initializable {
                         ShowVideoController controller = loader.getController();
 
                         //create query
-                        controller.initData("video id");
+                        controller.initData("id", "my id", "video id");
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -403,7 +406,7 @@ public class MediaListController implements Initializable {
                         ShowCommentsController controller = loader.getController();
 
                         //create query
-                        controller.initData("video id");
+                        controller.initData("id", "myID", "video", "video id");
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -451,7 +454,7 @@ public class MediaListController implements Initializable {
                         ShowEventController controller = loader.getController();
 
                         //create query
-                        controller.initData("event id");
+                        controller.initData("id", "my id", "event id");
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -499,7 +502,7 @@ public class MediaListController implements Initializable {
                         ShowLinkController controller = loader.getController();
 
                         //create query
-                        controller.initData("link id");
+                        controller.initData("id", "my id", "link id");
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -519,6 +522,21 @@ public class MediaListController implements Initializable {
                 setGraphic(hbox);
             }
         }
+    }
+
+    @FXML
+    private void handleBackButton() throws IOException{
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("../MainScenes/profile.fxml"));
+        Pane showProfParent = null;
+        showProfParent = loader.load();
+        //access the controller and call a method
+        ShowProfController controller = loader.getController();
+
+        //create query
+        controller.initData("id", "my id");
+
+        p_pane.getChildren().setAll(showProfParent);
     }
 
     @Override

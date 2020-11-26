@@ -27,7 +27,7 @@
             <Font size="14.0" />
          </font>
       </TextField>
-      <Button contentDisplay="CENTER" layoutX="321.0" layoutY="362.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="148.0" style="-fx-background-color: #454b4d;" stylesheets="@../styles/style.css" text="Update" textFill="#d8d9d9">
+      <Button contentDisplay="CENTER" layoutX="553.0" layoutY="397.0" mnemonicParsing="false" onAction="#handleUpdateAlbumButton" prefHeight="54.0" prefWidth="148.0" style="-fx-background-color: #454b4d;" stylesheets="@../styles/style.css" text="Update" textFill="#d8d9d9">
          <font>
             <Font name="System Bold" size="25.0" />
          </font>
@@ -61,9 +61,17 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </ComboBox>
-      <Button contentDisplay="CENTER" layoutX="50.0" layoutY="323.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="166.0" style="-fx-background-color: #454b4d;" stylesheets="@../styles/style.css" text="Add Image" textFill="#d8d9d9">
+      <Button contentDisplay="CENTER" layoutX="50.0" layoutY="323.0" mnemonicParsing="false" onAction="#handleAddPictureButton" prefHeight="39.0" prefWidth="166.0" style="-fx-background-color: #454b4d;" stylesheets="@../styles/style.css" text="Add Picture" textFill="#d8d9d9">
          <font>
             <Font name="System Bold" size="20.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button contentDisplay="CENTER" layoutX="378.0" layoutY="397.0" mnemonicParsing="false" onAction="#handleBackButton" prefHeight="54.0" prefWidth="148.0" style="-fx-background-color: #454b4d;" stylesheets="@../styles/style.css" text="BACK" textFill="#d8d9d9">
+         <font>
+            <Font name="System Bold" size="25.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />

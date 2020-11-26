@@ -11,7 +11,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import sample.MainScenesControllers.MyProfController;
+import sample.MainScenesControllers.*;
 import sample.SearchMediaControllers.SearchEventController;
 
 import java.io.IOException;
@@ -53,7 +53,7 @@ public class MainAppController {
         Pane view = null;
         view = loader.load();
         //access the controller and call a method
-        MyProfController controller = loader.getController();
+        SearchProfController controller = loader.getController();
 
         //create query
         controller.initData("my id");
@@ -77,28 +77,52 @@ public class MainAppController {
     }
 
     @FXML
-    private void handleEventButton(ActionEvent event) {
-        FxmlLoader object = new FxmlLoader();
-        Pane view = object.getPage("../MainScenes/events");
+    private void handleEventButton(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("../MainScenes/events.fxml"));
+        Pane view = null;
+        view = loader.load();
+        //access the controller and call a method
+        EventsController controller = loader.getController();
+
+        //create query
+        controller.initData("user id");
+
         mainPane.setCenter(view);
     }
 
     @FXML
-    private void handleStatisticsButton(ActionEvent event) {
-        FxmlLoader object = new FxmlLoader();
-        Pane view = object.getPage("../MainScenes/statistics");
+    private void handleStatisticsButton(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("../MainScenes/statistics.fxml"));
+        Pane view = null;
+        view = loader.load();
+        //access the controller and call a method
+        StatisticsController controller = loader.getController();
+
+        //create query
+        controller.initData("user id");
+
         mainPane.setCenter(view);
     }
 
     @FXML
-    private void handleFriendRequestsButton(ActionEvent event) {
-        FxmlLoader object = new FxmlLoader();
-        Pane view = object.getPage("../MainScenes/friend_requests");
+    private void handleFriendRequestsButton(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("../MainScenes/friend_requests.fxml"));
+        Pane view = null;
+        view = loader.load();
+        //access the controller and call a method
+        FriendRequestsController controller = loader.getController();
+
+        //create query
+        controller.initData("user id");
+
         mainPane.setCenter(view);
     }
 
     @FXML
-    private void handleHomeButton() {
+    private void handleHomeButton() throws IOException {
         FxmlLoader object = new FxmlLoader();
         Pane view = object.getPage("../MainScenes/home");
         mainPane.setCenter(view);

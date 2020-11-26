@@ -19,6 +19,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import sample.Main.FxmlLoader;
 import sample.Main.MainAppController;
+import sample.MediaControllers.EditAlbumController;
 import sample.MediaControllers.ShowAlbumController;
 import sample.MediaControllers.ShowCommentsController;
 import sample.MediaListsControllers.MediaListController;
@@ -39,14 +40,23 @@ public class ShowAlbumListController implements Initializable {
 
     private ObservableList<String> items = FXCollections.observableArrayList();
 
-    public void initData(SearchAlbums album) {
-        this.album = album;
+    private String id;
+    private String myID;
 
+    public void initData(SearchAlbums album, String id, String myID) {
+        this.album = album;
+        this.id = id;
+        this.myID = myID;
 
         listV.setItems(items);
         //loop
         items.add("album name");
-        listV.setCellFactory(param -> new ShowAlbumListController.AlbumCell(p_pane));
+
+        if (id.equals(myID)) {
+            listV.setCellFactory(param -> new ShowAlbumListController.MyAlbumCell(p_pane));
+        } else {
+            listV.setCellFactory(param -> new ShowAlbumListController.AlbumCell(p_pane));
+        }
     }
 
 //    @FXML
@@ -85,7 +95,7 @@ public class ShowAlbumListController implements Initializable {
                         ShowAlbumController controller = loader.getController();
 
                         //create query
-                        controller.initData("album id");
+                        controller.initData("id", "my id", "album id");
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -105,7 +115,7 @@ public class ShowAlbumListController implements Initializable {
                         ShowCommentsController controller = loader.getController();
 
                         //create query
-                        controller.initData("album id");
+                        controller.initData("id", "my id", "album", "album id");
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -125,6 +135,125 @@ public class ShowAlbumListController implements Initializable {
                 setGraphic(hbox);
             }
         }
+    }
+
+    static class MyAlbumCell extends ListCell<String> {
+        HBox hbox = new HBox();
+        Label label = new Label("");
+        Pane pane = new Pane();
+        Button button = new Button("Show Album");
+        Pane pane2 = new Pane();
+        Button button2 = new Button("Show Comments");
+        Pane pane3 = new Pane();
+        Button button3 = new Button("Edit Album");
+        Pane pane4 = new Pane();
+        Button button4 = new Button("Delete Album");
+
+        public MyAlbumCell(AnchorPane p_pane) {
+            super();
+
+            button.setCursor(Cursor.HAND);
+            button2.setCursor(Cursor.HAND);
+            button3.setCursor(Cursor.HAND);
+            button4.setCursor(Cursor.HAND);
+            hbox.getChildren().addAll(label, pane, button, pane2, button2, pane3, button3, pane4, button4);
+            hbox.setAlignment(Pos.CENTER);
+            hbox.setSpacing(5);
+            HBox.setHgrow(pane, Priority.ALWAYS);
+            button.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent e) {
+                    try {
+                        FXMLLoader loader = new FXMLLoader();
+                        loader.setLocation(getClass().getResource("../Media/show_album.fxml"));
+                        Pane view = null;
+                        view = loader.load();
+                        //access the controller and call a method
+                        ShowAlbumController controller = loader.getController();
+
+                        //create query
+                        controller.initData("id", "my id", "album id");
+
+                        p_pane.getChildren().setAll(view);
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+                }
+            });
+            button2.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent e) {
+                    try {
+                        FXMLLoader loader = new FXMLLoader();
+                        loader.setLocation(getClass().getResource("../MediaLists/comments.fxml"));
+                        Pane view = null;
+                        view = loader.load();
+                        //access the controller and call a method
+                        ShowCommentsController controller = loader.getController();
+
+                        //create query
+                        controller.initData("id", "my id", "album", "album id");
+
+                        p_pane.getChildren().setAll(view);
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+                }
+            });
+            button3.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent e) {
+                    try {
+                        FXMLLoader loader = new FXMLLoader();
+                        loader.setLocation(getClass().getResource("../Media/edit_album.fxml"));
+                        Pane view = null;
+                        view = loader.load();
+                        //access the controller and call a method
+                        EditAlbumController controller = loader.getController();
+
+                        //create query
+                        controller.initData("album id");
+
+                        p_pane.getChildren().setAll(view);
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+                }
+            });
+            button4.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent e) {
+                    //Delete from database
+                    getListView().getItems().remove(getItem());
+                }
+            });
+        }
+        @Override
+        protected void updateItem(String item, boolean empty) {
+            super.updateItem(item, empty);
+            setText(null);
+            setGraphic(null);
+
+            if (item != null && !empty) {
+                label.setText(item);
+                setGraphic(hbox);
+            }
+        }
+    }
+
+    @FXML
+    private void handleBackButton() throws IOException{
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("../SearchMedia/search_albums.fxml"));
+        Pane showProfParent = null;
+        showProfParent = loader.load();
+        //access the controller and call a method
+        SearchAlbumController controller = loader.getController();
+
+        //create query
+        controller.initData("id", "my id");
+
+        p_pane.getChildren().setAll(showProfParent);
     }
 
     @Override

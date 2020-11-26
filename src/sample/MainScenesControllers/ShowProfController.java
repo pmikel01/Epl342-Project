@@ -48,7 +48,7 @@ public class ShowProfController implements Initializable {
         MediaListController controller = loader.getController();
 
         //create query
-        controller.initData("album","id");
+        controller.initData("album","id", "my id");
 
         p_pane.getChildren().setAll(view);
     }
@@ -63,7 +63,7 @@ public class ShowProfController implements Initializable {
         MediaListController controller = loader.getController();
 
         //create query
-        controller.initData("picture","id");
+        controller.initData("picture","id", "my id");
 
         p_pane.getChildren().setAll(view);
     }
@@ -78,7 +78,7 @@ public class ShowProfController implements Initializable {
         MediaListController controller = loader.getController();
 
         //create query
-        controller.initData("video","id");
+        controller.initData("video","id", "my id");
 
         p_pane.getChildren().setAll(view);
     }
@@ -93,7 +93,7 @@ public class ShowProfController implements Initializable {
         MediaListController controller = loader.getController();
 
         //create query
-        controller.initData("event","id");
+        controller.initData("event","id", "my id");
 
         p_pane.getChildren().setAll(view);
     }
@@ -108,7 +108,7 @@ public class ShowProfController implements Initializable {
         MediaListController controller = loader.getController();
 
         //create query
-        controller.initData("link","id");
+        controller.initData("link","id", "my id");
 
         p_pane.getChildren().setAll(view);
     }
@@ -125,10 +125,10 @@ public class ShowProfController implements Initializable {
         Pane view = loader.load();
 
         //access the controller and call a method
-        QewiController controller = loader.getController();
+        MediaListController controller = loader.getController();
 
         //create query
-        controller.initData("education","id");
+        controller.initData("education","id", "myID");
 
         p_pane.getChildren().setAll(view);
     }
@@ -140,10 +140,10 @@ public class ShowProfController implements Initializable {
         Pane view = loader.load();
 
         //access the controller and call a method
-        QewiController controller = loader.getController();
+        MediaListController controller = loader.getController();
 
         //create query
-        controller.initData("interest","id");
+        controller.initData("interest","id", "myID");
 
         p_pane.getChildren().setAll(view);
     }
@@ -155,10 +155,10 @@ public class ShowProfController implements Initializable {
         Pane view = loader.load();
 
         //access the controller and call a method
-        QewiController controller = loader.getController();
+        MediaListController controller = loader.getController();
 
         //create query
-        controller.initData("quote","id");
+        controller.initData("quote","id", "myID");
 
         p_pane.getChildren().setAll(view);
     }
@@ -170,10 +170,10 @@ public class ShowProfController implements Initializable {
         Pane view = loader.load();
 
         //access the controller and call a method
-        QewiController controller = loader.getController();
+        MediaListController controller = loader.getController();
 
         //create query
-        controller.initData("work","id");
+        controller.initData("work","id", "myID");
 
         p_pane.getChildren().setAll(view);
     }

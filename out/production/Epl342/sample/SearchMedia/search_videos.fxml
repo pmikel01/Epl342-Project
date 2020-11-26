@@ -22,7 +22,7 @@
                 <Font size="14.0" />
             </font>
         </TextField>
-        <Button contentDisplay="CENTER" layoutX="304.0" layoutY="309.0" mnemonicParsing="false" onAction="#handleSearchVideoButton" prefHeight="54.0" prefWidth="148.0" style="-fx-background-color: #454b4d;" stylesheets="@../styles/style.css" text="SEARCH" textFill="#d8d9d9">
+        <Button contentDisplay="CENTER" layoutX="562.0" layoutY="398.0" mnemonicParsing="false" onAction="#handleSearchVideoButton" prefHeight="54.0" prefWidth="148.0" style="-fx-background-color: #454b4d;" stylesheets="@../styles/style.css" text="SEARCH" textFill="#d8d9d9">
             <font>
                 <Font name="System Bold" size="25.0" />
             </font>
@@ -47,5 +47,13 @@
         </Label>
         <Separator layoutX="152.0" layoutY="90.0" prefHeight="0.0" prefWidth="465.0" style="-fx-background-color: #444a4c;" />
       <Spinner fx:id="spinn" editable="true" layoutX="255.0" layoutY="194.0" prefHeight="26.0" prefWidth="154.0" />
+      <Button contentDisplay="CENTER" layoutX="48.0" layoutY="398.0" mnemonicParsing="false" onAction="#handleBackButton" prefHeight="54.0" prefWidth="148.0" style="-fx-background-color: #454b4d;" stylesheets="@../styles/style.css" text="BACK" textFill="#d8d9d9">
+         <font>
+            <Font name="System Bold" size="25.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
     </children>
 </AnchorPane>

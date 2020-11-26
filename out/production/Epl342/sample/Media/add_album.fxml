@@ -27,7 +27,7 @@
                 <Font size="14.0" />
             </font>
         </TextField>
-        <Button contentDisplay="CENTER" layoutX="321.0" layoutY="362.0" mnemonicParsing="false" onAction="#handleAddAlbumButton" prefHeight="54.0" prefWidth="148.0" style="-fx-background-color: #454b4d;" stylesheets="@../styles/style.css" text="ADD" textFill="#d8d9d9">
+        <Button contentDisplay="CENTER" layoutX="564.0" layoutY="389.0" mnemonicParsing="false" onAction="#handleAddAlbumButton" prefHeight="54.0" prefWidth="148.0" style="-fx-background-color: #454b4d;" stylesheets="@../styles/style.css" text="ADD" textFill="#d8d9d9">
             <font>
                 <Font name="System Bold" size="25.0" />
             </font>
@@ -61,5 +61,13 @@
                 <Cursor fx:constant="HAND" />
             </cursor>
         </ComboBox>
+      <Button contentDisplay="CENTER" layoutX="44.0" layoutY="389.0" mnemonicParsing="false" onAction="#handleBackButton" prefHeight="54.0" prefWidth="148.0" style="-fx-background-color: #454b4d;" stylesheets="@../styles/style.css" text="BACK" textFill="#d8d9d9">
+         <font>
+            <Font name="System Bold" size="25.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
     </children>
 </AnchorPane>

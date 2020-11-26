@@ -3,12 +3,15 @@ package sample.MediaControllers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import sample.Main.FxmlLoader;
+import sample.MediaListsControllers.EditMediaListController;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -29,10 +32,48 @@ public class EditAlbumController implements Initializable {
     }
 
     @FXML
-    private void handleAddAlbumButton() {
-        FxmlLoader object = new FxmlLoader();
-        Pane view = object.getPage("../MediaLists/edit_albums_list");
+    private void handleAddPictureButton() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("../Media/add_photo_in_album.fxml"));
+        Pane view = null;
+        view = loader.load();
+        //access the controller and call a method
+        AddPhotoInAlbumController controller = loader.getController();
+
+        //create query
+        controller.initData("id");
+
         p_pane.getChildren().setAll(view);
+    }
+
+    @FXML
+    private void handleUpdateAlbumButton() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("../MediaLists/edit_albums_list.fxml"));
+        Pane showProfParent = null;
+        showProfParent = loader.load();
+        //access the controller and call a method
+        EditMediaListController controller = loader.getController();
+
+        //create query
+        controller.initData("album", "my id");
+
+        p_pane.getChildren().setAll(showProfParent);
+    }
+
+    @FXML
+    private void handleBackButton() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("../MediaLists/edit_albums_list.fxml"));
+        Pane showProfParent = null;
+        showProfParent = loader.load();
+        //access the controller and call a method
+        EditMediaListController controller = loader.getController();
+
+        //create query
+        controller.initData("album", "my id");
+
+        p_pane.getChildren().setAll(showProfParent);
     }
 
     @Override

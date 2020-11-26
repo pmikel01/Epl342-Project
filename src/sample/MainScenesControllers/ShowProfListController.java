@@ -37,9 +37,9 @@ public class ShowProfListController implements Initializable {
 
     String myID;
 
-    public void initData(ProfSelection profile, String id) {
+    public void initData(ProfSelection profile, String myID) {
         pSel = profile;
-        this.myID = id;
+        this.myID = myID;
 
         profList.setItems(items);
         //loop
@@ -77,7 +77,7 @@ public class ShowProfListController implements Initializable {
                         ShowProfController controller = loader.getController();
 
                         //create query
-                        controller.initData("id");
+                        controller.initData("id", "my id");
 
                         p_pane.getChildren().setAll(showProfParent);
                     } catch (IOException ioException) {

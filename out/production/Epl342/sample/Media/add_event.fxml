@@ -27,7 +27,7 @@
                 <Font size="14.0" />
             </font>
         </TextField>
-        <Button contentDisplay="CENTER" layoutX="564.0" layoutY="407.0" mnemonicParsing="false" onAction="#handleAddEventButton" prefHeight="54.0" prefWidth="148.0" style="-fx-background-color: #454b4d;" stylesheets="@../styles/style.css" text="ADD" textFill="#d8d9d9">
+        <Button contentDisplay="CENTER" layoutX="585.0" layoutY="420.0" mnemonicParsing="false" onAction="#handleAddEventButton" prefHeight="54.0" prefWidth="148.0" style="-fx-background-color: #454b4d;" stylesheets="@../styles/style.css" text="ADD" textFill="#d8d9d9">
             <font>
                 <Font name="System Bold" size="25.0" />
             </font>
@@ -115,5 +115,13 @@
             <Font size="14.0" />
          </font>
       </TextField>
+      <Button contentDisplay="CENTER" layoutX="427.0" layoutY="420.0" mnemonicParsing="false" onAction="#handleBackButton" prefHeight="54.0" prefWidth="148.0" style="-fx-background-color: #454b4d;" stylesheets="@../styles/style.css" text="BACK" textFill="#d8d9d9">
+         <font>
+            <Font name="System Bold" size="25.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
     </children>
 </AnchorPane>
