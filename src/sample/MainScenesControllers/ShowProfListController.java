@@ -47,10 +47,6 @@ public class ShowProfListController implements Initializable {
         profList.setCellFactory(param -> new XCell(p_pane, myID));
     }
 
-    public AnchorPane getP_pane() {
-        return p_pane;
-    }
-
     static class XCell extends ListCell<String> {
         HBox hbox = new HBox();
         Label label = new Label("");

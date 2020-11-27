@@ -1,4 +1,4 @@
-package sample.MainScenesControllers;
+package sample.MediaListsControllers;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,30 +17,26 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
-import sample.MediaControllers.EditAlbumController;
-import sample.MediaControllers.ShowAlbumController;
-import sample.MediaControllers.ShowCommentsController;
-import sample.MediaListsControllers.EditMediaListController;
+import sample.MediaControllers.ShowEventController;
+import sample.Objects.SearchEvents;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class FriendRequestsController implements Initializable {
+public class EventSearchController implements Initializable {
     @FXML
     private AnchorPane p_pane ;
 
+    private String choose;
     private String myID;
 
-    @FXML
-    private ListView<String> listV ;
-
-    @FXML
-    private ListView<String> listV2 ;
+    private SearchEvents events;
 
     private ObservableList<String> items = FXCollections.observableArrayList();
 
-    private ObservableList<String> items2 = FXCollections.observableArrayList();
+    @FXML
+    private ListView<String> listV ;
 
     public void initData(String myID) {
         this.myID = myID;
@@ -48,92 +44,83 @@ public class FriendRequestsController implements Initializable {
         listV.setItems(items);
         //loop
         items.add("Pantelis Mikelli");
-        listV.setCellFactory(param -> new FriendRequestsController.RequestCell(p_pane, myID));
-
-
-        listV2.setItems(items2);
-        //loop
-        items2.add("Pantelis Mikelli");
-        listV2.setCellFactory(param -> new FriendRequestsController.IgnoreCell(p_pane, myID));
+        listV.setCellFactory(param -> new EventSearchController.XCell(p_pane, myID, events));
     }
 
-    static class RequestCell extends ListCell<String> {
+    public void initData(SearchEvents events, String myID) {
+        this.events = events;
+        this.myID = myID;
+
+        listV.setItems(items);
+        //loop
+        items.add("Pantelis Mikelli");
+        listV.setCellFactory(param -> new EventSearchController.XCell(p_pane, myID, events));
+    }
+
+    static class XCell extends ListCell<String> {
         HBox hbox = new HBox();
         Label label = new Label("");
         Pane pane = new Pane();
-        Button button = new Button("Accept");
+        Button button = new Button("Show Event");
         Pane pane2 = new Pane();
-        Button button2 = new Button("Reject");
+        Button button2 = new Button("Going");
         Pane pane3 = new Pane();
-        Button button3 = new Button("Ignore");
+        Button button3 = new Button("Interested");
+        Pane pane4 = new Pane();
+        Button button4 = new Button("Not Going");
 
-        public RequestCell(AnchorPane p_pane, String myID) {
+        public XCell(AnchorPane p_pane, String myID, SearchEvents events) {
             super();
 
             button.setCursor(Cursor.HAND);
             button2.setCursor(Cursor.HAND);
             button3.setCursor(Cursor.HAND);
-            hbox.getChildren().addAll(label, pane, button, pane2, button2, pane3, button3);
+            button4.setCursor(Cursor.HAND);
+            hbox.getChildren().addAll(label, pane, button, pane2, button2, pane3, button3, pane4, button4);
             hbox.setAlignment(Pos.CENTER);
             hbox.setSpacing(5);
             HBox.setHgrow(pane, Priority.ALWAYS);
+//            button.setOnAction(event -> getListView().getItems().remove(getItem()));
             button.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent e) {
-                    //Delete from database
-                    getListView().getItems().remove(getItem());
+                    try {
+                        FXMLLoader loader = new FXMLLoader();
+                        loader.setLocation(getClass().getResource("../Media/show_event.fxml"));
+                        Pane view = null;
+                        view = loader.load();
+                        //access the controller and call a method
+                        ShowEventController controller = loader.getController();
+
+                        //create query
+                        controller.initData(myID, myID, "event id", events);
+
+                        p_pane.getChildren().setAll(view);
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
                 }
             });
             button2.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent e) {
-                    //Delete from database
-                    getListView().getItems().remove(getItem());
+                    //message
                 }
             });
             button3.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent e) {
-                    //Delete from database
-                    getListView().getItems().remove(getItem());
+                    //message
                 }
             });
-        }
-        @Override
-        protected void updateItem(String item, boolean empty) {
-            super.updateItem(item, empty);
-            setText(null);
-            setGraphic(null);
-
-            if (item != null && !empty) {
-                label.setText(item);
-                setGraphic(hbox);
-            }
-        }
-    }
-
-    static class IgnoreCell extends ListCell<String> {
-        HBox hbox = new HBox();
-        Label label = new Label("");
-        Pane pane = new Pane();
-        Button button = new Button("Remove From Ignored");
-
-        public IgnoreCell(AnchorPane p_pane, String myID) {
-            super();
-
-            button.setCursor(Cursor.HAND);
-            hbox.getChildren().addAll(label, pane, button);
-            hbox.setAlignment(Pos.CENTER);
-            hbox.setSpacing(5);
-            HBox.setHgrow(pane, Priority.ALWAYS);
-            button.setOnAction(new EventHandler<ActionEvent>() {
+            button4.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent e) {
-                    //Delete from database
-                    getListView().getItems().remove(getItem());
+                    //message
                 }
             });
         }
+
         @Override
         protected void updateItem(String item, boolean empty) {
             super.updateItem(item, empty);

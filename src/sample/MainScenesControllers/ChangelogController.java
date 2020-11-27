@@ -3,6 +3,7 @@ package sample.MainScenesControllers;
         import javafx.collections.FXCollections;
         import javafx.collections.ObservableList;
         import javafx.fxml.FXML;
+        import javafx.fxml.FXMLLoader;
         import javafx.fxml.Initializable;
         import javafx.scene.control.ComboBox;
         import javafx.scene.control.Spinner;
@@ -10,7 +11,9 @@ package sample.MainScenesControllers;
         import javafx.scene.layout.AnchorPane;
         import javafx.scene.layout.Pane;
         import sample.Main.FxmlLoader;
+        import sample.MediaListsControllers.ChangeLogListController;
 
+        import java.io.IOException;
         import java.net.URL;
         import java.util.ResourceBundle;
 
@@ -37,16 +40,35 @@ public class ChangelogController implements Initializable {
     }
 
     @FXML
-    private void handleShowAllButton() {
-        FxmlLoader object = new FxmlLoader();
-        Pane view = object.getPage("../MediaLists/changelog_list");
+    private void handleShowAllButton() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("../MediaLists/changelog_list.fxml"));
+        Pane view = loader.load();
+
+        //access the controller and call a method
+        ChangeLogListController controller = loader.getController();
+
+        //create query
+        controller.initData("all", myID);
+
         p_pane.getChildren().setAll(view);
     }
 
     @FXML
-    private void handleShowSelectionButton() {
-        FxmlLoader object = new FxmlLoader();
-        Pane view = object.getPage("../MediaLists/changelog_list");
+    private void handleShowSelectionButton() throws IOException{
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("../MediaLists/changelog_list.fxml"));
+        Pane view = loader.load();
+
+        //access the controller and call a method
+        ChangeLogListController controller = loader.getController();
+
+        String selection = mediaBox.getValue();
+
+        //create query
+        //combobox selection
+        controller.initData(selection, myID);
+
         p_pane.getChildren().setAll(view);
     }
 

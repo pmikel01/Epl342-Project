@@ -11,11 +11,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="p_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="495.0" prefWidth="755.0" style="-fx-background-color: #d8d9d9;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.MainScenesControllers.StatisticsController">
+<AnchorPane fx:id="p_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="495.0" prefWidth="762.0" style="-fx-background-color: #d8d9d9; -fx-border-color: #d8d9d9;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.MainScenesControllers.StatisticsController">
    <children>
-      <ScrollPane prefHeight="495.0" prefWidth="755.0" style="-fx-background-color: #d8d9d9;" stylesheets="@../styles/style.css">
-        <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="663.0" prefWidth="737.0">
+      <ScrollPane prefHeight="495.0" prefWidth="762.0">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="660.0" prefWidth="747.0" style="-fx-background-color: #d8d9d9;">
                <children>
                   <VBox layoutX="17.0" layoutY="7.0" prefHeight="643.0" prefWidth="710.0">
                      <children>
@@ -97,11 +97,7 @@
                                     <Font name="System Bold" size="16.0" />
                                  </font>
                               </Label>
-                              <Spinner fx:id="imgS" editable="true" prefHeight="25.0" prefWidth="126.0">
-                                 <HBox.margin>
-                                    <Insets left="5.0" />
-                                 </HBox.margin>
-                              </Spinner>
+                              <Spinner fx:id="spinF" editable="true" prefHeight="25.0" prefWidth="126.0" />
                               <Label prefHeight="30.0" prefWidth="117.0" text="Pictures" textFill="#444a4c">
                                  <font>
                                     <Font name="System Bold" size="16.0" />
@@ -130,7 +126,7 @@
                                     <Font name="System Bold" size="16.0" />
                                  </font>
                               </Label>
-                              <Spinner fx:id="NetImgS" editable="true" prefHeight="25.0" prefWidth="126.0">
+                              <Spinner fx:id="spinU" editable="true" prefHeight="25.0" prefWidth="126.0">
                                  <HBox.margin>
                                     <Insets left="5.0" />
                                  </HBox.margin>
@@ -194,7 +190,7 @@
                   </VBox>
                </children>
             </AnchorPane>
-        </content>
+         </content>
       </ScrollPane>
    </children>
 </AnchorPane>

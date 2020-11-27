@@ -40,10 +40,10 @@ public class StatisticsController implements Initializable {
     private AnchorPane p_pane;
 
     @FXML
-    private Spinner<Integer> imgS;
+    private Spinner<Integer> spinF;
 
     @FXML
-    private Spinner<Integer> NetImgS;
+    private Spinner<Integer> spinU;
 
     private String myID;
 
@@ -83,13 +83,6 @@ public class StatisticsController implements Initializable {
 
     @FXML
     private void handleNetworkButton() throws IOException {
-        FxmlLoader object = new FxmlLoader();
-        Pane view = object.getPage("../MediaLists/friends_list");
-        p_pane.getChildren().setAll(view);
-    }
-
-    @FXML
-    private void handleSameFriendsMoreButton() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("../MediaLists/friends_list.fxml"));
         Pane view = null;
@@ -104,7 +97,7 @@ public class StatisticsController implements Initializable {
     }
 
     @FXML
-    private void handleFriendsMoreAlbumsButton() throws IOException {
+    private void handleSameFriendsMoreButton() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("../MediaLists/friends_list.fxml"));
         Pane view = null;
@@ -119,9 +112,32 @@ public class StatisticsController implements Initializable {
     }
 
     @FXML
+    private void handleFriendsMoreAlbumsButton() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("../MediaLists/friends_list.fxml"));
+        Pane view = null;
+        view = loader.load();
+        //access the controller and call a method
+        FriendListController controller = loader.getController();
+
+        //create query
+        controller.initData("stat5", myID);
+
+        p_pane.getChildren().setAll(view);
+    }
+
+    @FXML
     private void handleUsersMoreAlbumsButton() throws IOException {
-        FxmlLoader object = new FxmlLoader();
-        Pane view = object.getPage("../MediaLists/friends_list");
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("../MediaLists/friends_list.fxml"));
+        Pane view = null;
+        view = loader.load();
+        //access the controller and call a method
+        FriendListController controller = loader.getController();
+
+        //create query
+        controller.initData("stat6", myID);
+
         p_pane.getChildren().setAll(view);
     }
 
@@ -135,7 +151,7 @@ public class StatisticsController implements Initializable {
         FriendListController controller = loader.getController();
 
         //create query
-        controller.initData("stat5", myID);
+        controller.initData("stat7", myID);
 
         p_pane.getChildren().setAll(view);
     }
@@ -151,9 +167,9 @@ public class StatisticsController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        SpinnerValueFactory<Integer> imgCount = new SpinnerValueFactory.IntegerSpinnerValueFactory(1,999,1);
-        SpinnerValueFactory<Integer> imgCountNet = new SpinnerValueFactory.IntegerSpinnerValueFactory(1,999,1);
-        this.imgS.setValueFactory(imgCount);
-        this.NetImgS.setValueFactory(imgCountNet);
+        SpinnerValueFactory<Integer> spinFCount = new SpinnerValueFactory.IntegerSpinnerValueFactory(1,999,1);
+        this.spinF.setValueFactory(spinFCount);
+        SpinnerValueFactory<Integer> spinUCount = new SpinnerValueFactory.IntegerSpinnerValueFactory(1,999,1);
+        this.spinU.setValueFactory(spinUCount);
     }
 }
