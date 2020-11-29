@@ -8,12 +8,12 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import sample.MainScenesControllers.SignInController;
 import sample.Main.DBUtil;
+import sample.Main.InsertDB;
 
-import java.sql.Connection;
+import java.sql.*;
 
 public class Main extends Application {
     private double x, y;
-    public Connection co;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -21,6 +21,8 @@ public class Main extends Application {
         Parent root = (Parent) fxmlLoader.load();
 
         Connection conn = DBUtil.getDBConnection();
+        //ADD DATA TO DB
+        InsertDB.insertData(conn);
 
         SignInController controller = fxmlLoader.getController();
         //create query
