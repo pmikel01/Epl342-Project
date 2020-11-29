@@ -13,6 +13,7 @@ import sample.MediaListsControllers.EditMediaListController;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
 import java.util.ResourceBundle;
 
 public class EditPhotoController implements Initializable {
@@ -24,10 +25,12 @@ public class EditPhotoController implements Initializable {
 
     private String mediaID;
     private String myID;
+    private Connection conn;
 
-    public void initData(String mediaID, String myID) {
+    public void initData(String mediaID, String myID, Connection conn) {
         this.mediaID = mediaID;
         this.myID = myID;
+        this.conn = conn;
     }
 
     @FXML
@@ -56,7 +59,7 @@ public class EditPhotoController implements Initializable {
         EditMediaListController controller = loader.getController();
 
         //create query
-        controller.initData("picture", myID);
+        controller.initData("picture", myID, conn);
 
         p_pane.getChildren().setAll(showProfParent);
     }
@@ -71,7 +74,7 @@ public class EditPhotoController implements Initializable {
         EditMediaListController controller = loader.getController();
 
         //create query
-        controller.initData("picture", myID);
+        controller.initData("picture", myID, conn);
 
         p_pane.getChildren().setAll(showProfParent);
     }

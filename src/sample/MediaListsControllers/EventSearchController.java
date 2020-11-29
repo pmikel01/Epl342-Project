@@ -22,6 +22,7 @@ import sample.Objects.SearchEvents;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
 import java.util.ResourceBundle;
 
 public class EventSearchController implements Initializable {
@@ -30,6 +31,7 @@ public class EventSearchController implements Initializable {
 
     private String choose;
     private String myID;
+    private Connection conn;
 
     private SearchEvents events;
 
@@ -38,13 +40,14 @@ public class EventSearchController implements Initializable {
     @FXML
     private ListView<String> listV ;
 
-    public void initData(String myID) {
+    public void initData(String myID, Connection conn) {
         this.myID = myID;
+        this.conn = conn;
 
         listV.setItems(items);
         //loop
         items.add("Pantelis Mikelli");
-        listV.setCellFactory(param -> new EventSearchController.XCell(p_pane, myID, events));
+        listV.setCellFactory(param -> new EventSearchController.XCell(p_pane, myID, events, conn));
     }
 
     public void initData(SearchEvents events, String myID) {
@@ -54,7 +57,7 @@ public class EventSearchController implements Initializable {
         listV.setItems(items);
         //loop
         items.add("Pantelis Mikelli");
-        listV.setCellFactory(param -> new EventSearchController.XCell(p_pane, myID, events));
+        listV.setCellFactory(param -> new EventSearchController.XCell(p_pane, myID, events, conn));
     }
 
     static class XCell extends ListCell<String> {
@@ -69,7 +72,7 @@ public class EventSearchController implements Initializable {
         Pane pane4 = new Pane();
         Button button4 = new Button("Not Going");
 
-        public XCell(AnchorPane p_pane, String myID, SearchEvents events) {
+        public XCell(AnchorPane p_pane, String myID, SearchEvents events, Connection conn) {
             super();
 
             button.setCursor(Cursor.HAND);
@@ -93,7 +96,7 @@ public class EventSearchController implements Initializable {
                         ShowEventController controller = loader.getController();
 
                         //create query
-                        controller.initData(myID, myID, "event id", events);
+                        controller.initData(myID, myID, "event id", events, conn);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {

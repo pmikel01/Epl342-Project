@@ -11,10 +11,18 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import sample.Main.MainAppController;
 
+import java.sql.Connection;
+
 
 public class SignInController {
     @FXML
     public Button closeButton;
+
+    private Connection conn;
+
+    public void initData(Connection conn) {
+        this.conn = conn;
+    }
 
     @FXML
     public void pressExitButton(ActionEvent event) {
@@ -56,7 +64,7 @@ public class SignInController {
             MainAppController controller = fxmlLoader.getController();
 
             //create query
-            controller.initData("my ID");
+            controller.initData("my ID", conn);
 
             //we gonna drag the frame
             root1.setOnMousePressed(mouseEvent -> {
@@ -82,6 +90,11 @@ public class SignInController {
 
             stage.setScene(new Scene(root1));
             stage.initStyle(StageStyle.UNDECORATED);
+
+            RegisterController controller = fxmlLoader.getController();
+
+            //create query
+            controller.initData(conn);
 
             //we gonna drag the frame
             root1.setOnMousePressed(mouseEvent -> {

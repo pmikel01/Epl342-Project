@@ -6,14 +6,26 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import sample.MainScenesControllers.SignInController;
+import sample.Main.DBUtil;
+
+import java.sql.Connection;
 
 public class Main extends Application {
     private double x, y;
+    public Connection co;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../MainScenes/sign_in.fxml"));
+        Parent root = (Parent) fxmlLoader.load();
 
-        Parent root = FXMLLoader.load(getClass().getResource("../MainScenes/sign_in.fxml"));
+        Connection conn = DBUtil.getDBConnection();
+
+        SignInController controller = fxmlLoader.getController();
+        //create query
+        controller.initData(conn);
+
         primaryStage.setScene(new Scene(root));
         primaryStage.initStyle(StageStyle.UNDECORATED);
 

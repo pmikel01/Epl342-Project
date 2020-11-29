@@ -15,6 +15,7 @@ package sample.MainScenesControllers;
 
         import java.io.IOException;
         import java.net.URL;
+        import java.sql.Connection;
         import java.util.ResourceBundle;
 
 public class ChangelogController implements Initializable {
@@ -34,9 +35,11 @@ public class ChangelogController implements Initializable {
     private Spinner<Integer> allChangeC;
 
     private String myID;
+    private Connection conn;
 
-    public void initData(String myID) {
+    public void initData(String myID, Connection conn) {
         this.myID = myID;
+        this.conn = conn;
     }
 
     @FXML
@@ -49,7 +52,7 @@ public class ChangelogController implements Initializable {
         ChangeLogListController controller = loader.getController();
 
         //create query
-        controller.initData("all", myID);
+        controller.initData("all", myID, conn);
 
         p_pane.getChildren().setAll(view);
     }
@@ -67,7 +70,7 @@ public class ChangelogController implements Initializable {
 
         //create query
         //combobox selection
-        controller.initData(selection, myID);
+        controller.initData(selection, myID, conn);
 
         p_pane.getChildren().setAll(view);
     }

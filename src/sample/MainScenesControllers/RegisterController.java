@@ -13,11 +13,19 @@ import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.sql.Connection;
+
 public class RegisterController {
     ObservableList<String> genderList = FXCollections.observableArrayList("Male", "Female", "Other");
 
     @FXML
     public Button closeButton;
+
+    private Connection conn;
+
+    public void initData(Connection conn) {
+        this.conn = conn;
+    }
 
     @FXML
     public void pressExitButton(ActionEvent event) {
@@ -65,6 +73,11 @@ public class RegisterController {
 
             stage.setScene(new Scene(root1));
             stage.initStyle(StageStyle.UNDECORATED);
+
+            SignInController controller = fxmlLoader.getController();
+
+            //create query
+            controller.initData(conn);
 
             //we gonna drag the frame
             root1.setOnMousePressed(mouseEvent -> {

@@ -15,6 +15,7 @@ import sample.MediaListsControllers.EditMediaListController;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
 import java.util.ResourceBundle;
 
 public class AddEventController implements Initializable {
@@ -40,9 +41,11 @@ public class AddEventController implements Initializable {
     private Spinner<Integer> endL;
 
     private String myID;
+    private Connection conn;
 
-    public void initData(String myID) {
+    public void initData(String myID, Connection conn) {
         this.myID = myID;
+        this.conn = conn;
     }
 
     @FXML
@@ -55,7 +58,7 @@ public class AddEventController implements Initializable {
         EditMediaListController controller = loader.getController();
 
         //create query
-        controller.initData("event", myID);
+        controller.initData("event", myID, conn);
 
         p_pane.getChildren().setAll(showProfParent);
     }
@@ -70,7 +73,7 @@ public class AddEventController implements Initializable {
         EditMediaListController controller = loader.getController();
 
         //create query
-        controller.initData("event", myID);
+        controller.initData("event", myID, conn);
 
         p_pane.getChildren().setAll(showProfParent);
     }

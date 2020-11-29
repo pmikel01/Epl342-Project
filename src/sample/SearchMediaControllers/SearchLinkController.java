@@ -14,6 +14,7 @@ package sample.SearchMediaControllers;
 
         import java.io.IOException;
         import java.net.URL;
+        import java.sql.Connection;
         import java.util.Date;
         import java.util.ResourceBundle;
 
@@ -23,10 +24,12 @@ public class SearchLinkController implements Initializable {
 
     private String id;
     private String myID;
+    private Connection conn;
 
-    public void initData(String id, String myID) {
+    public void initData(String id, String myID, Connection conn) {
         this.id = id;
         this.myID = myID;
+        this.conn = conn;
     }
 
     @FXML
@@ -40,7 +43,7 @@ public class SearchLinkController implements Initializable {
 
         //create query
         SearchLinks link = new SearchLinks("","", "", "");
-        controller.initData(link, id, myID);
+        controller.initData(link, id, myID, conn);
 
         p_pane.getChildren().setAll(view);
     }
@@ -57,7 +60,7 @@ public class SearchLinkController implements Initializable {
 
             //create query
             SearchAlbums album = new SearchAlbums("","", "", "");
-            controller.initData("link", myID);
+            controller.initData("link", myID, conn);
 
             p_pane.getChildren().setAll(view);
         } else {
@@ -70,7 +73,7 @@ public class SearchLinkController implements Initializable {
 
             //create query
             SearchAlbums album = new SearchAlbums("","", "", "");
-            controller.initData("link", id, myID);
+            controller.initData("link", id, myID, conn);
 
             p_pane.getChildren().setAll(view);
         }

@@ -16,6 +16,7 @@ import sample.Objects.SearchVideos;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
 import java.util.ResourceBundle;
 
 public class SearchVidController implements Initializable {
@@ -27,10 +28,12 @@ public class SearchVidController implements Initializable {
 
     private String id;
     private String myID;
+    private Connection conn;
 
-    public void initData(String id, String myID) {
+    public void initData(String id, String myID, Connection conn) {
         this.id = id;
         this.myID = myID;
+        this.conn = conn;
     }
 
     @FXML
@@ -44,7 +47,7 @@ public class SearchVidController implements Initializable {
 
         //create query
         SearchVideos video = new SearchVideos("","", "", 0);
-        controller.initData(video, id, myID);
+        controller.initData(video, id, myID, conn);
 
         p_pane.getChildren().setAll(view);
     }
@@ -61,7 +64,7 @@ public class SearchVidController implements Initializable {
 
             //create query
             SearchAlbums album = new SearchAlbums("","", "", "");
-            controller.initData("video", myID);
+            controller.initData("video", myID, conn);
 
             p_pane.getChildren().setAll(view);
         } else {
@@ -74,7 +77,7 @@ public class SearchVidController implements Initializable {
 
             //create query
             SearchAlbums album = new SearchAlbums("","", "", "");
-            controller.initData("video", id, myID);
+            controller.initData("video", id, myID, conn);
 
             p_pane.getChildren().setAll(view);
         }

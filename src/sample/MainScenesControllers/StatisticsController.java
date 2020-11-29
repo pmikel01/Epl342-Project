@@ -32,6 +32,7 @@ import sample.MediaListsControllers.FriendListController;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
 import java.util.ResourceBundle;
 
 public class StatisticsController implements Initializable {
@@ -46,9 +47,11 @@ public class StatisticsController implements Initializable {
     private Spinner<Integer> spinU;
 
     private String myID;
+    private Connection conn;
 
-    public void initData(String myID) {
+    public void initData(String myID, Connection conn) {
         this.myID = myID;
+        this.conn = conn;
     }
 
     @FXML
@@ -61,7 +64,7 @@ public class StatisticsController implements Initializable {
         FriendListController controller = loader.getController();
 
         //create query
-        controller.initData("stat1", myID);
+        controller.initData("stat1", myID, conn);
 
         p_pane.getChildren().setAll(view);
     }
@@ -76,7 +79,7 @@ public class StatisticsController implements Initializable {
         FriendListController controller = loader.getController();
 
         //create query
-        controller.initData("stat2", myID);
+        controller.initData("stat2", myID, conn);
 
         p_pane.getChildren().setAll(view);
     }
@@ -91,7 +94,7 @@ public class StatisticsController implements Initializable {
         FriendListController controller = loader.getController();
 
         //create query
-        controller.initData("stat3", myID);
+        controller.initData("stat3", myID, conn);
 
         p_pane.getChildren().setAll(view);
     }
@@ -106,7 +109,7 @@ public class StatisticsController implements Initializable {
         FriendListController controller = loader.getController();
 
         //create query
-        controller.initData("stat4", myID);
+        controller.initData("stat4", myID, conn);
 
         p_pane.getChildren().setAll(view);
     }
@@ -121,7 +124,7 @@ public class StatisticsController implements Initializable {
         FriendListController controller = loader.getController();
 
         //create query
-        controller.initData("stat5", myID);
+        controller.initData("stat5", myID, conn);
 
         p_pane.getChildren().setAll(view);
     }
@@ -136,7 +139,7 @@ public class StatisticsController implements Initializable {
         FriendListController controller = loader.getController();
 
         //create query
-        controller.initData("stat6", myID);
+        controller.initData("stat6", myID, conn);
 
         p_pane.getChildren().setAll(view);
     }
@@ -151,7 +154,7 @@ public class StatisticsController implements Initializable {
         FriendListController controller = loader.getController();
 
         //create query
-        controller.initData("stat7", myID);
+        controller.initData("stat7", myID, conn);
 
         p_pane.getChildren().setAll(view);
     }

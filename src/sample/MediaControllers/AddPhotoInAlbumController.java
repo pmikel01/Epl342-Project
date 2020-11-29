@@ -13,6 +13,7 @@ import sample.MediaListsControllers.EditMediaListController;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
 import java.util.ResourceBundle;
 
 public class AddPhotoInAlbumController implements Initializable {
@@ -24,9 +25,11 @@ public class AddPhotoInAlbumController implements Initializable {
 
     private String myID;
     private String albumID;
+    private Connection conn;
 
-    public void initData(String myID, String albumID) {
+    public void initData(String myID, String albumID, Connection conn) {
         this.myID = myID;
+        this.conn = conn;
         this.albumID = albumID;
     }
 
@@ -56,7 +59,7 @@ public class AddPhotoInAlbumController implements Initializable {
         EditMediaListController controller = loader.getController();
 
         //create query
-        controller.initData("album", myID);
+        controller.initData("album", myID, conn);
 
         p_pane.getChildren().setAll(view);
     }
@@ -71,7 +74,7 @@ public class AddPhotoInAlbumController implements Initializable {
         EditAlbumController controller = loader.getController();
 
         //create query
-        controller.initData(albumID, myID);
+        controller.initData(albumID, myID, conn);
 
         p_pane.getChildren().setAll(showProfParent);
     }

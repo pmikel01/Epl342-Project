@@ -24,6 +24,7 @@ package sample.MediaListsControllers;
 
         import java.io.IOException;
         import java.net.URL;
+        import java.sql.Connection;
         import java.util.ResourceBundle;
 
 public class MediaListController implements Initializable {
@@ -38,37 +39,39 @@ public class MediaListController implements Initializable {
     private String choose;
     private String id;
     private String myID;
+    private Connection conn;
 
-    public void initData(String choose, String id, String myID) {
+    public void initData(String choose, String id, String myID, Connection conn) {
         this.choose = choose;
         this.id = id;
         this.myID = myID;
+        this.conn = conn;
 
         if (choose.equals("album")) {
             listV.setItems(items);
             //loop
             items.add("album name");
-            listV.setCellFactory(param -> new AlbumCell(p_pane, myID, id));
+            listV.setCellFactory(param -> new AlbumCell(p_pane, myID, id, conn));
         } else if (choose.equals("picture")) {
             listV.setItems(items);
             //loop
             items.add("picture name");
-            listV.setCellFactory(param -> new PictureCell(p_pane, myID, id));
+            listV.setCellFactory(param -> new PictureCell(p_pane, myID, id, conn));
         } else if (choose.equals("video")) {
             listV.setItems(items);
             //loop
             items.add("video name");
-            listV.setCellFactory(param -> new VideoCell(p_pane, myID, id));
+            listV.setCellFactory(param -> new VideoCell(p_pane, myID, id, conn));
         } else if (choose.equals("event")) {
             listV.setItems(items);
             //loop
             items.add("event name");
-            listV.setCellFactory(param -> new EventCell(p_pane, myID, id));
+            listV.setCellFactory(param -> new EventCell(p_pane, myID, id, conn));
         } else if (choose.equals("link")) {
             listV.setItems(items);
             //loop
             items.add("link name");
-            listV.setCellFactory(param -> new LinkCell(p_pane, myID, id));
+            listV.setCellFactory(param -> new LinkCell(p_pane, myID, id, conn));
         } else if (choose.equals("interest")) {
             listV.setItems(items);
             //loop
@@ -98,7 +101,7 @@ public class MediaListController implements Initializable {
         SearchAlbumController controller = loader.getController();
 
         //create query
-        controller.initData(id, myID);
+        controller.initData(id, myID, conn);
 
         p_pane.getChildren().setAll(view);
     }
@@ -113,7 +116,7 @@ public class MediaListController implements Initializable {
         SearchEventController controller = loader.getController();
 
         //create query
-        controller.initData(id, myID);
+        controller.initData(id, myID, conn);
 
         p_pane.getChildren().setAll(view);
     }
@@ -128,7 +131,7 @@ public class MediaListController implements Initializable {
         SearchLinkController controller = loader.getController();
 
         //create query
-        controller.initData(id, myID);
+        controller.initData(id, myID, conn);
 
         p_pane.getChildren().setAll(view);
     }
@@ -143,7 +146,7 @@ public class MediaListController implements Initializable {
         SearchPicController controller = loader.getController();
 
         //create query
-        controller.initData(id, myID);
+        controller.initData(id, myID, conn);
 
         p_pane.getChildren().setAll(view);
     }
@@ -158,7 +161,7 @@ public class MediaListController implements Initializable {
         SearchVidController controller = loader.getController();
 
         //create query
-        controller.initData(id, myID);
+        controller.initData(id, myID, conn);
 
         p_pane.getChildren().setAll(view);
     }
@@ -171,7 +174,7 @@ public class MediaListController implements Initializable {
         Pane pane2 = new Pane();
         Button button2 = new Button("Show Comments");
 
-        public AlbumCell(AnchorPane p_pane, String myID, String id) {
+        public AlbumCell(AnchorPane p_pane, String myID, String id, Connection conn) {
             super();
 
             button.setCursor(Cursor.HAND);
@@ -192,7 +195,7 @@ public class MediaListController implements Initializable {
                         ShowAlbumController controller = loader.getController();
 
                         //create query
-                        controller.initData(id, myID, "album id");
+                        controller.initData(id, myID, "album id", conn);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -212,7 +215,7 @@ public class MediaListController implements Initializable {
                         ShowCommentsController controller = loader.getController();
 
                         //create query
-                        controller.initData(id, myID, "album", "album ID");
+                        controller.initData(id, myID, "album", "album ID", conn);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -240,7 +243,7 @@ public class MediaListController implements Initializable {
         Pane pane = new Pane();
         Button button = new Button("Show Picture");
 
-        public PictureCell(AnchorPane p_pane, String myID, String id) {
+        public PictureCell(AnchorPane p_pane, String myID, String id, Connection conn) {
             super();
 
             button.setCursor(Cursor.HAND);
@@ -260,7 +263,7 @@ public class MediaListController implements Initializable {
                         ShowPictureController controller = loader.getController();
 
                         //create query
-                        controller.initData(id, myID, "picture id");
+                        controller.initData(id, myID, "picture id", conn);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -290,7 +293,7 @@ public class MediaListController implements Initializable {
         Pane pane2 = new Pane();
         Button button2 = new Button("Show Comments");
 
-        public VideoCell(AnchorPane p_pane, String myID, String id) {
+        public VideoCell(AnchorPane p_pane, String myID, String id, Connection conn) {
             super();
 
             button.setCursor(Cursor.HAND);
@@ -311,7 +314,7 @@ public class MediaListController implements Initializable {
                         ShowVideoController controller = loader.getController();
 
                         //create query
-                        controller.initData(id, myID, "video id");
+                        controller.initData(id, myID, "video id", conn);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -331,7 +334,7 @@ public class MediaListController implements Initializable {
                         ShowCommentsController controller = loader.getController();
 
                         //create query
-                        controller.initData(id, myID, "video", "video id");
+                        controller.initData(id, myID, "video", "video id", conn);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -359,7 +362,7 @@ public class MediaListController implements Initializable {
         Pane pane = new Pane();
         Button button = new Button("Show Event");
 
-        public EventCell(AnchorPane p_pane, String myID, String id) {
+        public EventCell(AnchorPane p_pane, String myID, String id, Connection conn) {
             super();
 
             button.setCursor(Cursor.HAND);
@@ -379,7 +382,7 @@ public class MediaListController implements Initializable {
                         ShowEventController controller = loader.getController();
 
                         //create query
-                        controller.initData(id, myID, "event id");
+                        controller.initData(id, myID, "event id", conn);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -407,7 +410,7 @@ public class MediaListController implements Initializable {
         Pane pane = new Pane();
         Button button = new Button("Show Link");
 
-        public LinkCell(AnchorPane p_pane, String myID, String id) {
+        public LinkCell(AnchorPane p_pane, String myID, String id, Connection conn) {
             super();
 
             button.setCursor(Cursor.HAND);
@@ -427,7 +430,7 @@ public class MediaListController implements Initializable {
                         ShowLinkController controller = loader.getController();
 
                         //create query
-                        controller.initData(id, myID, "link id");
+                        controller.initData(id, myID, "link id", conn);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -459,7 +462,7 @@ public class MediaListController implements Initializable {
         ShowProfController controller = loader.getController();
 
         //create query
-        controller.initData(id, myID);
+        controller.initData(id, myID, conn);
 
         p_pane.getChildren().setAll(showProfParent);
     }

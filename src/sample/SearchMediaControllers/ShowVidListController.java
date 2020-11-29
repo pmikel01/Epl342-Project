@@ -28,6 +28,7 @@ import sample.Objects.SearchVideos;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
 import java.util.ResourceBundle;
 
 public class ShowVidListController implements Initializable {
@@ -43,20 +44,22 @@ public class ShowVidListController implements Initializable {
 
     private String id;
     private String myID;
+    private Connection conn;
 
-    public void initData(SearchVideos videos, String id, String myID) {
+    public void initData(SearchVideos videos, String id, String myID, Connection conn) {
         this.videos = videos;
         this.id = id;
         this.myID = myID;
+        this.conn = conn;
 
         listV.setItems(items);
         //loop
         items.add("video name");
 
         if (id.equals(myID)) {
-            listV.setCellFactory(param -> new ShowVidListController.MyVideoCell(p_pane, myID, id));
+            listV.setCellFactory(param -> new ShowVidListController.MyVideoCell(p_pane, myID, id, conn));
         } else {
-            listV.setCellFactory(param -> new ShowVidListController.VideoCell(p_pane, myID, id));
+            listV.setCellFactory(param -> new ShowVidListController.VideoCell(p_pane, myID, id, conn));
         }
     }
 
@@ -68,7 +71,7 @@ public class ShowVidListController implements Initializable {
         Pane pane2 = new Pane();
         Button button2 = new Button("Show Comments");
 
-        public VideoCell(AnchorPane p_pane, String myID, String id) {
+        public VideoCell(AnchorPane p_pane, String myID, String id, Connection conn) {
             super();
 
             button.setCursor(Cursor.HAND);
@@ -89,7 +92,7 @@ public class ShowVidListController implements Initializable {
                         ShowVideoController controller = loader.getController();
 
                         //create query
-                        controller.initData(id, myID, "video id");
+                        controller.initData(id, myID, "video id", conn);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -109,7 +112,7 @@ public class ShowVidListController implements Initializable {
                         ShowCommentsController controller = loader.getController();
 
                         //create query
-                        controller.initData(id, myID, "video", "video id");
+                        controller.initData(id, myID, "video", "video id", conn);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -144,7 +147,7 @@ public class ShowVidListController implements Initializable {
         Button button4 = new Button("Delete Video");
 
 
-        public MyVideoCell(AnchorPane p_pane, String myID, String id) {
+        public MyVideoCell(AnchorPane p_pane, String myID, String id, Connection conn) {
             super();
 
             button.setCursor(Cursor.HAND);
@@ -167,7 +170,7 @@ public class ShowVidListController implements Initializable {
                         ShowVideoController controller = loader.getController();
 
                         //create query
-                        controller.initData(id, myID, "video id");
+                        controller.initData(id, myID, "video id", conn);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -187,7 +190,7 @@ public class ShowVidListController implements Initializable {
                         ShowCommentsController controller = loader.getController();
 
                         //create query
-                        controller.initData(id, myID, "video", "video id");
+                        controller.initData(id, myID, "video", "video id", conn);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -207,7 +210,7 @@ public class ShowVidListController implements Initializable {
                         EditVideoController controller = loader.getController();
 
                         //create query
-                        controller.initData("video id", myID);
+                        controller.initData("video id", myID, conn);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -246,7 +249,7 @@ public class ShowVidListController implements Initializable {
         SearchVidController controller = loader.getController();
 
         //create query
-        controller.initData(id, myID);
+        controller.initData(id, myID, conn);
 
         p_pane.getChildren().setAll(showProfParent);
     }

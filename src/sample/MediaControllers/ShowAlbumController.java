@@ -24,6 +24,7 @@ import sample.SearchMediaControllers.ShowPicListController;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
 import java.util.ResourceBundle;
 
 public class ShowAlbumController implements Initializable {
@@ -34,6 +35,7 @@ public class ShowAlbumController implements Initializable {
     private String id;
     private String myID;
     private String album_id;
+    private Connection conn;
 
     @FXML
     private ListView<String> listV ;
@@ -41,19 +43,20 @@ public class ShowAlbumController implements Initializable {
     private ObservableList<String> items = FXCollections.observableArrayList();
 
 
-    public void initData(String id, String myID, String album_id) {
+    public void initData(String id, String myID, String album_id, Connection conn) {
         this.id = id;
         this.album_id = album_id;
         this.myID = myID;
+        this.conn = conn;
 
         listV.setItems(items);
         //loop
         items.add("picture name");
 
         if (id.equals(myID)) {
-            listV.setCellFactory(param -> new ShowAlbumController.MyPictureCell(p_pane, myID, id));
+            listV.setCellFactory(param -> new ShowAlbumController.MyPictureCell(p_pane, myID, id, conn));
         } else {
-            listV.setCellFactory(param -> new ShowAlbumController.PictureCell(p_pane, myID, id));
+            listV.setCellFactory(param -> new ShowAlbumController.PictureCell(p_pane, myID, id, conn));
         }
     }
 
@@ -63,7 +66,7 @@ public class ShowAlbumController implements Initializable {
         Pane pane = new Pane();
         Button button = new Button("Show Picture");
 
-        public PictureCell(AnchorPane p_pane, String myID, String id) {
+        public PictureCell(AnchorPane p_pane, String myID, String id, Connection conn) {
             super();
 
             button.setCursor(Cursor.HAND);
@@ -83,7 +86,7 @@ public class ShowAlbumController implements Initializable {
                         ShowPictureController controller = loader.getController();
 
                         //create query
-                        controller.initData(id, myID, "picture id");
+                        controller.initData(id, myID, "picture id", conn);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -115,7 +118,7 @@ public class ShowAlbumController implements Initializable {
         Pane pane3 = new Pane();
         Button button3 = new Button("Delete Picture");
 
-        public MyPictureCell(AnchorPane p_pane, String myID, String id) {
+        public MyPictureCell(AnchorPane p_pane, String myID, String id, Connection conn) {
             super();
 
             button.setCursor(Cursor.HAND);
@@ -137,7 +140,7 @@ public class ShowAlbumController implements Initializable {
                         ShowPictureController controller = loader.getController();
 
                         //create query
-                        controller.initData(id, myID, "picture id");
+                        controller.initData(id, myID, "picture id", conn);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -157,7 +160,7 @@ public class ShowAlbumController implements Initializable {
                         EditPhotoController controller = loader.getController();
 
                         //create query
-                        controller.initData("pic id", myID);
+                        controller.initData("pic id", myID, conn);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -197,7 +200,7 @@ public class ShowAlbumController implements Initializable {
             EditMediaListController controller = loader.getController();
 
             //create query
-            controller.initData("album", myID);
+            controller.initData("album", myID, conn);
 
             p_pane.getChildren().setAll(showProfParent);
         } else {
@@ -209,7 +212,7 @@ public class ShowAlbumController implements Initializable {
             MediaListController controller = loader.getController();
 
             //create query
-            controller.initData("album",id, myID);
+            controller.initData("album",id, myID, conn);
 
             p_pane.getChildren().setAll(view);
         }

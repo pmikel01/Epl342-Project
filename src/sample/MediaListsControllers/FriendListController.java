@@ -19,6 +19,7 @@ import sample.MainScenesControllers.ShowProfController;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -28,20 +29,22 @@ public class FriendListController implements Initializable {
 
     private String choose;
     private String myID;
+    private Connection conn;
 
     private ObservableList<String> items = FXCollections.observableArrayList();
 
     @FXML
     private ListView<String> listV ;
 
-    public void initData(String choose, String myID) {
+    public void initData(String choose, String myID, Connection conn) {
         this.choose = choose;
         this.myID = myID;
+        this.conn = conn;
 
         listV.setItems(items);
         //loop
         items.add("Pantelis Mikelli");
-        listV.setCellFactory(param -> new FriendListController.XCell(p_pane, myID));
+        listV.setCellFactory(param -> new FriendListController.XCell(p_pane, myID, conn));
     }
 
     static class XCell extends ListCell<String> {
@@ -50,7 +53,7 @@ public class FriendListController implements Initializable {
         Pane pane = new Pane();
         Button button = new Button("Show Profile");
 
-        public XCell(AnchorPane p_pane, String myID) {
+        public XCell(AnchorPane p_pane, String myID, Connection conn) {
             super();
 
             button.setCursor(Cursor.HAND);
@@ -70,7 +73,7 @@ public class FriendListController implements Initializable {
                         ShowProfController controller = loader.getController();
 
                         //create query
-                        controller.initData("id", myID);
+                        controller.initData("id", myID, conn);
 
                         p_pane.getChildren().setAll(showProfParent);
                     } catch (IOException ioException) {

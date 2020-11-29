@@ -13,6 +13,7 @@ package sample.MediaControllers;
 
         import java.io.IOException;
         import java.net.URL;
+        import java.sql.Connection;
         import java.util.ResourceBundle;
 
 public class AddAlbumController implements Initializable {
@@ -26,9 +27,11 @@ public class AddAlbumController implements Initializable {
     private AnchorPane p_pane ;
 
     private String myID;
+    private Connection conn;
 
-    public void initData(String myID) {
+    public void initData(String myID, Connection conn) {
         this.myID = myID;
+        this.conn = conn;
     }
 
     @FXML
@@ -41,7 +44,7 @@ public class AddAlbumController implements Initializable {
         EditMediaListController controller = loader.getController();
 
         //create query
-        controller.initData("album", myID);
+        controller.initData("album", myID, conn);
 
         p_pane.getChildren().setAll(showProfParent);
     }
@@ -56,7 +59,7 @@ public class AddAlbumController implements Initializable {
         EditMediaListController controller = loader.getController();
 
         //create query
-        controller.initData("album", myID);
+        controller.initData("album", myID, conn);
 
         p_pane.getChildren().setAll(showProfParent);
     }

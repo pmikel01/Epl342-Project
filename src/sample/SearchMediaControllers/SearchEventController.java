@@ -13,6 +13,7 @@ import sample.Objects.SearchEvents;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -22,10 +23,12 @@ public class SearchEventController implements Initializable {
 
     private String id;
     private String myID;
+    private Connection conn;
 
-    public void initData(String id, String myID) {
+    public void initData(String id, String myID, Connection conn) {
         this.id = id;
         this.myID = myID;
+        this.conn = conn;
     }
 
     @FXML
@@ -39,7 +42,7 @@ public class SearchEventController implements Initializable {
 
         //create query
         SearchEvents event = new SearchEvents("","", "", "", new Date());
-        controller.initData(event, id, myID);
+        controller.initData(event, id, myID, conn);
 
         p_pane.getChildren().setAll(view);
     }
@@ -56,7 +59,7 @@ public class SearchEventController implements Initializable {
 
             //create query
             SearchAlbums album = new SearchAlbums("","", "", "");
-            controller.initData("event", myID);
+            controller.initData("event", myID, conn);
 
             p_pane.getChildren().setAll(view);
         } else {
@@ -69,7 +72,7 @@ public class SearchEventController implements Initializable {
 
             //create query
             SearchAlbums album = new SearchAlbums("","", "", "");
-            controller.initData("event", id, myID);
+            controller.initData("event", id, myID, conn);
 
             p_pane.getChildren().setAll(view);
         }

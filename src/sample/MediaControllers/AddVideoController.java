@@ -14,6 +14,7 @@ import sample.SearchMediaControllers.SearchAlbumController;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
 import java.util.ResourceBundle;
 
 public class AddVideoController implements Initializable {
@@ -24,9 +25,11 @@ public class AddVideoController implements Initializable {
     private TextField sourcePath;
 
     private String myID;
+    private Connection conn;
 
-    public void initData(String myID) {
+    public void initData(String myID, Connection conn) {
         this.myID = myID;
+        this.conn = conn;
     }
 
     @FXML
@@ -55,7 +58,7 @@ public class AddVideoController implements Initializable {
         EditMediaListController controller = loader.getController();
 
         //create query
-        controller.initData("video", myID);
+        controller.initData("video", myID, conn);
 
         p_pane.getChildren().setAll(showProfParent);
     }
@@ -70,7 +73,7 @@ public class AddVideoController implements Initializable {
         EditMediaListController controller = loader.getController();
 
         //create query
-        controller.initData("video", myID);
+        controller.initData("video", myID, conn);
 
         p_pane.getChildren().setAll(showProfParent);
     }

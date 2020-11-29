@@ -21,6 +21,7 @@ import sample.Objects.ProfSelection;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
 import java.util.ResourceBundle;
 
 public class ShowProfListController implements Initializable {
@@ -35,16 +36,19 @@ public class ShowProfListController implements Initializable {
     @FXML
     ListView<String> profList;
 
-    String myID;
+    private String myID;
+    private Connection conn;
 
-    public void initData(ProfSelection profile, String myID) {
-        pSel = profile;
+    public void initData(String myID, Connection conn, ProfSelection pSel) {
         this.myID = myID;
+        this.conn = conn;
+        this.pSel = pSel;
+
 
         profList.setItems(items);
         //loop
         items.add("903458   Pantelis Mikelli");
-        profList.setCellFactory(param -> new XCell(p_pane, myID));
+        profList.setCellFactory(param -> new XCell(p_pane, myID, conn));
     }
 
     static class XCell extends ListCell<String> {
@@ -53,7 +57,7 @@ public class ShowProfListController implements Initializable {
         Pane pane = new Pane();
         Button button = new Button("Show Profile");
 
-        public XCell(AnchorPane p_pane, String myID) {
+        public XCell(AnchorPane p_pane, String myID, Connection conn) {
             super();
 
             button.setCursor(Cursor.HAND);
@@ -73,7 +77,7 @@ public class ShowProfListController implements Initializable {
                         ShowProfController controller = loader.getController();
 
                         //create query
-                        controller.initData("id", myID);
+                        controller.initData("id", myID, conn);
 
                         p_pane.getChildren().setAll(showProfParent);
                     } catch (IOException ioException) {

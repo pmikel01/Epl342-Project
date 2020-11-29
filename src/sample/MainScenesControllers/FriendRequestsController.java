@@ -24,13 +24,12 @@ import sample.MediaListsControllers.EditMediaListController;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
 import java.util.ResourceBundle;
 
 public class FriendRequestsController implements Initializable {
     @FXML
     private AnchorPane p_pane ;
-
-    private String myID;
 
     @FXML
     private ListView<String> listV ;
@@ -42,8 +41,12 @@ public class FriendRequestsController implements Initializable {
 
     private ObservableList<String> items2 = FXCollections.observableArrayList();
 
-    public void initData(String myID) {
+    private String myID;
+    private Connection conn;
+
+    public void initData(String myID, Connection conn) {
         this.myID = myID;
+        this.conn = conn;
 
         listV.setItems(items);
         //loop

@@ -13,6 +13,7 @@ import sample.MediaListsControllers.EditMediaListController;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
 import java.util.ResourceBundle;
 
 public class MyProfController implements Initializable {
@@ -25,9 +26,11 @@ public class MyProfController implements Initializable {
     private ObservableList<String> items = FXCollections.observableArrayList();
 
     private String myID;
+    private Connection conn;
 
-    public void initData(String myID) {
+    public void initData(String myID, Connection conn) {
         this.myID = myID;
+        this.conn = conn;
 
         listV.setItems(items);
         //loop
@@ -45,7 +48,7 @@ public class MyProfController implements Initializable {
         ChangelogController controller = loader.getController();
 
         //create query
-        controller.initData(myID);
+        controller.initData(myID, conn);
 
         p_pane.getChildren().setAll(view);
     }
@@ -60,7 +63,7 @@ public class MyProfController implements Initializable {
         EditMediaListController controller = loader.getController();
 
         //create query
-        controller.initData("album",myID);
+        controller.initData("album",myID, conn);
 
         p_pane.getChildren().setAll(view);
     }
@@ -75,7 +78,7 @@ public class MyProfController implements Initializable {
         EditMediaListController controller = loader.getController();
 
         //create query
-        controller.initData("picture",myID);
+        controller.initData("picture",myID, conn);
 
         p_pane.getChildren().setAll(view);
     }
@@ -90,7 +93,7 @@ public class MyProfController implements Initializable {
         EditMediaListController controller = loader.getController();
 
         //create query
-        controller.initData("video",myID);
+        controller.initData("video",myID, conn);
 
         p_pane.getChildren().setAll(view);
     }
@@ -105,7 +108,7 @@ public class MyProfController implements Initializable {
         EditMediaListController controller = loader.getController();
 
         //create query
-        controller.initData("event",myID);
+        controller.initData("event",myID, conn);
 
         p_pane.getChildren().setAll(view);
     }
@@ -120,7 +123,7 @@ public class MyProfController implements Initializable {
         EditMediaListController controller = loader.getController();
 
         //create query
-        controller.initData("link",myID);
+        controller.initData("link",myID, conn);
 
         p_pane.getChildren().setAll(view);
     }
@@ -135,7 +138,7 @@ public class MyProfController implements Initializable {
         EditMediaListController controller = loader.getController();
 
         //create query
-        controller.initData("friend",myID);
+        controller.initData("friend",myID, conn);
 
         p_pane.getChildren().setAll(view);
     }
@@ -150,7 +153,7 @@ public class MyProfController implements Initializable {
         EditInfoController controller = loader.getController();
 
         //create query
-        controller.initData(myID);
+        controller.initData(myID, conn);
 
         p_pane.getChildren().setAll(view);
     }
@@ -165,7 +168,7 @@ public class MyProfController implements Initializable {
         EditMediaListController controller = loader.getController();
 
         //create query
-        controller.initData("education",myID);
+        controller.initData("education",myID, conn);
 
         p_pane.getChildren().setAll(view);
     }
@@ -180,7 +183,7 @@ public class MyProfController implements Initializable {
         EditMediaListController controller = loader.getController();
 
         //create query
-        controller.initData("interest",myID);
+        controller.initData("interest",myID, conn);
 
         p_pane.getChildren().setAll(view);
     }
@@ -195,7 +198,7 @@ public class MyProfController implements Initializable {
         EditMediaListController controller = loader.getController();
 
         //create query
-        controller.initData("quote",myID);
+        controller.initData("quote",myID, conn);
 
         p_pane.getChildren().setAll(view);
     }
@@ -210,7 +213,7 @@ public class MyProfController implements Initializable {
         EditMediaListController controller = loader.getController();
 
         //create query
-        controller.initData("work",myID);
+        controller.initData("work",myID, conn);
 
         p_pane.getChildren().setAll(view);
     }

@@ -10,6 +10,7 @@ import sample.MediaListsControllers.EditMediaListController;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
 import java.util.ResourceBundle;
 
 public class AddLinkController implements Initializable {
@@ -17,9 +18,11 @@ public class AddLinkController implements Initializable {
     private AnchorPane p_pane ;
 
     private String myID;
+    private Connection conn;
 
-    public void initData(String myID) {
+    public void initData(String myID, Connection conn) {
         this.myID = myID;
+        this.conn = conn;
     }
 
     @FXML
@@ -32,7 +35,7 @@ public class AddLinkController implements Initializable {
         EditMediaListController controller = loader.getController();
 
         //create query
-        controller.initData("link", myID);
+        controller.initData("link", myID, conn);
 
         p_pane.getChildren().setAll(showProfParent);
     }
@@ -47,7 +50,7 @@ public class AddLinkController implements Initializable {
         EditMediaListController controller = loader.getController();
 
         //create query
-        controller.initData("link", myID);
+        controller.initData("link", myID, conn);
 
         p_pane.getChildren().setAll(showProfParent);
     }

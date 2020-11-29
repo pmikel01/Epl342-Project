@@ -10,6 +10,7 @@ import sample.MediaListsControllers.MediaListController;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
 import java.util.ResourceBundle;
 
 public class ShowLinkController implements Initializable {
@@ -20,11 +21,13 @@ public class ShowLinkController implements Initializable {
     private String id;
     private String myID;
     private String link_id;
+    private Connection conn;
 
-    public void initData(String id, String myID, String link_id) {
+    public void initData(String id, String myID, String link_id, Connection conn) {
         this.id = id;
         this.link_id = link_id;
         this.myID = myID;
+        this.conn = conn;
     }
 
     @FXML
@@ -38,7 +41,7 @@ public class ShowLinkController implements Initializable {
             EditMediaListController controller = loader.getController();
 
             //create query
-            controller.initData("link", myID);
+            controller.initData("link", myID, conn);
 
             p_pane.getChildren().setAll(showProfParent);
         } else {
@@ -50,7 +53,7 @@ public class ShowLinkController implements Initializable {
             MediaListController controller = loader.getController();
 
             //create query
-            controller.initData("link",id, myID);
+            controller.initData("link",id, myID, conn);
 
             p_pane.getChildren().setAll(view);
         }

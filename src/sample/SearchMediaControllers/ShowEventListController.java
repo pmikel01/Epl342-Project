@@ -26,6 +26,7 @@ import sample.Objects.SearchLinks;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
 import java.util.ResourceBundle;
 
 public class ShowEventListController implements Initializable {
@@ -41,20 +42,22 @@ public class ShowEventListController implements Initializable {
 
     private String id;
     private String myID;
+    private Connection conn;
 
-    public void initData(SearchEvents events, String id, String myID) {
+    public void initData(SearchEvents events, String id, String myID, Connection conn) {
         this.events = events;
         this.id = id;
         this.myID = myID;
+        this.conn = conn;
 
         listV.setItems(items);
         //loop
         items.add("event name");
 
         if (id.equals(myID)) {
-            listV.setCellFactory(param -> new ShowEventListController.MyEventCell(p_pane, myID, id));
+            listV.setCellFactory(param -> new ShowEventListController.MyEventCell(p_pane, myID, id, conn));
         } else {
-            listV.setCellFactory(param -> new ShowEventListController.EventCell(p_pane, myID, id));
+            listV.setCellFactory(param -> new ShowEventListController.EventCell(p_pane, myID, id, conn));
         }
     }
 
@@ -64,7 +67,7 @@ public class ShowEventListController implements Initializable {
         Pane pane = new Pane();
         Button button = new Button("Show Event");
 
-        public EventCell(AnchorPane p_pane, String myID, String id) {
+        public EventCell(AnchorPane p_pane, String myID, String id, Connection conn) {
             super();
 
             button.setCursor(Cursor.HAND);
@@ -84,7 +87,7 @@ public class ShowEventListController implements Initializable {
                         ShowEventController controller = loader.getController();
 
                         //create query
-                        controller.initData(id, myID, "event id");
+                        controller.initData(id, myID, "event id", conn);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -116,7 +119,7 @@ public class ShowEventListController implements Initializable {
         Pane pane3 = new Pane();
         Button button3 = new Button("Delete Event");
 
-        public MyEventCell(AnchorPane p_pane, String myID, String id) {
+        public MyEventCell(AnchorPane p_pane, String myID, String id, Connection conn) {
             super();
 
             button.setCursor(Cursor.HAND);
@@ -138,7 +141,7 @@ public class ShowEventListController implements Initializable {
                         ShowEventController controller = loader.getController();
 
                         //create query
-                        controller.initData(id, myID, "event id");
+                        controller.initData(id, myID, "event id", conn);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -158,7 +161,7 @@ public class ShowEventListController implements Initializable {
                         EditEventController controller = loader.getController();
 
                         //create query
-                        controller.initData("event id", myID);
+                        controller.initData("event id", myID, conn);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -197,7 +200,7 @@ public class ShowEventListController implements Initializable {
         SearchEventController controller = loader.getController();
 
         //create query
-        controller.initData(id, myID);
+        controller.initData(id, myID, conn);
 
         p_pane.getChildren().setAll(showProfParent);
     }

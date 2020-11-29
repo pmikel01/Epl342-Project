@@ -12,6 +12,7 @@ import sample.Objects.SearchEvents;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
 import java.util.ResourceBundle;
 
 public class ShowEventController implements Initializable {
@@ -23,17 +24,19 @@ public class ShowEventController implements Initializable {
     private String myID;
     private String event_id;
     private String choose;
+    private Connection conn;
 
     private SearchEvents events=null;
 
 
-    public void initData(String id, String myID, String event_id) {
+    public void initData(String id, String myID, String event_id, Connection conn) {
         this.id = id;
         this.event_id = event_id;
         this.myID = myID;
+        this.conn = conn;
     }
 
-    public void initData(String id, String myID, String event_id, SearchEvents events) {
+    public void initData(String id, String myID, String event_id, SearchEvents events, Connection conn) {
         this.id = id;
         this.event_id = event_id;
         this.myID = myID;
@@ -64,7 +67,7 @@ public class ShowEventController implements Initializable {
                 EditMediaListController controller = loader.getController();
 
                 //create query
-                controller.initData("event", myID);
+                controller.initData("event", myID, conn);
 
                 p_pane.getChildren().setAll(showProfParent);
             } else {
@@ -76,7 +79,7 @@ public class ShowEventController implements Initializable {
                 MediaListController controller = loader.getController();
 
                 //create query
-                controller.initData("event",id, myID);
+                controller.initData("event",id, myID, conn);
 
                 p_pane.getChildren().setAll(view);
             }

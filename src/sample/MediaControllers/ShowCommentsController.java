@@ -16,6 +16,7 @@ import sample.MediaListsControllers.MediaListController;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -28,17 +29,19 @@ public class ShowCommentsController implements Initializable {
     private String myID;
     private String choose;
     private String mediaID;
+    private Connection conn;
 
     private ObservableList<String> items = FXCollections.observableArrayList();
 
     @FXML
     ListView<String> listV;
 
-    public void initData(String id, String myID, String choose, String mediaID) {
+    public void initData(String id, String myID, String choose, String mediaID, Connection conn) {
         this.id = id;
         this.myID = myID;
         this.choose = choose;
         this.mediaID = mediaID;
+        this.conn = conn;
 
         listV.setItems(items);
         //loop
@@ -57,7 +60,7 @@ public class ShowCommentsController implements Initializable {
                 EditMediaListController controller = loader.getController();
 
                 //create query
-                controller.initData("album", myID);
+                controller.initData("album", myID, conn);
 
                 p_pane.getChildren().setAll(showProfParent);
             } else {
@@ -69,7 +72,7 @@ public class ShowCommentsController implements Initializable {
                 MediaListController controller = loader.getController();
 
                 //create query
-                controller.initData("album",id, myID);
+                controller.initData("album",id, myID, conn);
 
                 p_pane.getChildren().setAll(view);
             }
@@ -83,7 +86,7 @@ public class ShowCommentsController implements Initializable {
                 EditMediaListController controller = loader.getController();
 
                 //create query
-                controller.initData("video", myID);
+                controller.initData("video", myID, conn);
 
                 p_pane.getChildren().setAll(showProfParent);
             } else {
@@ -95,7 +98,7 @@ public class ShowCommentsController implements Initializable {
                 MediaListController controller = loader.getController();
 
                 //create query
-                controller.initData("video",id, myID);
+                controller.initData("video",id, myID, conn);
 
                 p_pane.getChildren().setAll(view);
             }

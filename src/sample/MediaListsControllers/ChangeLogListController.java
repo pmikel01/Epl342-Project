@@ -23,6 +23,7 @@ import sample.SearchMediaControllers.*;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
 import java.util.ResourceBundle;
 
 public class ChangeLogListController implements Initializable {
@@ -36,10 +37,12 @@ public class ChangeLogListController implements Initializable {
 
     private String choose;
     private String myID;
+    private Connection conn;
 
-    public void initData(String choose, String myID) {
+    public void initData(String choose, String myID, Connection conn) {
         this.choose = choose;
         this.myID = myID;
+        this.conn = conn;
 
         if (choose.equals("Albums")) {
             listV.setItems(items);

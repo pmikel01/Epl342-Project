@@ -15,15 +15,18 @@ import sample.MainScenesControllers.*;
 import sample.SearchMediaControllers.SearchEventController;
 
 import java.io.IOException;
+import java.sql.Connection;
 
 public class MainAppController {
     @FXML
     public Button closeButton;
 
-    public String myID;
+    private String myID;
+    private Connection conn;
 
-    public void initData(String myID) {
+    public void initData(String myID, Connection conn) {
         this.myID = myID;
+        this.conn = conn;
     }
 
     @FXML
@@ -56,7 +59,7 @@ public class MainAppController {
         SearchProfController controller = loader.getController();
 
         //create query
-        controller.initData(myID);
+        controller.initData(myID, conn);
 
         mainPane.setCenter(view);
     }
@@ -71,7 +74,7 @@ public class MainAppController {
         MyProfController controller = loader.getController();
 
         //create query
-        controller.initData(myID);
+        controller.initData(myID, conn);
 
         mainPane.setCenter(view);
     }
@@ -86,7 +89,7 @@ public class MainAppController {
         EventsController controller = loader.getController();
 
         //create query
-        controller.initData(myID);
+        controller.initData(myID, conn);
 
         mainPane.setCenter(view);
     }
@@ -101,7 +104,7 @@ public class MainAppController {
         StatisticsController controller = loader.getController();
 
         //create query
-        controller.initData(myID);
+        controller.initData(myID, conn);
 
         mainPane.setCenter(view);
     }
@@ -116,7 +119,7 @@ public class MainAppController {
         FriendRequestsController controller = loader.getController();
 
         //create query
-        controller.initData(myID);
+        controller.initData(myID, conn);
 
         mainPane.setCenter(view);
     }
