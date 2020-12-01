@@ -22,7 +22,7 @@ public class Main extends Application {
 
         Connection conn = DBUtil.getDBConnection();
         //ADD DATA TO DB
-        InsertDB.insertData(conn);
+//        InsertDB.insertData(conn);
 
         SignInController controller = fxmlLoader.getController();
         //create query

@@ -2,7 +2,7 @@
   <library name="lib">
     <CLASSES>
       <root url="file://$USER_HOME$/Documents/javafx-sdk-15.0.1/lib" />
-      <root url="jar://$USER_HOME$/Videos/mssql-jdbc-8.4.1.jre14.jar!/" />
+      <root url="jar://$USER_HOME$/Documents/sqljdbc_8.4/enu/mssql-jdbc-8.4.1.jre11.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

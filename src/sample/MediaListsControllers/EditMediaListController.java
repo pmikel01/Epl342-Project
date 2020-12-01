@@ -21,10 +21,23 @@ import sample.SearchMediaControllers.*;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class EditMediaListController implements Initializable {
+
+    private static final String SQL_INSERT_QUOTE = "INSERT INTO [dbo].QUOTES (QuoteText) VALUES (?)";
+    private static final String SQL_INSERT_PROF_QUOTE = "INSERT INTO [dbo].PROFILES_QUOTES (QUOTES_ID,USER_ID) VALUES (?,?)";
+    private static final String SQL_INSERT_WORK = "INSERT INTO [dbo].WORK (Description) VALUES (?)";
+    private static final String SQL_INSERT_PROF_WORK = "INSERT INTO [dbo].PROFILES_WORK (WORK_ID,USER_ID) VALUES (?,?)";
+    private static final String SQL_INSERT_EDUCATION = "INSERT INTO [dbo].EDUCATION (InstituteName) VALUES (?)";
+    private static final String SQL_INSERT_PROF_EDUCATION = "INSERT INTO [dbo].PROFILES_EDUCATION (EDUCATION_ID,USER_ID) VALUES (?,?)";
+    private static final String SQL_INSERT_INTEREST = "INSERT INTO [dbo].INTERESTS (Name) VALUES (?)";
+    private static final String SQL_INSERT_PROF_INTEREST = "INSERT INTO [dbo].PROFILES_INTERESTS (INTERESTS_ID,USER_ID) VALUES (?,?)";
+
     @FXML
     private AnchorPane p_pane ;
 
@@ -43,51 +56,141 @@ public class EditMediaListController implements Initializable {
         this.conn = conn;
 
         if (choose.equals("album")) {
+            items = FXCollections.observableArrayList();
             listV.setItems(items);
             //loop
             items.add("album name");
             listV.setCellFactory(param -> new EditMediaListController.AlbumCell(p_pane, myID, conn));
         } else if (choose.equals("picture")) {
+            items = FXCollections.observableArrayList();
             listV.setItems(items);
             //loop
             items.add("picture name");
             listV.setCellFactory(param -> new EditMediaListController.PictureCell(p_pane, myID, conn));
         } else if (choose.equals("video")) {
+            items = FXCollections.observableArrayList();
             listV.setItems(items);
             //loop
             items.add("video name");
             listV.setCellFactory(param -> new EditMediaListController.VideoCell(p_pane, myID, conn));
         } else if (choose.equals("event")) {
+            items = FXCollections.observableArrayList();
             listV.setItems(items);
             //loop
             items.add("event name");
             listV.setCellFactory(param -> new EditMediaListController.EventCell(p_pane, myID, conn));
         } else if (choose.equals("link")) {
+            items = FXCollections.observableArrayList();
             listV.setItems(items);
             //loop
             items.add("link name");
             listV.setCellFactory(param -> new EditMediaListController.LinkCell(p_pane, myID, conn));
         } else if (choose.equals("interest")) {
+            items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                stmt = conn.prepareStatement("SELECT INTERESTS_ID FROM PROFILES_INTERESTS WHERE USER_ID=?");
+                stmt.setInt(1, Integer.parseInt(myID));
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int interest_id = rs.getInt("INTERESTS_ID");
+
+                    PreparedStatement stmt2=null;
+                    ResultSet rs2=null;
+                    stmt2 = conn.prepareStatement("SELECT Name FROM INTERESTS WHERE Interest_ID=?");
+                    stmt2.setInt(1, interest_id);
+                    rs2 = stmt2.executeQuery();
+                    if (rs2.next()) {
+                        String interest_text = rs2.getString("Name");
+                        items.add(interest_text);
+                    }
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
             listV.setItems(items);
-            //loop
-            items.add("interest name");
             listV.setCellFactory(param -> new EditMediaListController.InterestCell(p_pane, myID, conn));
         } else if (choose.equals("quote")) {
+            items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                stmt = conn.prepareStatement("SELECT QUOTES_ID FROM PROFILES_QUOTES WHERE USER_ID=?");
+                stmt.setInt(1, Integer.parseInt(myID));
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int quote_id = rs.getInt("QUOTES_ID");
+
+                    PreparedStatement stmt2=null;
+                    ResultSet rs2=null;
+                    stmt2 = conn.prepareStatement("SELECT QuoteText FROM QUOTES WHERE Quote_ID=?");
+                    stmt2.setInt(1, quote_id);
+                    rs2 = stmt2.executeQuery();
+                    if (rs2.next()) {
+                        String quote_text = rs2.getString("QuoteText");
+                        items.add(quote_text);
+                    }
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
             listV.setItems(items);
-            //loop
-            items.add("quote name");
             listV.setCellFactory(param -> new EditMediaListController.QuoteCell(p_pane, myID, conn));
         } else if (choose.equals("work")) {
+            items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                stmt = conn.prepareStatement("SELECT WORK_ID FROM PROFILES_WORK WHERE USER_ID=?");
+                stmt.setInt(1, Integer.parseInt(myID));
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int work_id = rs.getInt("WORK_ID");
+
+                    PreparedStatement stmt2=null;
+                    ResultSet rs2=null;
+                    stmt2 = conn.prepareStatement("SELECT Description FROM WORK WHERE Work_ID=?");
+                    stmt2.setInt(1, work_id);
+                    rs2 = stmt2.executeQuery();
+                    if (rs2.next()) {
+                        String work_text = rs2.getString("Description");
+                        items.add(work_text);
+                    }
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
             listV.setItems(items);
-            //loop
-            items.add("work name");
             listV.setCellFactory(param -> new EditMediaListController.WorkCell(p_pane, myID, conn));
         } else if (choose.equals("education")) {
+            items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                stmt = conn.prepareStatement("SELECT EDUCATION_ID FROM PROFILES_EDUCATION WHERE USER_ID=?");
+                stmt.setInt(1, Integer.parseInt(myID));
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int education_id = rs.getInt("EDUCATION_ID");
+
+                    PreparedStatement stmt2=null;
+                    ResultSet rs2=null;
+                    stmt2 = conn.prepareStatement("SELECT InstituteName FROM EDUCATION WHERE Education_ID=?");
+                    stmt2.setInt(1, education_id);
+                    rs2 = stmt2.executeQuery();
+                    if (rs2.next()) {
+                        String education_text = rs2.getString("InstituteName");
+                        items.add(education_text);
+                    }
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
             listV.setItems(items);
-            //loop
-            items.add("education name");
             listV.setCellFactory(param -> new EditMediaListController.EducationCell(p_pane, myID, conn));
         } else if (choose.equals("friend")) {
+            items = FXCollections.observableArrayList();
             listV.setItems(items);
             //loop
             items.add("friend name");
@@ -255,11 +358,66 @@ public class EditMediaListController implements Initializable {
         textIn.getDialogPane().setContentText("Quote: ");
         Optional<String> result = textIn.showAndWait();
         TextField input = textIn.getEditor();
-        if(input.getText() != null && input.getText().toString().length() != 0)
-            System.out.println("correct");
-        else
-            System.out.println("");
+        if(input.getText() != null && input.getText().toString().length() != 0) {
+            String quote = input.getText();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            int quote_id=0;
+            try {
+                stmt = conn.prepareStatement("SELECT Quote_ID FROM QUOTES WHERE QuoteText=?");
+                stmt.setString(1,quote);
+                rs = stmt.executeQuery();
+                if (rs.next()) {
+                    quote_id = rs.getInt("Quote_ID");
+
+                    stmt=null;
+                    rs=null;
+                    stmt = conn.prepareStatement("SELECT USER_ID FROM PROFILES_QUOTES WHERE QUOTES_ID=? AND USER_ID=?");
+                    stmt.setInt(1, quote_id);
+                    stmt.setInt(2, Integer.parseInt(myID));
+                    rs = stmt.executeQuery();
+                    if (!rs.next()) {
+                        stmt=null;
+                        rs=null;
+                        stmt = conn.prepareStatement(SQL_INSERT_PROF_QUOTE);
+                        stmt.setInt(1, quote_id);
+                        stmt.setInt(2, Integer.parseInt(myID));
+                        stmt.executeUpdate();
+                    }
+                } else {
+                    stmt=null;
+                    rs=null;
+                    stmt = conn.prepareStatement(SQL_INSERT_QUOTE);
+                    stmt.setString(1, quote);
+                    stmt.executeUpdate();
+
+                    stmt = conn.prepareStatement("SELECT Quote_ID FROM QUOTES WHERE QuoteText=?");
+                    stmt.setString(1,quote);
+                    rs = stmt.executeQuery();
+                    if (rs.next()) {
+                        quote_id = rs.getInt("Quote_ID");
+
+                        stmt=null;
+                        rs=null;
+                        stmt = conn.prepareStatement(SQL_INSERT_PROF_QUOTE);
+                        stmt.setInt(1, quote_id);
+                        stmt.setInt(2, Integer.parseInt(myID));
+                        stmt.executeUpdate();
+                    }
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            initData("quote",myID,conn);
+        }
     }
+
+    //    WORK (Description)
+//    PROFILES_WORK (WORK_ID,USER_ID)
+//    EDUCATION (InstituteName)
+//    PROFILES_EDUCATION (EDUCATION_ID,USER_ID)
+//    INTERESTS (Name)
+//    PROFILES_INTERESTS (INTERESTS_ID,USER_ID)
 
     @FXML
     public void pressAddWorkButton(ActionEvent event) {
@@ -271,10 +429,58 @@ public class EditMediaListController implements Initializable {
         textIn.getDialogPane().setContentText("Manager: ");
         Optional<String> result = textIn.showAndWait();
         TextField input = textIn.getEditor();
-        if(input.getText() != null && input.getText().toString().length() != 0)
-            System.out.println("correct");
-        else
-            System.out.println("");
+        if(input.getText() != null && input.getText().toString().length() != 0) {
+            String work = input.getText();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            int work_id=0;
+            try {
+                stmt = conn.prepareStatement("SELECT Work_ID FROM WORK WHERE Description=?");
+                stmt.setString(1,work);
+                rs = stmt.executeQuery();
+                if (rs.next()) {
+                    work_id = rs.getInt("Work_ID");
+
+                    stmt=null;
+                    rs=null;
+                    stmt = conn.prepareStatement("SELECT USER_ID FROM PROFILES_WORK WHERE WORK_ID=? AND USER_ID=?");
+                    stmt.setInt(1, work_id);
+                    stmt.setInt(2, Integer.parseInt(myID));
+                    rs = stmt.executeQuery();
+                    if (!rs.next()) {
+                        stmt=null;
+                        rs=null;
+                        stmt = conn.prepareStatement(SQL_INSERT_PROF_WORK);
+                        stmt.setInt(1, work_id);
+                        stmt.setInt(2, Integer.parseInt(myID));
+                        stmt.executeUpdate();
+                    }
+                } else {
+                    stmt=null;
+                    rs=null;
+                    stmt = conn.prepareStatement(SQL_INSERT_WORK);
+                    stmt.setString(1, work);
+                    stmt.executeUpdate();
+
+                    stmt = conn.prepareStatement("SELECT Work_ID FROM WORK WHERE Description=?");
+                    stmt.setString(1,work);
+                    rs = stmt.executeQuery();
+                    if (rs.next()) {
+                        work_id = rs.getInt("Work_ID");
+
+                        stmt=null;
+                        rs=null;
+                        stmt = conn.prepareStatement(SQL_INSERT_PROF_WORK);
+                        stmt.setInt(1, work_id);
+                        stmt.setInt(2, Integer.parseInt(myID));
+                        stmt.executeUpdate();
+                    }
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            initData("work",myID,conn);
+        }
     }
 
     @FXML
@@ -287,10 +493,58 @@ public class EditMediaListController implements Initializable {
         textIn.getDialogPane().setContentText("Education: ");
         Optional<String> result = textIn.showAndWait();
         TextField input = textIn.getEditor();
-        if(input.getText() != null && input.getText().toString().length() != 0)
-            System.out.println("correct");
-        else
-            System.out.println("");
+        if(input.getText() != null && input.getText().toString().length() != 0) {
+            String education = input.getText();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            int education_id=0;
+            try {
+                stmt = conn.prepareStatement("SELECT Education_ID FROM EDUCATION WHERE InstituteName=?");
+                stmt.setString(1,education);
+                rs = stmt.executeQuery();
+                if (rs.next()) {
+                    education_id = rs.getInt("Education_ID");
+
+                    stmt=null;
+                    rs=null;
+                    stmt = conn.prepareStatement("SELECT USER_ID FROM PROFILES_EDUCATION WHERE EDUCATION_ID=? AND USER_ID=?");
+                    stmt.setInt(1, education_id);
+                    stmt.setInt(2, Integer.parseInt(myID));
+                    rs = stmt.executeQuery();
+                    if (!rs.next()) {
+                        stmt=null;
+                        rs=null;
+                        stmt = conn.prepareStatement(SQL_INSERT_PROF_EDUCATION);
+                        stmt.setInt(1, education_id);
+                        stmt.setInt(2, Integer.parseInt(myID));
+                        stmt.executeUpdate();
+                    }
+                } else {
+                    stmt=null;
+                    rs=null;
+                    stmt = conn.prepareStatement(SQL_INSERT_EDUCATION);
+                    stmt.setString(1, education);
+                    stmt.executeUpdate();
+
+                    stmt = conn.prepareStatement("SELECT Education_ID FROM EDUCATION WHERE InstituteName=?");
+                    stmt.setString(1,education);
+                    rs = stmt.executeQuery();
+                    if (rs.next()) {
+                        education_id = rs.getInt("Education_ID");
+
+                        stmt=null;
+                        rs=null;
+                        stmt = conn.prepareStatement(SQL_INSERT_PROF_EDUCATION);
+                        stmt.setInt(1, education_id);
+                        stmt.setInt(2, Integer.parseInt(myID));
+                        stmt.executeUpdate();
+                    }
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            initData("education",myID,conn);
+        }
     }
 
     @FXML
@@ -303,10 +557,58 @@ public class EditMediaListController implements Initializable {
         textIn.getDialogPane().setContentText("Interest: ");
         Optional<String> result = textIn.showAndWait();
         TextField input = textIn.getEditor();
-        if(input.getText() != null && input.getText().toString().length() != 0)
-            System.out.println("correct");
-        else
-            System.out.println("");
+        if(input.getText() != null && input.getText().toString().length() != 0) {
+            String interest = input.getText();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            int interest_id=0;
+            try {
+                stmt = conn.prepareStatement("SELECT Interest_ID FROM INTERESTS WHERE Name=?");
+                stmt.setString(1,interest);
+                rs = stmt.executeQuery();
+                if (rs.next()) {
+                    interest_id = rs.getInt("Interest_ID");
+
+                    stmt=null;
+                    rs=null;
+                    stmt = conn.prepareStatement("SELECT USER_ID FROM PROFILES_INTERESTS WHERE INTERESTS_ID=? AND USER_ID=?");
+                    stmt.setInt(1, interest_id);
+                    stmt.setInt(2, Integer.parseInt(myID));
+                    rs = stmt.executeQuery();
+                    if (!rs.next()) {
+                        stmt=null;
+                        rs=null;
+                        stmt = conn.prepareStatement(SQL_INSERT_PROF_INTEREST);
+                        stmt.setInt(1, interest_id);
+                        stmt.setInt(2, Integer.parseInt(myID));
+                        stmt.executeUpdate();
+                    }
+                } else {
+                    stmt=null;
+                    rs=null;
+                    stmt = conn.prepareStatement(SQL_INSERT_INTEREST);
+                    stmt.setString(1, interest);
+                    stmt.executeUpdate();
+
+                    stmt = conn.prepareStatement("SELECT Interest_ID FROM INTERESTS WHERE Name=?");
+                    stmt.setString(1,interest);
+                    rs = stmt.executeQuery();
+                    if (rs.next()) {
+                        interest_id = rs.getInt("Interest_ID");
+
+                        stmt=null;
+                        rs=null;
+                        stmt = conn.prepareStatement(SQL_INSERT_PROF_INTEREST);
+                        stmt.setInt(1, interest_id);
+                        stmt.setInt(2, Integer.parseInt(myID));
+                        stmt.executeUpdate();
+                    }
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            initData("interest",myID,conn);
+        }
     }
 
     static class AlbumCell extends ListCell<String> {
@@ -819,7 +1121,7 @@ public class EditMediaListController implements Initializable {
         }
     }
 
-    static class EducationCell extends ListCell<String> {
+    class EducationCell extends ListCell<String> {
         HBox hbox = new HBox();
         Label label = new Label("");
         Pane pane = new Pane();
@@ -839,14 +1141,132 @@ public class EditMediaListController implements Initializable {
             button.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent e) {
-                    //edit
+                    TextInputDialog textIn = new TextInputDialog();
+                    textIn.setTitle("Edit Education");
+                    textIn.setHeaderText(null);
+                    textIn.setGraphic(null);
+
+                    textIn.getDialogPane().setContentText("Education: ");
+                    Optional<String> result = textIn.showAndWait();
+                    TextField input = textIn.getEditor();
+                    if(input.getText() != null && input.getText().toString().length() != 0) {
+                        String education = getItem().toLowerCase();
+                        String new_education = input.getText().toLowerCase();
+
+                        if (!education.equals(new_education)) {
+                            PreparedStatement stmt=null;
+                            ResultSet rs=null;
+                            int new_education_id=0;
+                            try {
+                                stmt = conn.prepareStatement("SELECT Education_ID FROM EDUCATION WHERE InstituteName=?");
+
+                                stmt.setString(1,new_education);
+                                rs = stmt.executeQuery();
+                                if (rs.next()) {
+                                    new_education_id = rs.getInt("Education_ID");
+
+                                    stmt=null;
+                                    rs=null;
+                                    stmt = conn.prepareStatement("SELECT USER_ID FROM PROFILES_EDUCATION WHERE EDUCATION_ID=? AND USER_ID=?");
+                                    stmt.setInt(1, new_education_id);
+                                    stmt.setInt(2, Integer.parseInt(myID));
+                                    rs = stmt.executeQuery();
+                                    if (!rs.next()) {
+                                        stmt=null;
+                                        rs=null;
+                                        stmt = conn.prepareStatement(SQL_INSERT_PROF_EDUCATION);
+                                        stmt.setInt(1, new_education_id);
+                                        stmt.setInt(2, Integer.parseInt(myID));
+                                        stmt.executeUpdate();
+
+                                        stmt=null;
+                                        rs=null;
+                                        stmt = conn.prepareStatement("SELECT Education_ID FROM EDUCATION WHERE InstituteName=?");
+                                        stmt.setString(1,getItem());
+                                        rs = stmt.executeQuery();
+                                        int education_id=0;
+                                        if (rs.next()) {
+                                            education_id = rs.getInt("Education_ID");
+                                        }
+
+                                        stmt=null;
+                                        rs=null;
+                                        stmt = conn.prepareStatement("DELETE FROM PROFILES_EDUCATION WHERE EDUCATION_ID=? AND USER_ID=?");
+                                        stmt.setInt(1, education_id);
+                                        stmt.setInt(2, Integer.parseInt(myID));
+                                        stmt.executeUpdate();
+                                    }
+                                } else {
+                                    stmt=null;
+                                    rs=null;
+                                    stmt = conn.prepareStatement(SQL_INSERT_EDUCATION);
+                                    stmt.setString(1, input.getText());
+                                    stmt.executeUpdate();
+
+                                    stmt = conn.prepareStatement("SELECT Education_ID FROM EDUCATION WHERE InstituteName=?");
+                                    stmt.setString(1,input.getText());
+                                    rs = stmt.executeQuery();
+                                    if (rs.next()) {
+                                        new_education_id = rs.getInt("Education_ID");
+
+                                        stmt=null;
+                                        rs=null;
+                                        stmt = conn.prepareStatement(SQL_INSERT_PROF_EDUCATION);
+                                        stmt.setInt(1, new_education_id);
+                                        stmt.setInt(2, Integer.parseInt(myID));
+                                        stmt.executeUpdate();
+
+                                        stmt=null;
+                                        rs=null;
+                                        stmt = conn.prepareStatement("SELECT Education_ID FROM EDUCATION WHERE InstituteName=?");
+                                        stmt.setString(1,getItem());
+                                        rs = stmt.executeQuery();
+                                        int work_id=0;
+                                        if (rs.next()) {
+                                            work_id = rs.getInt("Education_ID");
+                                        }
+
+                                        stmt=null;
+                                        rs=null;
+                                        stmt = conn.prepareStatement("DELETE FROM PROFILES_EDUCATION WHERE EDUCATION_ID=? AND USER_ID=?");
+                                        stmt.setInt(1, work_id);
+                                        stmt.setInt(2, Integer.parseInt(myID));
+                                        stmt.executeUpdate();
+                                    }
+                                }
+                                EditMediaListController.this.initData("education",myID,conn);
+                            } catch (SQLException throwables) {
+                                throwables.printStackTrace();
+                            }
+                        }
+                    }
                 }
             });
             button2.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent e) {
-                    //Delete from database
-                    getListView().getItems().remove(getItem());
+                    PreparedStatement stmt=null;
+                    ResultSet rs=null;
+                    try {
+                        stmt = conn.prepareStatement("SELECT Education_ID FROM EDUCATION WHERE InstituteName=?");
+                        stmt.setString(1,getItem());
+                        rs = stmt.executeQuery();
+                        int education_id=0;
+                        if (rs.next()) {
+                            education_id = rs.getInt("Education_ID");
+                        }
+
+                        stmt=null;
+                        rs=null;
+                        stmt = conn.prepareStatement("DELETE FROM PROFILES_EDUCATION WHERE EDUCATION_ID=? AND USER_ID=?");
+                        stmt.setInt(1, education_id);
+                        stmt.setInt(2, Integer.parseInt(myID));
+                        stmt.executeUpdate();
+
+                        getListView().getItems().remove(getItem());
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
                 }
             });
         }
@@ -863,7 +1283,7 @@ public class EditMediaListController implements Initializable {
         }
     }
 
-    static class WorkCell extends ListCell<String> {
+    class WorkCell extends ListCell<String> {
         HBox hbox = new HBox();
         Label label = new Label("");
         Pane pane = new Pane();
@@ -883,14 +1303,132 @@ public class EditMediaListController implements Initializable {
             button.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent e) {
-                    //edit
+                    TextInputDialog textIn = new TextInputDialog();
+                    textIn.setTitle("Edit Work");
+                    textIn.setHeaderText(null);
+                    textIn.setGraphic(null);
+
+                    textIn.getDialogPane().setContentText("Work: ");
+                    Optional<String> result = textIn.showAndWait();
+                    TextField input = textIn.getEditor();
+                    if(input.getText() != null && input.getText().toString().length() != 0) {
+                        String work = getItem().toLowerCase();
+                        String new_work = input.getText().toLowerCase();
+
+                        if (!work.equals(new_work)) {
+                            PreparedStatement stmt=null;
+                            ResultSet rs=null;
+                            int new_work_id=0;
+                            try {
+                                stmt = conn.prepareStatement("SELECT Work_ID FROM WORK WHERE Description=?");
+
+                                stmt.setString(1,new_work);
+                                rs = stmt.executeQuery();
+                                if (rs.next()) {
+                                    new_work_id = rs.getInt("Work_ID");
+
+                                    stmt=null;
+                                    rs=null;
+                                    stmt = conn.prepareStatement("SELECT USER_ID FROM PROFILES_WORK WHERE WORK_ID=? AND USER_ID=?");
+                                    stmt.setInt(1, new_work_id);
+                                    stmt.setInt(2, Integer.parseInt(myID));
+                                    rs = stmt.executeQuery();
+                                    if (!rs.next()) {
+                                        stmt=null;
+                                        rs=null;
+                                        stmt = conn.prepareStatement(SQL_INSERT_PROF_WORK);
+                                        stmt.setInt(1, new_work_id);
+                                        stmt.setInt(2, Integer.parseInt(myID));
+                                        stmt.executeUpdate();
+
+                                        stmt=null;
+                                        rs=null;
+                                        stmt = conn.prepareStatement("SELECT Work_ID FROM WORK WHERE Description=?");
+                                        stmt.setString(1,getItem());
+                                        rs = stmt.executeQuery();
+                                        int interest_id=0;
+                                        if (rs.next()) {
+                                            interest_id = rs.getInt("Work_ID");
+                                        }
+
+                                        stmt=null;
+                                        rs=null;
+                                        stmt = conn.prepareStatement("DELETE FROM PROFILES_WORK WHERE WORK_ID=? AND USER_ID=?");
+                                        stmt.setInt(1, interest_id);
+                                        stmt.setInt(2, Integer.parseInt(myID));
+                                        stmt.executeUpdate();
+                                    }
+                                } else {
+                                    stmt=null;
+                                    rs=null;
+                                    stmt = conn.prepareStatement(SQL_INSERT_WORK);
+                                    stmt.setString(1, input.getText());
+                                    stmt.executeUpdate();
+
+                                    stmt = conn.prepareStatement("SELECT Work_ID FROM WORK WHERE Description=?");
+                                    stmt.setString(1,input.getText());
+                                    rs = stmt.executeQuery();
+                                    if (rs.next()) {
+                                        new_work_id = rs.getInt("Work_ID");
+
+                                        stmt=null;
+                                        rs=null;
+                                        stmt = conn.prepareStatement(SQL_INSERT_PROF_WORK);
+                                        stmt.setInt(1, new_work_id);
+                                        stmt.setInt(2, Integer.parseInt(myID));
+                                        stmt.executeUpdate();
+
+                                        stmt=null;
+                                        rs=null;
+                                        stmt = conn.prepareStatement("SELECT Work_ID FROM WORK WHERE Description=?");
+                                        stmt.setString(1,getItem());
+                                        rs = stmt.executeQuery();
+                                        int work_id=0;
+                                        if (rs.next()) {
+                                            work_id = rs.getInt("Work_ID");
+                                        }
+
+                                        stmt=null;
+                                        rs=null;
+                                        stmt = conn.prepareStatement("DELETE FROM PROFILES_WORK WHERE WORK_ID=? AND USER_ID=?");
+                                        stmt.setInt(1, work_id);
+                                        stmt.setInt(2, Integer.parseInt(myID));
+                                        stmt.executeUpdate();
+                                    }
+                                }
+                                EditMediaListController.this.initData("work",myID,conn);
+                            } catch (SQLException throwables) {
+                                throwables.printStackTrace();
+                            }
+                        }
+                    }
                 }
             });
             button2.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent e) {
-                    //Delete from database
-                    getListView().getItems().remove(getItem());
+                    PreparedStatement stmt=null;
+                    ResultSet rs=null;
+                    try {
+                        stmt = conn.prepareStatement("SELECT Work_ID FROM WORK WHERE Description=?");
+                        stmt.setString(1,getItem());
+                        rs = stmt.executeQuery();
+                        int work_id=0;
+                        if (rs.next()) {
+                            work_id = rs.getInt("Work_ID");
+                        }
+
+                        stmt=null;
+                        rs=null;
+                        stmt = conn.prepareStatement("DELETE FROM PROFILES_WORK WHERE WORK_ID=? AND USER_ID=?");
+                        stmt.setInt(1, work_id);
+                        stmt.setInt(2, Integer.parseInt(myID));
+                        stmt.executeUpdate();
+
+                        getListView().getItems().remove(getItem());
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
                 }
             });
         }
@@ -907,7 +1445,7 @@ public class EditMediaListController implements Initializable {
         }
     }
 
-    static class InterestCell extends ListCell<String> {
+    class InterestCell extends ListCell<String> {
         HBox hbox = new HBox();
         Label label = new Label("");
         Pane pane = new Pane();
@@ -927,14 +1465,132 @@ public class EditMediaListController implements Initializable {
             button.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent e) {
-                    //edit
+                    TextInputDialog textIn = new TextInputDialog();
+                    textIn.setTitle("Edit Interest");
+                    textIn.setHeaderText(null);
+                    textIn.setGraphic(null);
+
+                    textIn.getDialogPane().setContentText("Interest: ");
+                    Optional<String> result = textIn.showAndWait();
+                    TextField input = textIn.getEditor();
+                    if(input.getText() != null && input.getText().toString().length() != 0) {
+                        String interest = getItem().toLowerCase();
+                        String new_interest = input.getText().toLowerCase();
+
+                        if (!interest.equals(new_interest)) {
+                            PreparedStatement stmt=null;
+                            ResultSet rs=null;
+                            int new_interest_id=0;
+                            try {
+                                stmt = conn.prepareStatement("SELECT Interest_ID FROM INTERESTS WHERE Name=?");
+
+                                stmt.setString(1,new_interest);
+                                rs = stmt.executeQuery();
+                                if (rs.next()) {
+                                    new_interest_id = rs.getInt("Interest_ID");
+
+                                    stmt=null;
+                                    rs=null;
+                                    stmt = conn.prepareStatement("SELECT USER_ID FROM PROFILES_INTERESTS WHERE INTERESTS_ID=? AND USER_ID=?");
+                                    stmt.setInt(1, new_interest_id);
+                                    stmt.setInt(2, Integer.parseInt(myID));
+                                    rs = stmt.executeQuery();
+                                    if (!rs.next()) {
+                                        stmt=null;
+                                        rs=null;
+                                        stmt = conn.prepareStatement(SQL_INSERT_PROF_INTEREST);
+                                        stmt.setInt(1, new_interest_id);
+                                        stmt.setInt(2, Integer.parseInt(myID));
+                                        stmt.executeUpdate();
+
+                                        stmt=null;
+                                        rs=null;
+                                        stmt = conn.prepareStatement("SELECT Interest_ID FROM INTERESTS WHERE Name=?");
+                                        stmt.setString(1,getItem());
+                                        rs = stmt.executeQuery();
+                                        int interest_id=0;
+                                        if (rs.next()) {
+                                            interest_id = rs.getInt("Interest_ID");
+                                        }
+
+                                        stmt=null;
+                                        rs=null;
+                                        stmt = conn.prepareStatement("DELETE FROM PROFILES_INTERESTS WHERE INTERESTS_ID=? AND USER_ID=?");
+                                        stmt.setInt(1, interest_id);
+                                        stmt.setInt(2, Integer.parseInt(myID));
+                                        stmt.executeUpdate();
+                                    }
+                                } else {
+                                    stmt=null;
+                                    rs=null;
+                                    stmt = conn.prepareStatement(SQL_INSERT_INTEREST);
+                                    stmt.setString(1, input.getText());
+                                    stmt.executeUpdate();
+
+                                    stmt = conn.prepareStatement("SELECT Interest_ID FROM INTERESTS WHERE Name=?");
+                                    stmt.setString(1,input.getText());
+                                    rs = stmt.executeQuery();
+                                    if (rs.next()) {
+                                        new_interest_id = rs.getInt("Interest_ID");
+
+                                        stmt=null;
+                                        rs=null;
+                                        stmt = conn.prepareStatement(SQL_INSERT_PROF_INTEREST);
+                                        stmt.setInt(1, new_interest_id);
+                                        stmt.setInt(2, Integer.parseInt(myID));
+                                        stmt.executeUpdate();
+
+                                        stmt=null;
+                                        rs=null;
+                                        stmt = conn.prepareStatement("SELECT Interest_ID FROM INTERESTS WHERE Name=?");
+                                        stmt.setString(1,getItem());
+                                        rs = stmt.executeQuery();
+                                        int interest_id=0;
+                                        if (rs.next()) {
+                                            interest_id = rs.getInt("Interest_ID");
+                                        }
+
+                                        stmt=null;
+                                        rs=null;
+                                        stmt = conn.prepareStatement("DELETE FROM PROFILES_INTERESTS WHERE INTERESTS_ID=? AND USER_ID=?");
+                                        stmt.setInt(1, interest_id);
+                                        stmt.setInt(2, Integer.parseInt(myID));
+                                        stmt.executeUpdate();
+                                    }
+                                }
+                                EditMediaListController.this.initData("interest",myID,conn);
+                            } catch (SQLException throwables) {
+                                throwables.printStackTrace();
+                            }
+                        }
+                    }
                 }
             });
             button2.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent e) {
-                    //Delete from database
-                    getListView().getItems().remove(getItem());
+                    PreparedStatement stmt=null;
+                    ResultSet rs=null;
+                    try {
+                        stmt = conn.prepareStatement("SELECT Interest_ID FROM INTERESTS WHERE Name=?");
+                        stmt.setString(1,getItem());
+                        rs = stmt.executeQuery();
+                        int interest_id=0;
+                        if (rs.next()) {
+                            interest_id = rs.getInt("Interest_ID");
+                        }
+
+                        stmt=null;
+                        rs=null;
+                        stmt = conn.prepareStatement("DELETE FROM PROFILES_INTERESTS WHERE INTERESTS_ID=? AND USER_ID=?");
+                        stmt.setInt(1, interest_id);
+                        stmt.setInt(2, Integer.parseInt(myID));
+                        stmt.executeUpdate();
+
+                        getListView().getItems().remove(getItem());
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
                 }
             });
         }
@@ -951,7 +1607,7 @@ public class EditMediaListController implements Initializable {
         }
     }
 
-    static class QuoteCell extends ListCell<String> {
+    class QuoteCell extends ListCell<String> {
         HBox hbox = new HBox();
         Label label = new Label("");
         Pane pane = new Pane();
@@ -971,14 +1627,132 @@ public class EditMediaListController implements Initializable {
             button.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent e) {
-                    //edit
+                    TextInputDialog textIn = new TextInputDialog();
+                    textIn.setTitle("Edit Quote");
+                    textIn.setHeaderText(null);
+                    textIn.setGraphic(null);
+
+                    textIn.getDialogPane().setContentText("Quote: ");
+                    Optional<String> result = textIn.showAndWait();
+                    TextField input = textIn.getEditor();
+                    if(input.getText() != null && input.getText().toString().length() != 0) {
+                        String quote = getItem().toLowerCase();
+                        String new_quote = input.getText().toLowerCase();
+
+                        if (!quote.equals(new_quote)) {
+                            PreparedStatement stmt=null;
+                            ResultSet rs=null;
+                            int new_quote_id=0;
+                            try {
+                                stmt = conn.prepareStatement("SELECT Quote_ID FROM QUOTES WHERE QuoteText=?");
+
+                                stmt.setString(1,new_quote);
+                                rs = stmt.executeQuery();
+                                if (rs.next()) {
+                                    new_quote_id = rs.getInt("Quote_ID");
+
+                                    stmt=null;
+                                    rs=null;
+                                    stmt = conn.prepareStatement("SELECT USER_ID FROM PROFILES_QUOTES WHERE QUOTES_ID=? AND USER_ID=?");
+                                    stmt.setInt(1, new_quote_id);
+                                    stmt.setInt(2, Integer.parseInt(myID));
+                                    rs = stmt.executeQuery();
+                                    if (!rs.next()) {
+                                        stmt=null;
+                                        rs=null;
+                                        stmt = conn.prepareStatement(SQL_INSERT_PROF_QUOTE);
+                                        stmt.setInt(1, new_quote_id);
+                                        stmt.setInt(2, Integer.parseInt(myID));
+                                        stmt.executeUpdate();
+
+                                        stmt=null;
+                                        rs=null;
+                                        stmt = conn.prepareStatement("SELECT Quote_ID FROM QUOTES WHERE QuoteText=?");
+                                        stmt.setString(1,getItem());
+                                        rs = stmt.executeQuery();
+                                        int quote_id=0;
+                                        if (rs.next()) {
+                                            quote_id = rs.getInt("Quote_ID");
+                                        }
+
+                                        stmt=null;
+                                        rs=null;
+                                        stmt = conn.prepareStatement("DELETE FROM PROFILES_QUOTES WHERE QUOTES_ID=? AND USER_ID=?");
+                                        stmt.setInt(1, quote_id);
+                                        stmt.setInt(2, Integer.parseInt(myID));
+                                        stmt.executeUpdate();
+                                    }
+                                } else {
+                                    stmt=null;
+                                    rs=null;
+                                    stmt = conn.prepareStatement(SQL_INSERT_QUOTE);
+                                    stmt.setString(1, input.getText());
+                                    stmt.executeUpdate();
+
+                                    stmt = conn.prepareStatement("SELECT Quote_ID FROM QUOTES WHERE QuoteText=?");
+                                    stmt.setString(1,input.getText());
+                                    rs = stmt.executeQuery();
+                                    if (rs.next()) {
+                                        new_quote_id = rs.getInt("Quote_ID");
+
+                                        stmt=null;
+                                        rs=null;
+                                        stmt = conn.prepareStatement(SQL_INSERT_PROF_QUOTE);
+                                        stmt.setInt(1, new_quote_id);
+                                        stmt.setInt(2, Integer.parseInt(myID));
+                                        stmt.executeUpdate();
+
+                                        stmt=null;
+                                        rs=null;
+                                        stmt = conn.prepareStatement("SELECT Quote_ID FROM QUOTES WHERE QuoteText=?");
+                                        stmt.setString(1,getItem());
+                                        rs = stmt.executeQuery();
+                                        int quote_id=0;
+                                        if (rs.next()) {
+                                            quote_id = rs.getInt("Quote_ID");
+                                        }
+
+                                        stmt=null;
+                                        rs=null;
+                                        stmt = conn.prepareStatement("DELETE FROM PROFILES_QUOTES WHERE QUOTES_ID=? AND USER_ID=?");
+                                        stmt.setInt(1, quote_id);
+                                        stmt.setInt(2, Integer.parseInt(myID));
+                                        stmt.executeUpdate();
+                                    }
+                                }
+                                EditMediaListController.this.initData("quote",myID,conn);
+                            } catch (SQLException throwables) {
+                                throwables.printStackTrace();
+                            }
+                        }
+                    }
                 }
             });
             button2.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent e) {
-                    //Delete from database
-                    getListView().getItems().remove(getItem());
+                    PreparedStatement stmt=null;
+                    ResultSet rs=null;
+                    try {
+                        stmt = conn.prepareStatement("SELECT Quote_ID FROM QUOTES WHERE QuoteText=?");
+                        stmt.setString(1,getItem());
+                        rs = stmt.executeQuery();
+                        int quote_id=0;
+                        if (rs.next()) {
+                            quote_id = rs.getInt("Quote_ID");
+                        }
+
+                        stmt=null;
+                        rs=null;
+                        stmt = conn.prepareStatement("DELETE FROM PROFILES_QUOTES WHERE QUOTES_ID=? AND USER_ID=?");
+                        stmt.setInt(1, quote_id);
+                        stmt.setInt(2, Integer.parseInt(myID));
+                        stmt.executeUpdate();
+
+                        getListView().getItems().remove(getItem());
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
                 }
             });
         }

@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="621.0" prefWidth="473.0" style="-fx-background-color: #224D5E;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.MainScenesControllers.RegisterController">
    <children>
@@ -45,20 +52,20 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label layoutX="35.0" layoutY="375.0" text="Confirm Password" textFill="#ddd9d9">
+            <Label layoutX="41.0" layoutY="375.0" text="Confirm Password" textFill="#ddd9d9">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextField layoutX="210.0" layoutY="21.0" prefHeight="30.0" prefWidth="220.0" style="-fx-border-color: DDD9D9; -fx-background-color: #224D5E; -fx-background-insets: 0; -fx-border-radius: 20;" styleClass="text-input" stylesheets="@../styles/style.css">
+            <TextField fx:id="firstname" layoutX="210.0" layoutY="21.0" prefHeight="30.0" prefWidth="220.0" style="-fx-border-color: DDD9D9; -fx-background-color: #224D5E; -fx-background-insets: 0; -fx-border-radius: 20;" styleClass="text-input" stylesheets="@../styles/style.css">
                <font>
                   <Font size="14.0" />
                </font></TextField>
-            <TextField layoutX="210.0" layoutY="71.0" prefHeight="30.0" prefWidth="220.0" style="-fx-border-color: DDD9D9; -fx-background-color: #224D5E; -fx-background-insets: 0; -fx-border-radius: 20;" styleClass="text-input" stylesheets="@../styles/style.css">
+            <TextField fx:id="lastname" layoutX="210.0" layoutY="71.0" prefHeight="30.0" prefWidth="220.0" style="-fx-border-color: DDD9D9; -fx-background-color: #224D5E; -fx-background-insets: 0; -fx-border-radius: 20;" styleClass="text-input" stylesheets="@../styles/style.css">
                <font>
                   <Font size="14.0" />
                </font></TextField>
-            <TextField layoutX="210.0" layoutY="171.0" prefHeight="30.0" prefWidth="220.0" style="-fx-border-color: DDD9D9; -fx-background-color: #224D5E; -fx-background-insets: 0; -fx-border-radius: 20;" styleClass="text-input" stylesheets="@../styles/style.css">
+            <TextField fx:id="email" layoutX="210.0" layoutY="171.0" prefHeight="30.0" prefWidth="220.0" style="-fx-border-color: DDD9D9; -fx-background-color: #224D5E; -fx-background-insets: 0; -fx-border-radius: 20;" styleClass="text-input" stylesheets="@../styles/style.css">
                <font>
                   <Font size="14.0" />
                </font></TextField>
@@ -67,15 +74,15 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </ComboBox>
-            <DatePicker layoutX="220.0" layoutY="273.0" prefHeight="25.0" prefWidth="200.0" style="-fx-background-color: #224D5E; -fx-background-insets: 0;">
+            <DatePicker fx:id="birthday" layoutX="220.0" layoutY="273.0" prefHeight="25.0" prefWidth="200.0" style="-fx-background-color: #224D5E; -fx-background-insets: 0;">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></DatePicker>
-            <PasswordField layoutX="210.0" layoutY="321.0" prefHeight="30.0" prefWidth="220.0" style="-fx-background-color: #224D5E; -fx-border-color: ddd9d9; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style.css">
+            <PasswordField fx:id="password1" layoutX="210.0" layoutY="321.0" prefHeight="30.0" prefWidth="220.0" style="-fx-background-color: #224D5E; -fx-border-color: ddd9d9; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style.css">
                <font>
                   <Font size="14.0" />
                </font></PasswordField>
-            <PasswordField layoutX="210.0" layoutY="371.0" prefHeight="30.0" prefWidth="220.0" style="-fx-background-color: #224D5E; -fx-border-color: ddd9d9; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style.css">
+            <PasswordField fx:id="password2" layoutX="210.0" layoutY="371.0" prefHeight="30.0" prefWidth="220.0" style="-fx-background-color: #224D5E; -fx-border-color: ddd9d9; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style.css">
                <font>
                   <Font size="14.0" />
                </font></PasswordField>
@@ -87,7 +94,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="signInButton" layoutX="26.0" layoutY="438.0" mnemonicParsing="false" onAction="#pressSignInButtonButton" prefHeight="26.0" prefWidth="80.0" style="-fx-background-color: #224D5E;" stylesheets="@../styles/style.css" text="Sign-In" textFill="#ddd9d9">
+            <Button fx:id="signInButton" layoutX="19.0" layoutY="438.0" mnemonicParsing="false" onAction="#pressSignInButtonButton" prefHeight="26.0" prefWidth="80.0" style="-fx-background-color: #224D5E;" stylesheets="@../styles/style.css" text="Sign-In" textFill="#ddd9d9">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
@@ -100,10 +107,15 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextField layoutX="210.0" layoutY="121.0" prefHeight="30.0" prefWidth="220.0" style="-fx-border-color: DDD9D9; -fx-background-color: #224D5E; -fx-background-insets: 0; -fx-border-radius: 20;" styleClass="text-input" stylesheets="@../styles/style.css">
+            <TextField fx:id="username" layoutX="210.0" layoutY="121.0" prefHeight="30.0" prefWidth="220.0" style="-fx-border-color: DDD9D9; -fx-background-color: #224D5E; -fx-background-insets: 0; -fx-border-radius: 20;" styleClass="text-input" stylesheets="@../styles/style.css">
                <font>
                   <Font size="14.0" />
                </font></TextField>
+            <Label fx:id="error_l" layoutX="141.0" layoutY="439.0" prefHeight="29.0" prefWidth="175.0" textFill="#224d5e">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
       <Button fx:id="closeButton" alignment="CENTER" cancelButton="true" layoutX="442.0" layoutY="1.0" mnemonicParsing="false" onAction="#pressExitButton" prefHeight="0.0" prefWidth="31.0" style="-fx-background-color: #224D5E;" stylesheets="@../styles/style.css" text="X" textFill="#ddd9d9">

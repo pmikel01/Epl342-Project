@@ -152,6 +152,11 @@ public class MainAppController {
             stage.setScene(new Scene(root1));
             stage.initStyle(StageStyle.UNDECORATED);
 
+            SignInController controller = fxmlLoader.getController();
+
+            //create query
+            controller.initData(conn);
+
             //we gonna drag the frame
             root1.setOnMousePressed(mouseEvent -> {
                 x = mouseEvent.getSceneX();

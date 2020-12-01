@@ -8,12 +8,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 import sample.Main.FxmlLoader;
 import sample.MediaListsControllers.EditMediaListController;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
+import java.sql.*;
 import java.util.ResourceBundle;
 
 public class MyProfController implements Initializable {
@@ -32,10 +34,86 @@ public class MyProfController implements Initializable {
         this.myID = myID;
         this.conn = conn;
 
-        listV.setItems(items);
-        //loop
-        items.add("Pantelis Mikelli");
-        items.add("pantelismike@gmail.com");
+        PreparedStatement stmt=null;
+        ResultSet rs=null;
+        try {
+            stmt = conn.prepareStatement("SELECT Name,Birthday,Email,Website,Gender,Verified,BirthPlace,LivesIn FROM PROFILE WHERE ID=?");
+            stmt.setInt(1, Integer.parseInt(myID));
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                String name = rs.getString("Name");
+                Date bd = rs.getDate("Birthday");
+                String email = rs.getString("Email");
+                String web = rs.getString("Website");
+                boolean gender = rs.getBoolean("Gender");
+                boolean ver = rs.getBoolean("Verified");
+                int birthPlaceID = rs.getInt("BirthPlace");
+                int livesInID = rs.getInt("LivesIn");
+                String birthPlace ="";
+                String livesIn ="";
+
+                PreparedStatement stmtL=null;
+                ResultSet rsL=null;
+                if (birthPlaceID!=0) {
+                    try {
+                        stmtL = conn.prepareStatement("SELECT Name FROM LOCATION WHERE Location_ID=?");
+                        stmtL.setInt(1, birthPlaceID);
+                        rsL = stmtL.executeQuery();
+                        if (rsL.next()) {
+                            birthPlace = rsL.getString("Name");
+                        }
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+                }
+
+                stmtL=null;
+                rsL=null;
+                if (livesInID!=0) {
+                    try {
+                        stmtL = conn.prepareStatement("SELECT Name FROM LOCATION WHERE Location_ID=?");
+                        stmtL.setInt(1, livesInID);
+                        rsL = stmtL.executeQuery();
+                        if (rsL.next()) {
+                            livesIn = rsL.getString("Name");
+                        }
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+                }
+
+                listV.setItems(items);
+                //loop
+                items.add(    "Name:        " + name);
+                if(bd!=null) {
+                    items.add("Birthday:    " + bd.toString());
+                }
+                if(email!=null) {
+                    items.add("Email:         " + email);
+                }
+                if(web!=null) {
+                    items.add("Website:     " + web);
+                }
+                if(!gender) {
+                    items.add("Gender:      " + "Male");
+                } else {
+                    items.add("Gender:      " + "Female");
+                }
+                if(birthPlaceID!=0) {
+                    items.add("Birthplace:  " + birthPlace);
+                }
+                if(livesInID!=0) {
+                    items.add("Lives In:      " + livesIn);
+                }
+                if(!ver) {
+                    items.add("Not Verified");
+                } else {
+                    items.add("Verified");
+                }
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     @FXML
