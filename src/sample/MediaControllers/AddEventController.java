@@ -5,20 +5,21 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import sample.Main.FxmlLoader;
+import sample.Main.Location;
 import sample.MediaListsControllers.EditMediaListController;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
+import java.sql.*;
 import java.util.ResourceBundle;
 
 public class AddEventController implements Initializable {
+    private static final String SQL_INSERT_EVENT = "INSERT INTO [dbo].EVENT (Name,Description,StartTime,EndTime,Privacy,Venue,Location,Creator,ChangeLog) VALUES (?,?,?,?,?,?,?,?,?)";
 
     ObservableList<String> privacyList = FXCollections.observableArrayList("OPEN", "CLOSED", "FRIEND", "NETWORK");
 
@@ -40,16 +41,95 @@ public class AddEventController implements Initializable {
     @FXML
     private Spinner<Integer> endL;
 
+    @FXML
+    private TextField name;
+
+    @FXML
+    private TextField description;
+
+    @FXML
+    private TextField venue;
+
+    @FXML
+    private TextField location;
+
+    @FXML
+    private DatePicker startDate;
+
+    @FXML
+    private DatePicker endDate;
+
+    @FXML
+    private Label error_l;
+
     private String myID;
     private Connection conn;
 
     public void initData(String myID, Connection conn) {
         this.myID = myID;
         this.conn = conn;
+        error_l.setTextFill(Color.web("#D8D9D9"));
     }
 
     @FXML
     private void handleAddEventButton() throws IOException {
+        if (name.getText().isEmpty()) {
+            error_l.setTextFill(Color.RED);
+        } else {
+            PreparedStatement stmt = null;
+            ResultSet rs = null;
+            //Name,Description,StartTime,EndTime,Privacy,Venue,Location,Creator,ChangeLog
+            try {
+                stmt = conn.prepareStatement(SQL_INSERT_EVENT);
+                stmt.setString(1, name.getText());
+                if (description.getText().isEmpty()) {
+                    stmt.setNull(2, Types.VARCHAR);
+                } else {
+                    stmt.setString(2, description.getText());
+                }
+                String startD = startDate.toString();
+                String startAll = startD + " " + startF.toString() + ":" + startL.toString() + ":0.0";
+                java.sql.Timestamp timestamp = java.sql.Timestamp.valueOf(startAll);
+
+                stmt.setTimestamp(3,timestamp);
+
+                String endD = endDate.toString();
+                String endAll = endD + " " + endF.toString() + ":" + endL.toString() + ":0.0";
+                java.sql.Timestamp timestamp2 = java.sql.Timestamp.valueOf(endAll);
+
+                stmt.setTimestamp(4,timestamp2);
+
+                //"OPEN", "CLOSED", "FRIEND", "NETWORK"
+                if (privacyBox.getValue().equals("OPEN")) {
+                    stmt.setInt(5, 1);
+                } else if (privacyBox.getValue().equals("CLOSED")) {
+                    stmt.setInt(5, 2);
+                } else if (privacyBox.getValue().equals("FRIEND")) {
+                    stmt.setInt(5, 3);
+                } else {
+                    stmt.setInt(5, 4);
+                }
+
+                if (venue.getText().isEmpty()) {
+                    stmt.setNull(6, Types.VARCHAR);
+                } else {
+                    stmt.setString(6, venue.getText());
+                }
+
+                if (location.getText().isEmpty()) {
+                    stmt.setNull(7, Types.VARCHAR);
+                } else {
+                    stmt.setInt(7, Location.getLocID(conn,location.getText()));
+                }
+
+                stmt.setInt(8, Integer.parseInt(myID));
+
+                stmt.setDate(9, java.sql.Date.valueOf(java.time.LocalDate.now()));
+            }catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("../MediaLists/edit_events_list.fxml"));
         Pane showProfParent = null;

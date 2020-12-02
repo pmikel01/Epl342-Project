@@ -38,6 +38,14 @@ public class EditMediaListController implements Initializable {
     private static final String SQL_INSERT_INTEREST = "INSERT INTO [dbo].INTERESTS (Name) VALUES (?)";
     private static final String SQL_INSERT_PROF_INTEREST = "INSERT INTO [dbo].PROFILES_INTERESTS (INTERESTS_ID,USER_ID) VALUES (?,?)";
 
+    private static final String SQL_INSERT_VIDEO = "INSERT INTO [dbo].VIDEO (Vid_ID,Title,Description,Length,Likes,User_ID) VALUES (?,?,?,?,?,?)";
+
+    private static final String SQL_UPDATE_ALBUM = "UPDATE ALBUM SET Album_ID=?,Title=?,Description=?,Privacy=?,Count=?,User_ID=?,Taken=?,ChangeLog=? WHERE ID=?";
+    private static final String SQL_UPDATE_PICTURE = "UPDATE PICTURE SET Pic_ID=?,Source=?,Height=?,Width=?,User_ID=?,Link=?,Likes=?,Taken=?,ChangeLog=? WHERE ID=?";
+    private static final String SQL_UPDATE_VIDEO = "UPDATE VIDEO SET Vid_ID=?,Title=?,Description=?,Length=?,Likes=?,User_ID=? WHERE ID=?";
+    private static final String SQL_UPDATE_EVENT = "UPDATE EVENT SET Event_ID=?,Name=?,Description=?,StartTime=?,EndTime=?,Privacy=?,Venue=?,Location=?,Creator=?,ChangeLog=? WHERE ID=?";
+    private static final String SQL_UPDATE_LINK = "UPDATE LINK SET Link_ID=?,URL=?,Name=?,Caption=?,Description=?,Message=?,User_ID=?,ChangeLog=? WHERE ID=?";
+
     @FXML
     private AnchorPane p_pane ;
 
