@@ -49,6 +49,22 @@ public class AddPhotoController implements Initializable {
 
     @FXML
     private void handleBrowsePhotoButton() {
+        FileChooser fileC = new FileChooser();
+            fileC.getExtensionFilters().addAll(
+            new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif")
+            );
+
+        File selectedF = fileC.showOpenDialog(null);
+
+        if (selectedF != null) {
+            sourcePath.setText(selectedF.getPath());
+        } else {
+            System.out.println("NOt");
+        }
+    }
+
+    @FXML
+    private void handleAddPhotoButton() throws IOException {
         if (sourcePath.getText().isEmpty()) {
             error_l.setTextFill(Color.RED);
         } else {
@@ -94,27 +110,12 @@ public class AddPhotoController implements Initializable {
                 }
 
                 stmt.setDate(8, java.sql.Date.valueOf(java.time.LocalDate.now()));
+                stmt.executeUpdate();
             }catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
         }
 
-        FileChooser fileC = new FileChooser();
-            fileC.getExtensionFilters().addAll(
-            new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif")
-            );
-
-        File selectedF = fileC.showOpenDialog(null);
-
-        if (selectedF != null) {
-            sourcePath.setText(selectedF.getPath());
-        } else {
-            System.out.println("NOt");
-        }
-    }
-
-    @FXML
-    private void handleAddPhotoButton() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("../MediaLists/edit_photos_list.fxml"));
         Pane showProfParent = null;

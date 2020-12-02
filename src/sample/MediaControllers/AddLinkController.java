@@ -83,6 +83,7 @@ public class AddLinkController implements Initializable {
 
                 stmt.setInt(6, Integer.parseInt(myID));
                 stmt.setDate(7, java.sql.Date.valueOf(java.time.LocalDate.now()));
+                stmt.executeUpdate();
             }catch (SQLException throwables) {
                 throwables.printStackTrace();
             }

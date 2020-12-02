@@ -38,7 +38,6 @@ public class EditMediaListController implements Initializable {
     private static final String SQL_INSERT_INTEREST = "INSERT INTO [dbo].INTERESTS (Name) VALUES (?)";
     private static final String SQL_INSERT_PROF_INTEREST = "INSERT INTO [dbo].PROFILES_INTERESTS (INTERESTS_ID,USER_ID) VALUES (?,?)";
 
-    private static final String SQL_INSERT_VIDEO = "INSERT INTO [dbo].VIDEO (Vid_ID,Title,Description,Length,Likes,User_ID) VALUES (?,?,?,?,?,?)";
 
     private static final String SQL_UPDATE_ALBUM = "UPDATE ALBUM SET Album_ID=?,Title=?,Description=?,Privacy=?,Count=?,User_ID=?,Taken=?,ChangeLog=? WHERE ID=?";
     private static final String SQL_UPDATE_PICTURE = "UPDATE PICTURE SET Pic_ID=?,Source=?,Height=?,Width=?,User_ID=?,Link=?,Likes=?,Taken=?,ChangeLog=? WHERE ID=?";
@@ -65,33 +64,96 @@ public class EditMediaListController implements Initializable {
 
         if (choose.equals("album")) {
             items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                stmt = conn.prepareStatement("SELECT Album_ID,Title FROM ALBUM WHERE USER_ID=?");
+                stmt.setInt(1, Integer.parseInt(myID));
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int album_id = rs.getInt("Album_ID");
+                    String title = rs.getString("Title");
+                    String line = album_id + "  " + title;
+                    items.add(line);
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
             listV.setItems(items);
-            //loop
-            items.add("album name");
             listV.setCellFactory(param -> new EditMediaListController.AlbumCell(p_pane, myID, conn));
         } else if (choose.equals("picture")) {
             items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                stmt = conn.prepareStatement("SELECT Pic_ID FROM PICTURE WHERE USER_ID=?");
+                stmt.setInt(1, Integer.parseInt(myID));
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int pic_id = rs.getInt("Pic_ID");
+                    items.add(pic_id+"");
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
             listV.setItems(items);
-            //loop
-            items.add("picture name");
             listV.setCellFactory(param -> new EditMediaListController.PictureCell(p_pane, myID, conn));
         } else if (choose.equals("video")) {
             items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                stmt = conn.prepareStatement("SELECT Vid_ID,Title FROM VIDEO WHERE USER_ID=?");
+                stmt.setInt(1, Integer.parseInt(myID));
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int video_id = rs.getInt("Vid_ID");
+                    String title = rs.getString("Title");
+                    String line = video_id + "  " + title;
+                    items.add(line);
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
             listV.setItems(items);
-            //loop
-            items.add("video name");
             listV.setCellFactory(param -> new EditMediaListController.VideoCell(p_pane, myID, conn));
         } else if (choose.equals("event")) {
             items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                stmt = conn.prepareStatement("SELECT Event_ID,Name FROM EVENT WHERE Creator=?");
+                stmt.setInt(1, Integer.parseInt(myID));
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int event_id = rs.getInt("Event_ID");
+                    String name = rs.getString("Name");
+                    String line = event_id + "  " + name;
+                    items.add(line);
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
             listV.setItems(items);
-            //loop
-            items.add("event name");
             listV.setCellFactory(param -> new EditMediaListController.EventCell(p_pane, myID, conn));
         } else if (choose.equals("link")) {
             items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                stmt = conn.prepareStatement("SELECT Link_ID,Name FROM LINK WHERE USER_ID=?");
+                stmt.setInt(1, Integer.parseInt(myID));
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int link_id = rs.getInt("Link_ID");
+                    String name = rs.getString("Name");
+                    String line = link_id + "  " + name;
+                    items.add(line);
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
             listV.setItems(items);
-            //loop
-            items.add("link name");
             listV.setCellFactory(param -> new EditMediaListController.LinkCell(p_pane, myID, conn));
         } else if (choose.equals("interest")) {
             items = FXCollections.observableArrayList();

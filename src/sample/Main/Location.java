@@ -9,7 +9,6 @@ public class Location {
     private static final String SQL_INSERT_LOC = "INSERT INTO [dbo].LOCATION (Name) VALUES (?)";
 
     public static int getLocID(Connection conn, String loc) {
-        int loc_ID=0;
         PreparedStatement stmtLoc = null;
         ResultSet rsLoc = null;
         int locID = 0;
@@ -47,6 +46,6 @@ public class Location {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return loc_ID;
+        return locID;
     }
 }

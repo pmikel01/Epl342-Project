@@ -87,14 +87,14 @@ public class AddEventController implements Initializable {
                 } else {
                     stmt.setString(2, description.getText());
                 }
-                String startD = startDate.toString();
-                String startAll = startD + " " + startF.toString() + ":" + startL.toString() + ":0.0";
+                String startD = startDate.getValue().toString();
+                String startAll = startD + " " + startF.getValue().toString() + ":" + startL.getValue().toString() + ":0.0";
                 java.sql.Timestamp timestamp = java.sql.Timestamp.valueOf(startAll);
 
                 stmt.setTimestamp(3,timestamp);
 
-                String endD = endDate.toString();
-                String endAll = endD + " " + endF.toString() + ":" + endL.toString() + ":0.0";
+                String endD = endDate.getValue().toString();
+                String endAll = endD + " " + endF.getValue().toString() + ":" + endL.getValue().toString() + ":0.0";
                 java.sql.Timestamp timestamp2 = java.sql.Timestamp.valueOf(endAll);
 
                 stmt.setTimestamp(4,timestamp2);
@@ -125,6 +125,7 @@ public class AddEventController implements Initializable {
                 stmt.setInt(8, Integer.parseInt(myID));
 
                 stmt.setDate(9, java.sql.Date.valueOf(java.time.LocalDate.now()));
+                stmt.executeUpdate();
             }catch (SQLException throwables) {
                 throwables.printStackTrace();
             }

@@ -23,7 +23,7 @@ package sample.MediaControllers;
         import sample.Main.Location;
 
 public class AddAlbumController implements Initializable {
-    private static final String SQL_INSERT_ALBUM = "INSERT INTO [dbo].ALBUM (Title,Description,Privacy,Count,User_ID,Taken,ChangeLog) VALUES (?,?,?,?,?,?,?)";
+    private static final String SQL_INSERT_ALBUM = "INSERT INTO [dbo].ALBUM (Title,Desciption,Privacy,Count,User_ID,Taken,ChangeLog) VALUES (?,?,?,?,?,?,?)";
 
     ObservableList<String> privacyList = FXCollections.observableArrayList("OPEN", "CLOSED", "FRIEND", "NETWORK");
 
@@ -89,22 +89,22 @@ public class AddAlbumController implements Initializable {
                     stmt.setInt(6, Location.getLocID(conn,taken.getText()));
                 }
                 stmt.setDate(7, java.sql.Date.valueOf(java.time.LocalDate.now()));
+                stmt.executeUpdate();
             }catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("../MediaLists/edit_albums_list.fxml"));
+            Pane showProfParent = null;
+            showProfParent = loader.load();
+            //access the controller and call a method
+            EditMediaListController controller = loader.getController();
+
+            //create query
+            controller.initData("album", myID, conn);
+
+            p_pane.getChildren().setAll(showProfParent);
         }
-
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("../MediaLists/edit_albums_list.fxml"));
-        Pane showProfParent = null;
-        showProfParent = loader.load();
-        //access the controller and call a method
-        EditMediaListController controller = loader.getController();
-
-        //create query
-        controller.initData("album", myID, conn);
-
-        p_pane.getChildren().setAll(showProfParent);
     }
 
     @FXML
