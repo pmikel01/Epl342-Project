@@ -26,11 +26,13 @@ public class EditVideoController implements Initializable {
     private String mediaID;
     private String myID;
     private Connection conn;
+    private int albumID;
 
-    public void initData(String mediaID, String myID, Connection conn) {
+    public void initData(String mediaID, String myID, Connection conn, int albumID) {
         this.mediaID = mediaID;
         this.myID = myID;
         this.conn = conn;
+        this.albumID = albumID;
     }
 
     @FXML
@@ -51,32 +53,60 @@ public class EditVideoController implements Initializable {
 
     @FXML
     private void handleUpdateVideoButton() throws IOException {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("../MediaLists/edit_videos_list.fxml"));
-        Pane showProfParent = null;
-        showProfParent = loader.load();
-        //access the controller and call a method
-        EditMediaListController controller = loader.getController();
+        if (albumID == 0) {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("../MediaLists/edit_videos_list.fxml"));
+            Pane showProfParent = null;
+            showProfParent = loader.load();
+            //access the controller and call a method
+            EditMediaListController controller = loader.getController();
 
-        //create query
-        controller.initData("video", myID, conn);
+            //create query
+            controller.initData("video", myID, conn);
 
-        p_pane.getChildren().setAll(showProfParent);
+            p_pane.getChildren().setAll(showProfParent);
+        } else {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("../MediaLists/edit_albums_list.fxml"));
+            Pane showProfParent = null;
+            showProfParent = loader.load();
+            //access the controller and call a method
+            ShowAlbumController controller = loader.getController();
+
+            //create query
+            controller.initData(myID, myID, albumID+"", conn);
+
+            p_pane.getChildren().setAll(showProfParent);
+        }
     }
 
     @FXML
     private void handleBackButton() throws IOException {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("../MediaLists/edit_videos_list.fxml"));
-        Pane showProfParent = null;
-        showProfParent = loader.load();
-        //access the controller and call a method
-        EditMediaListController controller = loader.getController();
+        if (albumID == 0) {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("../MediaLists/edit_videos_list.fxml"));
+            Pane showProfParent = null;
+            showProfParent = loader.load();
+            //access the controller and call a method
+            EditMediaListController controller = loader.getController();
 
-        //create query
-        controller.initData("video", myID, conn);
+            //create query
+            controller.initData("video", myID, conn);
 
-        p_pane.getChildren().setAll(showProfParent);
+            p_pane.getChildren().setAll(showProfParent);
+        } else {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("../MediaLists/edit_albums_list.fxml"));
+            Pane showProfParent = null;
+            showProfParent = loader.load();
+            //access the controller and call a method
+            ShowAlbumController controller = loader.getController();
+
+            //create query
+            controller.initData(myID, myID, albumID+"", conn);
+
+            p_pane.getChildren().setAll(showProfParent);
+        }
     }
 
     @Override

@@ -48,12 +48,12 @@
                 <Cursor fx:constant="HAND" />
             </cursor>
         </Button>
-      <Label layoutX="50.0" layoutY="310.0" text="Description" textFill="#444a4c">
+      <Label layoutX="50.0" layoutY="263.0" text="Description" textFill="#444a4c">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <TextField fx:id="description" layoutX="180.0" layoutY="308.0" prefHeight="30.0" prefWidth="465.0" style="-fx-border-color: #444a4c; -fx-background-color: #d8d9d9; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style2.css">
+      <TextField fx:id="description" layoutX="180.0" layoutY="261.0" prefHeight="30.0" prefWidth="465.0" style="-fx-border-color: #444a4c; -fx-background-color: #d8d9d9; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style2.css">
          <font>
             <Font size="14.0" />
          </font>
@@ -76,11 +76,11 @@
             <Font size="15.0" />
          </font>
       </Label>
-      <Label layoutX="82.0" layoutY="256.0" text="Length" textFill="#444a4c">
+      <Spinner fx:id="length" layoutX="186.0" layoutY="321.0" />
+      <Label layoutX="93.0" layoutY="319.0" text="Length" textFill="#444a4c">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Spinner fx:id="length" layoutX="186.0" layoutY="259.0" prefHeight="25.0" prefWidth="138.0" />
     </children>
 </AnchorPane>

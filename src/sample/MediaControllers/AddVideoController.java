@@ -9,6 +9,8 @@ import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import org.w3c.dom.Text;
@@ -24,7 +26,7 @@ import java.sql.*;
 import java.util.ResourceBundle;
 
 public class AddVideoController implements Initializable {
-    private static final String SQL_INSERT_VIDEO = "INSERT INTO [dbo].VIDEO (Title,Description,Length,Likes,User_ID,ChangeLog) VALUES (?,?,?,?,?,?)";
+    private static final String SQL_INSERT_VIDEO = "INSERT INTO [dbo].VIDEO (Title,Source,Description,Length,Likes,User_ID,ChangeLog) VALUES (?,?,?,?,?,?,?)";
 
     @FXML
     private AnchorPane p_pane ;
@@ -39,10 +41,10 @@ public class AddVideoController implements Initializable {
     private TextField description;
 
     @FXML
-    private Spinner<Integer> length;
+    private Label error_l;
 
     @FXML
-    private Label error_l;
+    private Spinner<Integer> length;
 
 
     private String myID;
@@ -75,22 +77,31 @@ public class AddVideoController implements Initializable {
 
         if (title.getText().isEmpty()) {
             error_l.setTextFill(Color.RED);
-        } else {
+        } else if(sourcePath.getText().isEmpty()) {
+            error_l.setTextFill(Color.RED);
+        } else{
             PreparedStatement stmt = null;
             ResultSet rs = null;
             try {
                 stmt = conn.prepareStatement(SQL_INSERT_VIDEO);
                 stmt.setString(1, title.getText());
+
+                int lastI = sourcePath.getText().lastIndexOf("\\");
+                String source_name = sourcePath.getText().substring(lastI+1,sourcePath.getText().length());
+                stmt.setString(2, source_name);
+
                 if (description.getText().isEmpty()) {
-                    stmt.setNull(2, Types.VARCHAR);
+                    stmt.setNull(3, Types.VARCHAR);
                 } else {
-                    stmt.setString(2, description.getText());
+                    stmt.setString(3, description.getText());
                 }
-                double len = Double.parseDouble(length.getValue().toString());
-                stmt.setDouble(3,len);
-                stmt.setInt(4,0);
-                stmt.setInt(5, Integer.parseInt(myID));
-                stmt.setDate(6, java.sql.Date.valueOf(java.time.LocalDate.now()));
+
+                double len = Double.parseDouble(length.getValue() + "");
+                stmt.setDouble(4, len);
+
+                stmt.setInt(5,0);
+                stmt.setInt(6, Integer.parseInt(myID));
+                stmt.setDate(7, java.sql.Date.valueOf(java.time.LocalDate.now()));
                 stmt.executeUpdate();
             }catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -127,7 +138,7 @@ public class AddVideoController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        SpinnerValueFactory<Integer> CountLength = new SpinnerValueFactory.IntegerSpinnerValueFactory(1,99999,1);
-        this.length.setValueFactory(CountLength);
+        SpinnerValueFactory<Integer> CountL = new SpinnerValueFactory.IntegerSpinnerValueFactory(1,999999,1);
+        this.length.setValueFactory(CountL);
     }
 }

@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
@@ -12,6 +13,7 @@ import javafx.scene.media.MediaView;
 import sample.MediaListsControllers.EditMediaListController;
 import sample.MediaListsControllers.MediaListController;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -37,6 +39,11 @@ public class ShowVideoController implements Initializable {
     @FXML
     private Label likes;
 
+    @FXML
+    private MediaView playVideo;
+
+    private MediaPlayer mediaPlayer;
+
     private String id;
     private String video_id;
     private String myID;
@@ -61,11 +68,19 @@ public class ShowVideoController implements Initializable {
         PreparedStatement stmt=null;
         ResultSet rs=null;
         try {
-            stmt = conn.prepareStatement("SELECT Title,Description,Length,Likes FROM VIDEO WHERE Vid_ID=?");
+            stmt = conn.prepareStatement("SELECT Title,Source,Description,Length,Likes FROM VIDEO WHERE Vid_ID=?");
             stmt.setInt(1, Integer.parseInt(video_id));
             rs = stmt.executeQuery();
             if (rs.next()) {
                 title.setText(rs.getString("Title"));
+
+                String vid = rs.getString("Source");
+                File filestring = new File("src/Videos/"+vid);
+                Media media = new Media(filestring.toURI().toString());
+                mediaPlayer = new MediaPlayer(media);
+                mediaPlayer.getTotalDuration();
+                playVideo.setMediaPlayer(mediaPlayer);
+
                 if (rs.getString("Description") != null) {
                     description.setText(rs.getString("Description"));
                 }
@@ -154,6 +169,25 @@ public class ShowVideoController implements Initializable {
         sample.Main.CustomDialog dialog = new sample.Main.CustomDialog("LIKE", "Congratulations you liked the video", "like");
         dialog.openDialog();
         initData(id,myID,video_id,conn,album_id);
+    }
+
+
+    @FXML
+    private void handlePlayButton() {
+        if (mediaPlayer.getStatus()== MediaPlayer.Status.PLAYING) {
+            mediaPlayer.stop();
+        }
+        mediaPlayer.play();
+    }
+
+    @FXML
+    private void handlePauseButton() {
+        mediaPlayer.pause();
+    }
+
+    @FXML
+    private void handleStopButton() {
+        mediaPlayer.stop();
     }
 
     @Override

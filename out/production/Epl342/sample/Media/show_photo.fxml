@@ -18,13 +18,13 @@
             </font>
         </Label>
         <Separator layoutX="172.0" layoutY="87.0" prefHeight="0.0" prefWidth="465.0" style="-fx-background-color: #444a4c;" />
-      <ScrollPane layoutY="98.0" prefHeight="397.0" prefWidth="755.0" style="-fx-background-color: #d8d9d9;" stylesheets="@../styles/style.css">
+      <ScrollPane fx:id="scroll" layoutY="98.0" prefHeight="397.0" prefWidth="755.0" style="-fx-background-color: #d8d9d9;" stylesheets="@../styles/style.css">
         <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="555.0" prefWidth="735.0">
+          <AnchorPane fx:id="anchor2" minHeight="0.0" minWidth="0.0" prefHeight="555.0" prefWidth="735.0">
                <children>
-                  <HBox alignment="CENTER" layoutX="190.0" layoutY="10.0" prefHeight="308.0" prefWidth="425.0" style="-fx-border-color: #444a4c; -fx-border-radius: 20;">
+                  <HBox fx:id="box" alignment="CENTER" layoutX="190.0" layoutY="10.0" prefHeight="308.0" prefWidth="425.0" style="-fx-border-color: #444a4c; -fx-border-radius: 20;">
                      <children>
-                        <ImageView fx:id="image" fitHeight="306.0" fitWidth="421.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="image" fitHeight="295.0" fitWidth="409.0" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </HBox>
                   <Label layoutX="462.0" layoutY="328.0" text="Likes:" textFill="#444a4c">

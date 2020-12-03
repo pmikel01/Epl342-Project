@@ -92,7 +92,7 @@ public class ShowVidListController implements Initializable {
                         ShowVideoController controller = loader.getController();
 
                         //create query
-                        controller.initData(id, myID, "video id", conn);
+                        controller.initData(id, myID, "video id", conn, 0);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -170,7 +170,7 @@ public class ShowVidListController implements Initializable {
                         ShowVideoController controller = loader.getController();
 
                         //create query
-                        controller.initData(id, myID, "video id", conn);
+                        controller.initData(id, myID, "video id", conn, 0);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -210,7 +210,7 @@ public class ShowVidListController implements Initializable {
                         EditVideoController controller = loader.getController();
 
                         //create query
-                        controller.initData("video id", myID, conn);
+                        controller.initData("video id", myID, conn, 0);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {

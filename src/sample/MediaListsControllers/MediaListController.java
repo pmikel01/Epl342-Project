@@ -263,7 +263,7 @@ public class MediaListController implements Initializable {
                         ShowPictureController controller = loader.getController();
 
                         //create query
-                        controller.initData(id, myID, "picture id", conn);
+                        controller.initData(id, myID, "picture id", conn, 0);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -314,7 +314,7 @@ public class MediaListController implements Initializable {
                         ShowVideoController controller = loader.getController();
 
                         //create query
-                        controller.initData(id, myID, "video id", conn);
+                        controller.initData(id, myID, "video id", conn, 0);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {

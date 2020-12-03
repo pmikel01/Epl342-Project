@@ -75,7 +75,9 @@ public class AddEventController implements Initializable {
     private void handleAddEventButton() throws IOException {
         if (name.getText().isEmpty()) {
             error_l.setTextFill(Color.RED);
-        } else {
+        } else if (startDate.getValue()==null || endDate.getValue()==null) {
+            error_l.setTextFill(Color.RED);
+        } else{
             PreparedStatement stmt = null;
             ResultSet rs = null;
             //Name,Description,StartTime,EndTime,Privacy,Venue,Location,Creator,ChangeLog
@@ -129,19 +131,18 @@ public class AddEventController implements Initializable {
             }catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("../MediaLists/edit_events_list.fxml"));
+            Pane showProfParent = null;
+            showProfParent = loader.load();
+            //access the controller and call a method
+            EditMediaListController controller = loader.getController();
+
+            //create query
+            controller.initData("event", myID, conn);
+
+            p_pane.getChildren().setAll(showProfParent);
         }
-
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("../MediaLists/edit_events_list.fxml"));
-        Pane showProfParent = null;
-        showProfParent = loader.load();
-        //access the controller and call a method
-        EditMediaListController controller = loader.getController();
-
-        //create query
-        controller.initData("event", myID, conn);
-
-        p_pane.getChildren().setAll(showProfParent);
     }
 
     @FXML

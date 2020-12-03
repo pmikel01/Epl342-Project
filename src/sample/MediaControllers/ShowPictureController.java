@@ -12,14 +12,14 @@ import javafx.scene.layout.Pane;
 import sample.MediaListsControllers.EditMediaListController;
 import sample.MediaListsControllers.MediaListController;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+
 
 public class ShowPictureController implements Initializable {
 
@@ -54,6 +54,7 @@ public class ShowPictureController implements Initializable {
         this.conn = conn;
         this.album_id = album_id;
 
+        image.setPreserveRatio(true);
         likes.setText("");
         width.setText("");
         height.setText("");
@@ -69,8 +70,8 @@ public class ShowPictureController implements Initializable {
             stmt.setInt(1, Integer.parseInt(photo_id));
             rs = stmt.executeQuery();
             if (rs.next()) {
-                InputStream is= rs.getBinaryStream("Source");
-                image.setImage(new Image(is));
+                String img = rs.getString("Source");
+                image.setImage(new Image("Pictures/"+img));
 
                 height.setText(rs.getInt("Height") + "");
 
@@ -131,7 +132,7 @@ public class ShowPictureController implements Initializable {
                 EditMediaListController controller = loader.getController();
 
                 //create query
-                controller.initData("picture", "my id", conn);
+                controller.initData("picture", myID, conn);
 
                 p_pane.getChildren().setAll(showProfParent);
             } else {

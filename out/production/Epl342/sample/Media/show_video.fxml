@@ -3,73 +3,113 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.media.MediaView?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="p_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="495.0" prefWidth="755.0" style="-fx-background-color: #d8d9d9;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.MediaControllers.ShowVideoController">
-    <children>
-        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="357.0" layoutY="43.0" text="Video" textFill="#444a4c">
-            <font>
-                <Font name="System Bold" size="30.0" />
-            </font>
-        </Label>
-        <Separator layoutX="172.0" layoutY="87.0" prefHeight="0.0" prefWidth="465.0" style="-fx-background-color: #444a4c;" />
-        <Button contentDisplay="CENTER" layoutX="25.0" layoutY="19.0" mnemonicParsing="false" onAction="#handleBackButton" prefHeight="48.0" prefWidth="134.0" style="-fx-background-color: #454b4d;" stylesheets="@../styles/style.css" text="BACK" textFill="#d8d9d9">
-            <font>
-                <Font name="System Bold" size="25.0" />
-            </font>
-            <cursor>
-                <Cursor fx:constant="HAND" />
-            </cursor>
-        </Button>
-      <Label layoutX="149.0" layoutY="128.0" text="Title:" textFill="#444a4c">
-         <font>
-            <Font name="System Bold" size="20.0" />
-         </font>
-      </Label>
-      <Label fx:id="title" layoutX="212.0" layoutY="134.0" prefHeight="19.0" prefWidth="244.0" text="......." textFill="#444a4c">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Label>
-      <Label layoutX="83.0" layoutY="174.0" text="Description:" textFill="#444a4c">
-         <font>
-            <Font name="System Bold" size="20.0" />
-         </font>
-      </Label>
-      <Label fx:id="description" layoutX="210.0" layoutY="178.0" prefHeight="19.0" prefWidth="507.0" text="......." textFill="#444a4c">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Label>
-      <Label layoutX="125.0" layoutY="217.0" text="Length:" textFill="#444a4c">
-         <font>
-            <Font name="System Bold" size="20.0" />
-         </font>
-      </Label>
-      <Label fx:id="length" layoutX="211.0" layoutY="220.0" prefHeight="19.0" prefWidth="176.0" text="......." textFill="#444a4c">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Label>
-      <Label layoutX="144.0" layoutY="300.0" text="Likes:" textFill="#444a4c">
-         <font>
-            <Font name="System Bold" size="20.0" />
-         </font>
-      </Label>
-      <Button contentDisplay="CENTER" layoutX="392.0" layoutY="288.0" mnemonicParsing="false" onAction="#handleLikeButton" prefHeight="48.0" prefWidth="134.0" style="-fx-background-color: #454b4d;" stylesheets="@../styles/style.css" text="LIKE" textFill="#d8d9d9">
-         <font>
+<children>
+    <Label alignment="CENTER" contentDisplay="CENTER" layoutX="357.0" layoutY="43.0" text="Video" textFill="#444a4c">
+        <font>
+            <Font name="System Bold" size="30.0" />
+        </font>
+    </Label>
+    <Separator layoutX="172.0" layoutY="87.0" prefHeight="0.0" prefWidth="465.0" style="-fx-background-color: #444a4c;" />
+    <ScrollPane layoutY="98.0" prefHeight="397.0" prefWidth="755.0" style="-fx-background-color: #d8d9d9;" stylesheets="@../styles/style.css">
+        <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="615.0" prefWidth="735.0">
+                <children>
+                    <HBox alignment="CENTER" layoutX="190.0" layoutY="10.0" prefHeight="308.0" prefWidth="425.0" style="-fx-border-color: #444a4c; -fx-border-radius: 20;">
+                        <children>
+                            <MediaView fx:id="playVideo" fitHeight="308.0" fitWidth="425.0" />
+                        </children>
+                    </HBox>
+                    <Label layoutX="105.0" layoutY="398.0" text="Message:" textFill="#444a4c">
+                        <font>
+                            <Font name="System Bold" size="20.0" />
+                        </font>
+                    </Label>
+                    <Label fx:id="title" layoutX="217.0" layoutY="401.0" prefHeight="19.0" prefWidth="244.0" text="......." textFill="#444a4c">
+                        <font>
+                            <Font size="15.0" />
+                        </font>
+                    </Label>
+                    <Label layoutX="74.0" layoutY="441.0" text="Description:" textFill="#444a4c">
+                        <font>
+                            <Font name="System Bold" size="20.0" />
+                        </font>
+                    </Label>
+                    <Label fx:id="description" layoutX="215.0" layoutY="445.0" prefHeight="19.0" prefWidth="507.0" text="......." textFill="#444a4c">
+                        <font>
+                            <Font size="15.0" />
+                        </font>
+                    </Label>
+                    <Label layoutX="124.0" layoutY="484.0" text="Length:" textFill="#444a4c">
+                        <font>
+                            <Font name="System Bold" size="20.0" />
+                        </font>
+                    </Label>
+                    <Label fx:id="length" layoutX="216.0" layoutY="487.0" prefHeight="19.0" prefWidth="176.0" text="......." textFill="#444a4c">
+                        <font>
+                            <Font size="15.0" />
+                        </font>
+                    </Label>
+                    <Button contentDisplay="CENTER" layoutX="499.0" layoutY="330.0" mnemonicParsing="false" onAction="#handleStopButton" prefHeight="39.0" prefWidth="118.0" style="-fx-background-color: #454b4d;" stylesheets="@../styles/style.css" text="STOP" textFill="#d8d9d9">
+                        <font>
+                            <Font name="System Bold" size="20.0" />
+                        </font>
+                        <cursor>
+                            <Cursor fx:constant="HAND" />
+                        </cursor>
+                    </Button>
+                    <Button contentDisplay="CENTER" layoutX="345.0" layoutY="330.0" mnemonicParsing="false" onAction="#handlePauseButton" prefHeight="39.0" prefWidth="118.0" style="-fx-background-color: #454b4d;" stylesheets="@../styles/style.css" text="PAUSE" textFill="#d8d9d9">
+                        <font>
+                            <Font name="System Bold" size="20.0" />
+                        </font>
+                        <cursor>
+                            <Cursor fx:constant="HAND" />
+                        </cursor>
+                    </Button>
+                    <Button contentDisplay="CENTER" layoutX="190.0" layoutY="330.0" mnemonicParsing="false" onAction="#handlePlayButton" prefHeight="39.0" prefWidth="120.0" style="-fx-background-color: #454b4d;" stylesheets="@../styles/style.css" text="PLAY" textFill="#d8d9d9">
+                        <font>
+                            <Font name="System Bold" size="20.0" />
+                        </font>
+                        <cursor>
+                            <Cursor fx:constant="HAND" />
+                        </cursor>
+                    </Button>
+                    <Label layoutX="143.0" layoutY="526.0" text="Likes:" textFill="#444a4c">
+                        <font>
+                            <Font name="System Bold" size="20.0" />
+                        </font>
+                    </Label>
+                    <Button contentDisplay="CENTER" layoutX="483.0" layoutY="508.0" mnemonicParsing="false" onAction="#handleLikeButton" prefHeight="48.0" prefWidth="134.0" style="-fx-background-color: #454b4d;" stylesheets="@../styles/style.css" text="LIKE" textFill="#d8d9d9">
+                        <font>
+                            <Font name="System Bold" size="25.0" />
+                        </font>
+                        <cursor>
+                            <Cursor fx:constant="HAND" />
+                        </cursor>
+                    </Button>
+                    <Label fx:id="likes" layoutX="216.0" layoutY="529.0" prefHeight="19.0" prefWidth="176.0" text="......." textFill="#444a4c">
+                        <font>
+                            <Font size="15.0" />
+                        </font>
+                    </Label>
+                </children>
+            </AnchorPane>
+        </content>
+    </ScrollPane>
+    <Button contentDisplay="CENTER" layoutX="25.0" layoutY="19.0" mnemonicParsing="false" onAction="#handleBackButton" prefHeight="48.0" prefWidth="134.0" style="-fx-background-color: #454b4d;" stylesheets="@../styles/style.css" text="BACK" textFill="#d8d9d9">
+        <font>
             <Font name="System Bold" size="25.0" />
-         </font>
-         <cursor>
+        </font>
+        <cursor>
             <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
-      <Label fx:id="likes" layoutX="211.0" layoutY="303.0" prefHeight="19.0" prefWidth="176.0" text="......." textFill="#444a4c">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Label>
-    </children>
+        </cursor>
+    </Button>
+</children>
 </AnchorPane>

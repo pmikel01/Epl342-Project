@@ -88,9 +88,11 @@ public class ShowAlbumController implements Initializable {
             listV.setCellFactory(param -> new ShowAlbumController.AlbumCell(p_pane, myID, id, conn));
         }
     }
+
     public static String firstWord(String input) {
         return input.split(" ")[0];
     }
+
     public static String secondWord(String input) {
         return input.split(" ")[1];
     }
@@ -99,7 +101,7 @@ public class ShowAlbumController implements Initializable {
         HBox hbox = new HBox();
         Label label = new Label("");
         Pane pane = new Pane();
-        Button button = new Button("Show Picture");
+        Button button = new Button("Show Media");
 
         public AlbumCell(AnchorPane p_pane, String myID, String id, Connection conn) {
             super();
@@ -147,11 +149,11 @@ public class ShowAlbumController implements Initializable {
         HBox hbox = new HBox();
         Label label = new Label("");
         Pane pane = new Pane();
-        Button button = new Button("Show Picture");
+        Button button = new Button("Show Media");
         Pane pane2 = new Pane();
-        Button button2 = new Button("Edit Picture");
+        Button button2 = new Button("Edit");
         Pane pane3 = new Pane();
-        Button button3 = new Button("Delete Picture");
+        Button button3 = new Button("Delete");
 
         public MyAlbumCell(AnchorPane p_pane, String myID, String id, Connection conn) {
             super();
@@ -166,48 +168,115 @@ public class ShowAlbumController implements Initializable {
             button.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent e) {
-                    try {
-                        FXMLLoader loader = new FXMLLoader();
-                        loader.setLocation(getClass().getResource("../Media/show_photo.fxml"));
-                        Pane view = null;
-                        view = loader.load();
-                        //access the controller and call a method
-                        ShowPictureController controller = loader.getController();
+                    if (firstWord(getItem()).equals("Picture:")) {
+                        try {
+                            FXMLLoader loader = new FXMLLoader();
+                            loader.setLocation(getClass().getResource("../Media/show_photo.fxml"));
+                            Pane view = null;
+                            view = loader.load();
+                            //access the controller and call a method
+                            ShowPictureController controller = loader.getController();
 
-                        //create query
-                        controller.initData(id, myID, "picture id", conn, Integer.parseInt(ShowAlbumController.this.album_id));
+                            //create query
+                            controller.initData(id, myID, secondWord(getItem()), conn, Integer.parseInt(ShowAlbumController.this.album_id));
 
-                        p_pane.getChildren().setAll(view);
-                    } catch (IOException ioException) {
-                        ioException.printStackTrace();
+                            p_pane.getChildren().setAll(view);
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
+                    } else {
+                        try {
+                            FXMLLoader loader = new FXMLLoader();
+                            loader.setLocation(getClass().getResource("../Media/show_video.fxml"));
+                            Pane view = null;
+                            view = loader.load();
+                            //access the controller and call a method
+                            ShowVideoController controller = loader.getController();
+
+                            //create query
+                            controller.initData(id, myID, secondWord(getItem()), conn, Integer.parseInt(ShowAlbumController.this.album_id));
+
+                            p_pane.getChildren().setAll(view);
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
                     }
                 }
             });
             button2.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent e) {
-                    try {
-                        FXMLLoader loader = new FXMLLoader();
-                        loader.setLocation(getClass().getResource("../Media/edit_photo.fxml"));
-                        Pane view = null;
-                        view = loader.load();
-                        //access the controller and call a method
-                        EditPhotoController controller = loader.getController();
+                    if (firstWord(getItem()).equals("Picture:")) {
+                        try {
+                            FXMLLoader loader = new FXMLLoader();
+                            loader.setLocation(getClass().getResource("../Media/edit_photo.fxml"));
+                            Pane view = null;
+                            view = loader.load();
+                            //access the controller and call a method
+                            EditPhotoController controller = loader.getController();
 
-                        //create query
-                        controller.initData("pic id", myID, conn);
+                            //create query
+                            controller.initData(secondWord(getItem()), myID, conn, Integer.parseInt(album_id));
 
-                        p_pane.getChildren().setAll(view);
-                    } catch (IOException ioException) {
-                        ioException.printStackTrace();
+                            p_pane.getChildren().setAll(view);
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
+                    } else {
+                        try {
+                            FXMLLoader loader = new FXMLLoader();
+                            loader.setLocation(getClass().getResource("../Media/edit_video.fxml"));
+                            Pane view = null;
+                            view = loader.load();
+                            //access the controller and call a method
+                            EditVideoController controller = loader.getController();
+
+                            //create query
+                            controller.initData(secondWord(getItem()), myID, conn, Integer.parseInt(album_id));
+
+                            p_pane.getChildren().setAll(view);
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
                     }
                 }
             });
             button3.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent e) {
-                    //Delete from database
-                    getListView().getItems().remove(getItem());
+                    if (firstWord(getItem()).equals("Picture:")) {
+                        PreparedStatement stmt=null;
+                        ResultSet rs=null;
+                        try {
+                            stmt = conn.prepareStatement("DELETE FROM PICTURES_ALBUMS WHERE PICTURE_ID=?");
+                            stmt.setInt(1, Integer.parseInt(secondWord(getItem())));
+                            stmt.executeUpdate();
+
+                            stmt = conn.prepareStatement("DELETE FROM PICTURE WHERE Pic_ID=?");
+                            stmt.setInt(1, Integer.parseInt(secondWord(getItem())));
+                            stmt.executeUpdate();
+
+                            getListView().getItems().remove(getItem());
+                        } catch (SQLException throwables) {
+                            throwables.printStackTrace();
+                        }
+                    } else {
+                        PreparedStatement stmt=null;
+                        ResultSet rs=null;
+                        try {
+                            stmt = conn.prepareStatement("DELETE FROM VIDEOS_ALBUMS WHERE VIDEO_ID=?");
+                            stmt.setInt(1, Integer.parseInt(secondWord(getItem())));
+                            stmt.executeUpdate();
+
+                            stmt = conn.prepareStatement("DELETE FROM VIDEO WHERE Vid_ID=?");
+                            stmt.setInt(1, Integer.parseInt(secondWord(getItem())));
+                            stmt.executeUpdate();
+
+                            getListView().getItems().remove(getItem());
+                        } catch (SQLException throwables) {
+                            throwables.printStackTrace();
+                        }
+                    }
                 }
             });
         }

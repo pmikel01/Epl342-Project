@@ -9,7 +9,7 @@
 
 <AnchorPane fx:id="p_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="495.0" prefWidth="755.0" style="-fx-background-color: #d8d9d9;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.MediaControllers.ShowEventController">
     <children>
-        <Label layoutX="51.0" layoutY="105.0" text="Name:" textFill="#444a4c">
+        <Label layoutX="123.0" layoutY="105.0" text="Name:" textFill="#444a4c">
             <font>
                 <Font name="System Bold" size="20.0" />
             </font>
@@ -27,7 +27,7 @@
                 <Cursor fx:constant="HAND" />
             </cursor>
         </Button>
-        <Label layoutX="20.0" layoutY="209.0" text="Start Date/Time:" textFill="#444a4c">
+        <Label layoutX="25.0" layoutY="209.0" text="Start Date/Time:" textFill="#444a4c">
             <font>
                 <Font name="System Bold" size="20.0" />
             </font>
@@ -43,17 +43,17 @@
                 <Font name="System Bold" size="20.0" />
             </font>
         </Label>
-        <Label layoutX="35.0" layoutY="259.0" text="End Date/Time:" textFill="#444a4c">
+        <Label layoutX="36.0" layoutY="259.0" text="End Date/Time:" textFill="#444a4c">
             <font>
                 <Font name="System Bold" size="20.0" />
             </font>
         </Label>
-        <Label layoutX="103.0" layoutY="309.0" text="Location:" textFill="#444a4c">
+        <Label layoutX="99.0" layoutY="309.0" text="Location:" textFill="#444a4c">
             <font>
                 <Font name="System Bold" size="20.0" />
             </font>
         </Label>
-        <Label layoutX="128.0" layoutY="359.0" text="Venue:" textFill="#444a4c">
+        <Label layoutX="124.0" layoutY="359.0" text="Venue:" textFill="#444a4c">
             <font>
                 <Font name="System Bold" size="20.0" />
             </font>
@@ -63,42 +63,42 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Label fx:id="name" layoutX="132.0" layoutY="109.0" text="......." textFill="#444a4c">
+      <Label fx:id="name" layoutX="205.0" layoutY="109.0" text="......." textFill="#444a4c">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <Label fx:id="description" layoutX="216.0" layoutY="160.0" prefHeight="36.0" prefWidth="24.0" text=".....&#10;." textFill="#444a4c">
+      <Label fx:id="description" layoutX="208.0" layoutY="160.0" prefHeight="36.0" prefWidth="24.0" text=".....&#10;." textFill="#444a4c">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <Label fx:id="startDate" layoutX="216.0" layoutY="214.0" text="......." textFill="#444a4c">
+      <Label fx:id="startDate" layoutX="209.0" layoutY="214.0" text="......." textFill="#444a4c">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <Label fx:id="endDate" layoutX="216.0" layoutY="264.0" text="......." textFill="#444a4c">
+      <Label fx:id="endDate" layoutX="210.0" layoutY="264.0" text="......." textFill="#444a4c">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <Label fx:id="location" layoutX="216.0" layoutY="314.0" text="......." textFill="#444a4c">
+      <Label fx:id="location" layoutX="211.0" layoutY="314.0" text="......." textFill="#444a4c">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <Label fx:id="venue" layoutX="216.0" layoutY="364.0" text="......." textFill="#444a4c">
+      <Label fx:id="venue" layoutX="211.0" layoutY="364.0" text="......." textFill="#444a4c">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <Label fx:id="privacy" layoutX="216.0" layoutY="414.0" text="......." textFill="#444a4c">
+      <Label fx:id="privacy" layoutX="209.0" layoutY="414.0" text="......." textFill="#444a4c">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <Label fx:id="e_id" layoutX="443.0" layoutY="107.0" text="......." textFill="#444a4c">
+      <Label fx:id="e_id" layoutX="443.0" layoutY="111.0" text="......." textFill="#444a4c">
          <font>
             <Font size="15.0" />
          </font>

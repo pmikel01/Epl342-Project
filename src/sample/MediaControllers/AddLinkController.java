@@ -87,19 +87,18 @@ public class AddLinkController implements Initializable {
             }catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("../MediaLists/edit_links_list.fxml"));
+            Pane showProfParent = null;
+            showProfParent = loader.load();
+            //access the controller and call a method
+            EditMediaListController controller = loader.getController();
+
+            //create query
+            controller.initData("link", myID, conn);
+
+            p_pane.getChildren().setAll(showProfParent);
         }
-
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("../MediaLists/edit_links_list.fxml"));
-        Pane showProfParent = null;
-        showProfParent = loader.load();
-        //access the controller and call a method
-        EditMediaListController controller = loader.getController();
-
-        //create query
-        controller.initData("link", myID, conn);
-
-        p_pane.getChildren().setAll(showProfParent);
     }
 
     @FXML

@@ -839,7 +839,7 @@ public class EditMediaListController implements Initializable {
                         EditPhotoController controller = loader.getController();
 
                         //create query
-                        controller.initData(firstWord(getItem()), myID, conn);
+                        controller.initData(firstWord(getItem()), myID, conn, 0);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -944,7 +944,7 @@ public class EditMediaListController implements Initializable {
                         EditVideoController controller = loader.getController();
 
                         //create query
-                        controller.initData(firstWord(getItem()), myID, conn);
+                        controller.initData(firstWord(getItem()), myID, conn, 0);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {

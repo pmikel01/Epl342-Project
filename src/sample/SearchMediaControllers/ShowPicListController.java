@@ -87,7 +87,7 @@ public class ShowPicListController implements Initializable {
                         ShowPictureController controller = loader.getController();
 
                         //create query
-                        controller.initData(id, myID, "picture id", conn);
+                        controller.initData(id, myID, "picture id", conn, 0);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -141,7 +141,7 @@ public class ShowPicListController implements Initializable {
                         ShowPictureController controller = loader.getController();
 
                         //create query
-                        controller.initData(id, myID, "picture id", conn);
+                        controller.initData(id, myID, "picture id", conn, 0);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -161,7 +161,7 @@ public class ShowPicListController implements Initializable {
                         EditPhotoController controller = loader.getController();
 
                         //create query
-                        controller.initData("pic id", myID, conn);
+                        controller.initData("pic id", myID, conn, 0);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {

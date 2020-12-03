@@ -74,13 +74,16 @@ public class AddPhotoController implements Initializable {
             try {
                 stmt = conn.prepareStatement(SQL_INSERT_PICTURE);
 
+                int lastI = sourcePath.getText().lastIndexOf("\\");
+                String source_name = sourcePath.getText().substring(lastI+1,sourcePath.getText().length());
+                stmt.setString(1, source_name);
+
                 FileInputStream pic = null;
                 try {
                     pic = new FileInputStream(sourcePath.getText());
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
-                stmt.setBinaryStream(1, pic);
 
                 BufferedImage bimg = null;
                 int width=0;
@@ -114,19 +117,18 @@ public class AddPhotoController implements Initializable {
             }catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("../MediaLists/edit_photos_list.fxml"));
+            Pane showProfParent = null;
+            showProfParent = loader.load();
+            //access the controller and call a method
+            EditMediaListController controller = loader.getController();
+
+            //create query
+            controller.initData("picture", myID, conn);
+
+            p_pane.getChildren().setAll(showProfParent);
         }
-
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("../MediaLists/edit_photos_list.fxml"));
-        Pane showProfParent = null;
-        showProfParent = loader.load();
-        //access the controller and call a method
-        EditMediaListController controller = loader.getController();
-
-        //create query
-        controller.initData("picture", myID, conn);
-
-        p_pane.getChildren().setAll(showProfParent);
     }
 
     @FXML
