@@ -38,7 +38,6 @@ public class EditMediaListController implements Initializable {
     private static final String SQL_INSERT_INTEREST = "INSERT INTO [dbo].INTERESTS (Name) VALUES (?)";
     private static final String SQL_INSERT_PROF_INTEREST = "INSERT INTO [dbo].PROFILES_INTERESTS (INTERESTS_ID,USER_ID) VALUES (?,?)";
 
-
     private static final String SQL_UPDATE_ALBUM = "UPDATE ALBUM SET Album_ID=?,Title=?,Description=?,Privacy=?,Count=?,User_ID=?,Taken=?,ChangeLog=? WHERE ID=?";
     private static final String SQL_UPDATE_PICTURE = "UPDATE PICTURE SET Pic_ID=?,Source=?,Height=?,Width=?,User_ID=?,Link=?,Likes=?,Taken=?,ChangeLog=? WHERE ID=?";
     private static final String SQL_UPDATE_VIDEO = "UPDATE VIDEO SET Vid_ID=?,Title=?,Description=?,Length=?,Likes=?,User_ID=? WHERE ID=?";
@@ -681,6 +680,10 @@ public class EditMediaListController implements Initializable {
         }
     }
 
+    public static String firstWord(String input) {
+        return input.split(" ")[0];
+    }
+
     static class AlbumCell extends ListCell<String> {
         HBox hbox = new HBox();
         Label label = new Label("");
@@ -714,9 +717,8 @@ public class EditMediaListController implements Initializable {
                         view = loader.load();
                         //access the controller and call a method
                         ShowAlbumController controller = loader.getController();
-
                         //create query
-                        controller.initData(myID, myID, "album id", conn);
+                        controller.initData(myID, myID, firstWord(getItem()), conn);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -736,7 +738,7 @@ public class EditMediaListController implements Initializable {
                         ShowCommentsController controller = loader.getController();
 
                         //create query
-                        controller.initData(myID, myID, "album", "album id", conn);
+                        controller.initData(myID, myID, "album", firstWord(getItem()), conn);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -756,7 +758,7 @@ public class EditMediaListController implements Initializable {
                         EditAlbumController controller = loader.getController();
 
                         //create query
-                        controller.initData("album id", myID, conn);
+                        controller.initData(firstWord(getItem()), myID, conn);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -817,7 +819,7 @@ public class EditMediaListController implements Initializable {
                         ShowPictureController controller = loader.getController();
 
                         //create query
-                        controller.initData(myID, myID, "picture id", conn);
+                        controller.initData(myID, myID, firstWord(getItem()), conn,0);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -837,7 +839,7 @@ public class EditMediaListController implements Initializable {
                         EditPhotoController controller = loader.getController();
 
                         //create query
-                        controller.initData("photo id", myID, conn);
+                        controller.initData(firstWord(getItem()), myID, conn);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -902,7 +904,7 @@ public class EditMediaListController implements Initializable {
                         ShowVideoController controller = loader.getController();
 
                         //create query
-                        controller.initData(myID, myID, "video id", conn);
+                        controller.initData(myID, myID, firstWord(getItem()), conn, 0);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -922,7 +924,7 @@ public class EditMediaListController implements Initializable {
                         ShowCommentsController controller = loader.getController();
 
                         //create query
-                        controller.initData(myID, myID, "video", "video id", conn);
+                        controller.initData(myID, myID, "video", firstWord(getItem()), conn);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -942,7 +944,7 @@ public class EditMediaListController implements Initializable {
                         EditVideoController controller = loader.getController();
 
                         //create query
-                        controller.initData("video id", myID, conn);
+                        controller.initData(firstWord(getItem()), myID, conn);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -1003,7 +1005,7 @@ public class EditMediaListController implements Initializable {
                         ShowEventController controller = loader.getController();
 
                         //create query
-                        controller.initData(myID, myID, "event id", conn);
+                        controller.initData(myID, myID, firstWord(getItem()), conn);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -1023,7 +1025,7 @@ public class EditMediaListController implements Initializable {
                         EditEventController controller = loader.getController();
 
                         //create query
-                        controller.initData("event id", myID, conn);
+                        controller.initData(firstWord(getItem()), myID, conn);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -1084,7 +1086,7 @@ public class EditMediaListController implements Initializable {
                         ShowLinkController controller = loader.getController();
 
                         //create query
-                        controller.initData(myID, myID, "link id", conn);
+                        controller.initData(myID, myID, firstWord(getItem()), conn);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -1104,7 +1106,7 @@ public class EditMediaListController implements Initializable {
                         EditLinkController controller = loader.getController();
 
                         //create query
-                        controller.initData("link id", myID, conn);
+                        controller.initData(firstWord(getItem()), myID, conn);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {

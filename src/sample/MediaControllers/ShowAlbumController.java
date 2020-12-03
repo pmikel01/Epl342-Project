@@ -25,6 +25,9 @@ import sample.SearchMediaControllers.ShowPicListController;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ShowAlbumController implements Initializable {
@@ -49,24 +52,56 @@ public class ShowAlbumController implements Initializable {
         this.myID = myID;
         this.conn = conn;
 
+        items = FXCollections.observableArrayList();
+        PreparedStatement stmt=null;
+        ResultSet rs=null;
+        try {
+            stmt = conn.prepareStatement("SELECT PICTURE_ID FROM PICTURES_ALBUMS WHERE ALBUM_ID=?");
+            stmt.setInt(1, Integer.parseInt(album_id));
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                int pic_id = rs.getInt("PICTURE_ID");
+                items.add("Picture: " + pic_id);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        stmt = null;
+        rs = null;
+        try {
+            stmt = conn.prepareStatement("SELECT VIDEO_ID FROM VIDEOS_ALBUMS WHERE ALBUM_ID=?");
+            stmt.setInt(1, Integer.parseInt(album_id));
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                int video_id = rs.getInt("VIDEO_ID");
+                items.add("Video: " + video_id);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
         listV.setItems(items);
-        //loop
-        items.add("picture name");
 
         if (id.equals(myID)) {
-            listV.setCellFactory(param -> new ShowAlbumController.MyPictureCell(p_pane, myID, id, conn));
+            listV.setCellFactory(param -> new ShowAlbumController.MyAlbumCell(p_pane, myID, id, conn));
         } else {
-            listV.setCellFactory(param -> new ShowAlbumController.PictureCell(p_pane, myID, id, conn));
+            listV.setCellFactory(param -> new ShowAlbumController.AlbumCell(p_pane, myID, id, conn));
         }
     }
+    public static String firstWord(String input) {
+        return input.split(" ")[0];
+    }
+    public static String secondWord(String input) {
+        return input.split(" ")[1];
+    }
 
-    static class PictureCell extends ListCell<String> {
+    class AlbumCell extends ListCell<String> {
         HBox hbox = new HBox();
         Label label = new Label("");
         Pane pane = new Pane();
         Button button = new Button("Show Picture");
 
-        public PictureCell(AnchorPane p_pane, String myID, String id, Connection conn) {
+        public AlbumCell(AnchorPane p_pane, String myID, String id, Connection conn) {
             super();
 
             button.setCursor(Cursor.HAND);
@@ -86,7 +121,7 @@ public class ShowAlbumController implements Initializable {
                         ShowPictureController controller = loader.getController();
 
                         //create query
-                        controller.initData(id, myID, "picture id", conn);
+                        controller.initData(id, myID, "picture id", conn, Integer.parseInt(ShowAlbumController.this.album_id));
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -108,7 +143,7 @@ public class ShowAlbumController implements Initializable {
         }
     }
 
-    static class MyPictureCell extends ListCell<String> {
+    class MyAlbumCell extends ListCell<String> {
         HBox hbox = new HBox();
         Label label = new Label("");
         Pane pane = new Pane();
@@ -118,7 +153,7 @@ public class ShowAlbumController implements Initializable {
         Pane pane3 = new Pane();
         Button button3 = new Button("Delete Picture");
 
-        public MyPictureCell(AnchorPane p_pane, String myID, String id, Connection conn) {
+        public MyAlbumCell(AnchorPane p_pane, String myID, String id, Connection conn) {
             super();
 
             button.setCursor(Cursor.HAND);
@@ -140,7 +175,7 @@ public class ShowAlbumController implements Initializable {
                         ShowPictureController controller = loader.getController();
 
                         //create query
-                        controller.initData(id, myID, "picture id", conn);
+                        controller.initData(id, myID, "picture id", conn, Integer.parseInt(ShowAlbumController.this.album_id));
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
