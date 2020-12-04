@@ -9,15 +9,9 @@ import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
-import org.w3c.dom.Text;
-import sample.Main.FxmlLoader;
-import sample.Main.Location;
 import sample.MediaListsControllers.EditMediaListController;
-import sample.SearchMediaControllers.SearchAlbumController;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,8 +19,9 @@ import java.net.URL;
 import java.sql.*;
 import java.util.ResourceBundle;
 
-public class AddVideoController implements Initializable {
+public class AddVideoInAlbumController implements Initializable {
     private static final String SQL_INSERT_VIDEO = "INSERT INTO [dbo].VIDEO (Title,Source,Description,Length,Likes,User_ID) VALUES (?,?,?,?,?,?)";
+    private static final String SQL_INSERT_VIDEO_ALBUM = "INSERT INTO [dbo].VIDEOS_ALBUMS (ALBUM_ID,VIDEO_ID) VALUES (?,?)";
 
     @FXML
     private AnchorPane p_pane ;
@@ -48,11 +43,13 @@ public class AddVideoController implements Initializable {
 
 
     private String myID;
+    private String albumID;
     private Connection conn;
 
-    public void initData(String myID, Connection conn) {
+    public void initData(String myID, String albumID, Connection conn) {
         this.myID = myID;
         this.conn = conn;
+        this.albumID = albumID;
     }
 
     @FXML
@@ -74,16 +71,14 @@ public class AddVideoController implements Initializable {
     @FXML
     private void handleAddVideoButton() throws IOException {
         //Title,Description,Length,Likes,User_ID
-
         if (title.getText().isEmpty()) {
             error_l.setTextFill(Color.RED);
         } else if(sourcePath.getText().isEmpty()) {
             error_l.setTextFill(Color.RED);
         } else{
             PreparedStatement stmt = null;
-            ResultSet rs = null;
             try {
-                stmt = conn.prepareStatement(SQL_INSERT_VIDEO);
+                stmt = conn.prepareStatement(SQL_INSERT_VIDEO,Statement.RETURN_GENERATED_KEYS);
                 stmt.setString(1, title.getText());
 
                 int lastI = sourcePath.getText().lastIndexOf("\\");
@@ -101,37 +96,65 @@ public class AddVideoController implements Initializable {
 
                 stmt.setInt(5,0);
                 stmt.setInt(6, Integer.parseInt(myID));
+                stmt.executeUpdate();
 
+                int id_created=0;
+                try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        id_created = (int) generatedKeys.getLong(1);
+                    }
+                }
+
+                stmt = null;
+                ResultSet rs=null;
+                stmt = conn.prepareStatement(SQL_INSERT_VIDEO_ALBUM);
+                stmt.setInt(1,Integer.parseInt(albumID));
+                stmt.setInt(2,id_created);
+                stmt.executeUpdate();
+
+                stmt = null;
+                rs=null;
+                stmt = conn.prepareStatement("SELECT Count FROM ALBUM WHERE Album_ID=?");
+                stmt.setInt(1, Integer.parseInt(albumID));
+                rs = stmt.executeQuery();
+                int count2 = 2 ;
+                if (rs.next()) {
+                    count2 = rs.getInt("Count");
+                }
+
+                stmt = null;
+                stmt = conn.prepareStatement("UPDATE ALBUM SET Count=? WHERE Album_ID=?");
+                stmt.setInt(1,count2+1);
+                stmt.setInt(2,Integer.parseInt(albumID));
                 stmt.executeUpdate();
             }catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("../MediaLists/edit_albums_list.fxml"));
+            Pane view = null;
+            view = loader.load();
+            //access the controller and call a method
+            EditMediaListController controller = loader.getController();
+
+            //create query
+            controller.initData("album", myID, conn);
+
+            p_pane.getChildren().setAll(view);
         }
-
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("../MediaLists/edit_videos_list.fxml"));
-        Pane showProfParent = null;
-        showProfParent = loader.load();
-        //access the controller and call a method
-        EditMediaListController controller = loader.getController();
-
-        //create query
-        controller.initData("video", myID, conn);
-
-        p_pane.getChildren().setAll(showProfParent);
     }
 
     @FXML
     private void handleBackButton() throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("../MediaLists/edit_videos_list.fxml"));
+        loader.setLocation(getClass().getResource("../Media/edit_album.fxml"));
         Pane showProfParent = null;
         showProfParent = loader.load();
         //access the controller and call a method
-        EditMediaListController controller = loader.getController();
+        EditAlbumController controller = loader.getController();
 
         //create query
-        controller.initData("video", myID, conn);
+        controller.initData(albumID, myID, conn);
 
         p_pane.getChildren().setAll(showProfParent);
     }

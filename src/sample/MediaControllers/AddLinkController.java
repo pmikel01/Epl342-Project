@@ -18,7 +18,7 @@ import java.sql.*;
 import java.util.ResourceBundle;
 
 public class AddLinkController implements Initializable {
-    private static final String SQL_INSERT_LINK = "INSERT INTO [dbo].LINK (URL,Name,Caption,Description,Message,User_ID,ChangeLog) VALUES (?,?,?,?,?,?,?)";
+    private static final String SQL_INSERT_LINK = "INSERT INTO [dbo].LINK (URL,Name,Caption,Description,Message,User_ID) VALUES (?,?,?,?,?,?)";
 
     @FXML
     private AnchorPane p_pane ;
@@ -82,7 +82,7 @@ public class AddLinkController implements Initializable {
                 }
 
                 stmt.setInt(6, Integer.parseInt(myID));
-                stmt.setDate(7, java.sql.Date.valueOf(java.time.LocalDate.now()));
+
                 stmt.executeUpdate();
             }catch (SQLException throwables) {
                 throwables.printStackTrace();

@@ -19,7 +19,7 @@ import java.sql.*;
 import java.util.ResourceBundle;
 
 public class AddEventController implements Initializable {
-    private static final String SQL_INSERT_EVENT = "INSERT INTO [dbo].EVENT (Name,Description,StartTime,EndTime,Privacy,Venue,Location,Creator,ChangeLog) VALUES (?,?,?,?,?,?,?,?,?)";
+    private static final String SQL_INSERT_EVENT = "INSERT INTO [dbo].EVENT (Name,Description,StartTime,EndTime,Privacy,Venue,Location,Creator) VALUES (?,?,?,?,?,?,?,?)";
 
     ObservableList<String> privacyList = FXCollections.observableArrayList("OPEN", "CLOSED", "FRIEND", "NETWORK");
 
@@ -77,7 +77,13 @@ public class AddEventController implements Initializable {
             error_l.setTextFill(Color.RED);
         } else if (startDate.getValue()==null || endDate.getValue()==null) {
             error_l.setTextFill(Color.RED);
-        } else{
+        } else if (endDate.getValue().isBefore(startDate.getValue()))  {
+            error_l.setTextFill(Color.RED);
+        } else if (endDate.getValue().isEqual(startDate.getValue()) && startF.getValue()>endF.getValue())  {
+            error_l.setTextFill(Color.RED);
+        } else if (endDate.getValue().isEqual(startDate.getValue()) && startF.getValue().equals(endF.getValue()) && startL.getValue()>=endL.getValue())  {
+            error_l.setTextFill(Color.RED);
+        } else {
             PreparedStatement stmt = null;
             ResultSet rs = null;
             //Name,Description,StartTime,EndTime,Privacy,Venue,Location,Creator,ChangeLog
@@ -126,7 +132,6 @@ public class AddEventController implements Initializable {
 
                 stmt.setInt(8, Integer.parseInt(myID));
 
-                stmt.setDate(9, java.sql.Date.valueOf(java.time.LocalDate.now()));
                 stmt.executeUpdate();
             }catch (SQLException throwables) {
                 throwables.printStackTrace();

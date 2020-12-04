@@ -15,7 +15,7 @@
             <children>
                 <BorderPane prefHeight="82.0" prefWidth="715.0">
                     <center>
-                        <Label alignment="CENTER" prefHeight="45.0" prefWidth="362.0" text="Album Has ... Pictures " textFill="#444a4c" BorderPane.alignment="CENTER">
+                        <Label fx:id="count" alignment="CENTER" prefHeight="45.0" prefWidth="402.0" text="Album Has ... Pictures " textFill="#444a4c" BorderPane.alignment="CENTER">
                             <font>
                                 <Font name="System Bold" size="25.0" />
                             </font>

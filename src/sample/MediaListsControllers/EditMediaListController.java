@@ -38,12 +38,6 @@ public class EditMediaListController implements Initializable {
     private static final String SQL_INSERT_INTEREST = "INSERT INTO [dbo].INTERESTS (Name) VALUES (?)";
     private static final String SQL_INSERT_PROF_INTEREST = "INSERT INTO [dbo].PROFILES_INTERESTS (INTERESTS_ID,USER_ID) VALUES (?,?)";
 
-    private static final String SQL_UPDATE_ALBUM = "UPDATE ALBUM SET Album_ID=?,Title=?,Description=?,Privacy=?,Count=?,User_ID=?,Taken=?,ChangeLog=? WHERE ID=?";
-    private static final String SQL_UPDATE_PICTURE = "UPDATE PICTURE SET Pic_ID=?,Source=?,Height=?,Width=?,User_ID=?,Link=?,Likes=?,Taken=?,ChangeLog=? WHERE ID=?";
-    private static final String SQL_UPDATE_VIDEO = "UPDATE VIDEO SET Vid_ID=?,Title=?,Description=?,Length=?,Likes=?,User_ID=? WHERE ID=?";
-    private static final String SQL_UPDATE_EVENT = "UPDATE EVENT SET Event_ID=?,Name=?,Description=?,StartTime=?,EndTime=?,Privacy=?,Venue=?,Location=?,Creator=?,ChangeLog=? WHERE ID=?";
-    private static final String SQL_UPDATE_LINK = "UPDATE LINK SET Link_ID=?,URL=?,Name=?,Caption=?,Description=?,Message=?,User_ID=?,ChangeLog=? WHERE ID=?";
-
     @FXML
     private AnchorPane p_pane ;
 
@@ -260,9 +254,30 @@ public class EditMediaListController implements Initializable {
             listV.setCellFactory(param -> new EditMediaListController.EducationCell(p_pane, myID, conn));
         } else if (choose.equals("friend")) {
             items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                stmt = conn.prepareStatement("SELECT FRIEND_ID FROM FRIENDS WHERE USER_ID=?");
+                stmt.setInt(1, Integer.parseInt(myID));
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int user_id = rs.getInt("FRIEND_ID");
+
+                    PreparedStatement stmt2=null;
+                    ResultSet rs2=null;
+                    stmt2 = conn.prepareStatement("SELECT Name FROM PROFILE WHERE ID=?");
+                    stmt2.setInt(1, user_id);
+                    rs2 = stmt2.executeQuery();
+                    if (rs2.next()) {
+                        String name = rs2.getString("Name");
+                        String line = user_id + "  " + name;
+                        items.add(line);
+                    }
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
             listV.setItems(items);
-            //loop
-            items.add("friend name");
             listV.setCellFactory(param -> new EditMediaListController.FriendCell(p_pane, myID, conn));
         }
     }
@@ -769,8 +784,24 @@ public class EditMediaListController implements Initializable {
             button4.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent e) {
-                    //Delete from database
-                    getListView().getItems().remove(getItem());
+                    PreparedStatement stmt=null;
+                    try {
+                        stmt = conn.prepareStatement("DELETE FROM PICTURES_ALBUMS WHERE ALBUM_ID=?");
+                        stmt.setInt(1, Integer.parseInt(firstWord(getItem())));
+                        stmt.executeUpdate();
+
+                        stmt = conn.prepareStatement("DELETE FROM VIDEOS_ALBUMS WHERE ALBUM_ID=?");
+                        stmt.setInt(1, Integer.parseInt(firstWord(getItem())));
+                        stmt.executeUpdate();
+
+                        stmt = conn.prepareStatement("DELETE FROM ALBUM WHERE Album_ID=?");
+                        stmt.setInt(1, Integer.parseInt(firstWord(getItem())));
+                        stmt.executeUpdate();
+
+                        getListView().getItems().remove(getItem());
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
                 }
             });
         }
@@ -850,8 +881,21 @@ public class EditMediaListController implements Initializable {
             button3.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent e) {
-                    //Delete from database
-                    getListView().getItems().remove(getItem());
+                    PreparedStatement stmt=null;
+                    ResultSet rs=null;
+                    try {
+                        stmt = conn.prepareStatement("DELETE FROM PICTURES_ALBUMS WHERE PICTURE_ID=?");
+                        stmt.setInt(1, Integer.parseInt(firstWord(getItem())));
+                        stmt.executeUpdate();
+
+                        stmt = conn.prepareStatement("DELETE FROM PICTURE WHERE Pic_ID=?");
+                        stmt.setInt(1, Integer.parseInt(firstWord(getItem())));
+                        stmt.executeUpdate();
+
+                        getListView().getItems().remove(getItem());
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
                 }
             });
         }
@@ -955,8 +999,21 @@ public class EditMediaListController implements Initializable {
             button4.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent e) {
-                    //Delete from database
-                    getListView().getItems().remove(getItem());
+                    PreparedStatement stmt=null;
+                    ResultSet rs=null;
+                    try {
+                        stmt = conn.prepareStatement("DELETE FROM VIDEOS_ALBUMS WHERE VIDEO_ID=?");
+                        stmt.setInt(1, Integer.parseInt(firstWord(getItem())));
+                        stmt.executeUpdate();
+
+                        stmt = conn.prepareStatement("DELETE FROM VIDEO WHERE Vid_ID=?");
+                        stmt.setInt(1, Integer.parseInt(firstWord(getItem())));
+                        stmt.executeUpdate();
+
+                        getListView().getItems().remove(getItem());
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
                 }
             });
         }
@@ -1036,8 +1093,21 @@ public class EditMediaListController implements Initializable {
             button3.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent e) {
-                    //Delete from database
-                    getListView().getItems().remove(getItem());
+                    PreparedStatement stmt=null;
+                    ResultSet rs=null;
+                    try {
+                        stmt = conn.prepareStatement("DELETE FROM INTERESTED_IN_EVENT WHERE EVENT_ID=?");
+                        stmt.setInt(1, Integer.parseInt(firstWord(getItem())));
+                        stmt.executeUpdate();
+
+                        stmt = conn.prepareStatement("DELETE FROM EVENT WHERE Event_ID=?");
+                        stmt.setInt(1, Integer.parseInt(firstWord(getItem())));
+                        stmt.executeUpdate();
+
+                        getListView().getItems().remove(getItem());
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
                 }
             });
         }
@@ -1117,8 +1187,17 @@ public class EditMediaListController implements Initializable {
             button3.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent e) {
-                    //Delete from database
-                    getListView().getItems().remove(getItem());
+                    PreparedStatement stmt=null;
+                    ResultSet rs=null;
+                    try {
+                        stmt = conn.prepareStatement("DELETE FROM LINK WHERE Link_ID=?");
+                        stmt.setInt(1, Integer.parseInt(firstWord(getItem())));
+                        stmt.executeUpdate();
+
+                        getListView().getItems().remove(getItem());
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
                 }
             });
         }
@@ -1164,7 +1243,7 @@ public class EditMediaListController implements Initializable {
                         ShowProfController controller = loader.getController();
 
                         //create query
-                        controller.initData(myID, myID, conn);
+                        controller.initData(firstWord(getItem()), myID, conn);
 
                         p_pane.getChildren().setAll(showProfParent);
                     } catch (IOException ioException) {
@@ -1175,8 +1254,18 @@ public class EditMediaListController implements Initializable {
             button2.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent e) {
-                    //Delete from database
-                    getListView().getItems().remove(getItem());
+                    PreparedStatement stmt=null;
+                    ResultSet rs=null;
+                    try {
+                        stmt = conn.prepareStatement("DELETE FROM FRIENDS WHERE USER_ID=? AND FRIEND_ID=?");
+                        stmt.setInt(1, Integer.parseInt(myID));
+                        stmt.setInt(2, Integer.parseInt(firstWord(getItem())));
+                        stmt.executeUpdate();
+
+                        getListView().getItems().remove(getItem());
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
                 }
             });
         }

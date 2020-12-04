@@ -24,7 +24,7 @@ import java.sql.*;
 import java.util.ResourceBundle;
 
 public class AddPhotoController implements Initializable {
-    private static final String SQL_INSERT_PICTURE = "INSERT INTO [dbo].PICTURE (Source,Height,Width,User_ID,Link,Likes,Taken,ChangeLog) VALUES (?,?,?,?,?,?,?,?)";
+    private static final String SQL_INSERT_PICTURE = "INSERT INTO [dbo].PICTURE (Source,Height,Width,User_ID,Link,Likes,Taken) VALUES (?,?,?,?,?,?,?)";
 
     @FXML
     private AnchorPane p_pane ;
@@ -111,8 +111,6 @@ public class AddPhotoController implements Initializable {
                 } else {
                     stmt.setInt(7, Location.getLocID(conn,location.getText()));
                 }
-
-                stmt.setDate(8, java.sql.Date.valueOf(java.time.LocalDate.now()));
                 stmt.executeUpdate();
             }catch (SQLException throwables) {
                 throwables.printStackTrace();

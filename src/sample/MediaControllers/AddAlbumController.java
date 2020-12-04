@@ -23,7 +23,7 @@ package sample.MediaControllers;
         import sample.Main.Location;
 
 public class AddAlbumController implements Initializable {
-    private static final String SQL_INSERT_ALBUM = "INSERT INTO [dbo].ALBUM (Title,Desciption,Privacy,Count,User_ID,Taken,ChangeLog) VALUES (?,?,?,?,?,?,?)";
+    private static final String SQL_INSERT_ALBUM = "INSERT INTO [dbo].ALBUM (Title,Desciption,Privacy,Count,User_ID,Taken) VALUES (?,?,?,?,?,?)";
 
     ObservableList<String> privacyList = FXCollections.observableArrayList("OPEN", "CLOSED", "FRIEND", "NETWORK");
 
@@ -88,7 +88,6 @@ public class AddAlbumController implements Initializable {
                 } else {
                     stmt.setInt(6, Location.getLocID(conn,taken.getText()));
                 }
-                stmt.setDate(7, java.sql.Date.valueOf(java.time.LocalDate.now()));
                 stmt.executeUpdate();
             }catch (SQLException throwables) {
                 throwables.printStackTrace();

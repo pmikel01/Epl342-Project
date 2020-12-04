@@ -43,6 +43,9 @@ public class ShowAlbumController implements Initializable {
     @FXML
     private ListView<String> listV ;
 
+    @FXML
+    private Label count;
+
     private ObservableList<String> items = FXCollections.observableArrayList();
 
 
@@ -86,6 +89,20 @@ public class ShowAlbumController implements Initializable {
             listV.setCellFactory(param -> new ShowAlbumController.MyAlbumCell(p_pane, myID, id, conn));
         } else {
             listV.setCellFactory(param -> new ShowAlbumController.AlbumCell(p_pane, myID, id, conn));
+        }
+
+        stmt = null;
+        rs = null;
+        try {
+            stmt = conn.prepareStatement("SELECT Count FROM ALBUM WHERE Album_ID=?");
+            stmt.setInt(1, Integer.parseInt(album_id));
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                int count2 = rs.getInt("Count");
+                count.setText("Album Has " + count2 + " Objects");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
     }
 
