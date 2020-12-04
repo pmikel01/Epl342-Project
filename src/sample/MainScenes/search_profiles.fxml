@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="p_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="495.0" prefWidth="755.0" style="-fx-background-color: #d8d9d9;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.MainScenesControllers.SearchProfController">
    <children>
@@ -28,18 +35,18 @@
          </font>
       </Label>
       <Separator layoutX="52.0" layoutY="158.0" prefHeight="0.0" prefWidth="638.0" style="-fx-background-color: #444a4c;" />
-      <RadioButton layoutX="18.0" layoutY="236.0" mnemonicParsing="false" text="Education" textFill="#444a4c">
+      <RadioButton fx:id="edu" layoutX="18.0" layoutY="236.0" mnemonicParsing="false" selected="true" text="Education" textFill="#444a4c">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
          <toggleGroup>
-            <ToggleGroup fx:id="advanced" />
+            <ToggleGroup fx:id="okay" />
          </toggleGroup>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
       </RadioButton>
-      <RadioButton layoutX="19.0" layoutY="314.0" mnemonicParsing="false" text="Managers" textFill="#444a4c" toggleGroup="$advanced">
+      <RadioButton fx:id="man" layoutX="19.0" layoutY="314.0" mnemonicParsing="false" text="Managers" textFill="#444a4c" toggleGroup="$okay">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
@@ -47,7 +54,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </RadioButton>
-      <CheckBox contentDisplay="CENTER" layoutX="279.0" layoutY="165.0" mnemonicParsing="false" text="Advanced Search" textFill="#444a4c">
+      <CheckBox fx:id="advancedSearch" contentDisplay="CENTER" layoutX="54.0" layoutY="165.0" mnemonicParsing="false" text="Advanced Search" textFill="#444a4c">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
@@ -55,22 +62,22 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </CheckBox>
-      <TextField layoutX="158.0" layoutY="27.0" prefHeight="30.0" prefWidth="202.0" style="-fx-border-color: #444a4c; -fx-background-color: #d8d9d9; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style2.css">
+      <TextField fx:id="firstName" layoutX="158.0" layoutY="27.0" prefHeight="30.0" prefWidth="202.0" style="-fx-border-color: #444a4c; -fx-background-color: #d8d9d9; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style2.css">
          <font>
             <Font size="14.0" />
          </font>
       </TextField>
-      <TextField layoutX="510.0" layoutY="27.0" prefHeight="32.0" prefWidth="202.0" style="-fx-border-color: #444a4c; -fx-background-color: #d8d9d9; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style2.css">
+      <TextField fx:id="lastName" layoutX="510.0" layoutY="27.0" prefHeight="32.0" prefWidth="202.0" style="-fx-border-color: #444a4c; -fx-background-color: #d8d9d9; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style2.css">
          <font>
             <Font size="14.0" />
          </font>
       </TextField>
-      <TextField layoutX="510.0" layoutY="79.0" prefHeight="30.0" prefWidth="202.0" style="-fx-border-color: #444a4c; -fx-background-color: #d8d9d9; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style2.css">
+      <TextField fx:id="location" layoutX="510.0" layoutY="79.0" prefHeight="30.0" prefWidth="202.0" style="-fx-border-color: #444a4c; -fx-background-color: #d8d9d9; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style2.css">
          <font>
             <Font size="14.0" />
          </font>
       </TextField>
-      <TextField layoutX="177.0" layoutY="235.0" prefHeight="32.0" prefWidth="540.0" style="-fx-border-color: #444a4c; -fx-background-color: #d8d9d9; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style2.css">
+      <TextField fx:id="education" layoutX="177.0" layoutY="235.0" prefHeight="32.0" prefWidth="540.0" style="-fx-border-color: #444a4c; -fx-background-color: #d8d9d9; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style2.css">
          <font>
             <Font size="14.0" />
          </font>
@@ -84,20 +91,30 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Label layoutX="54.0" layoutY="161.0" text="*Insert choise with spaces" textFill="#444a4c">
+      <Label layoutX="324.0" layoutY="161.0" text="*Insert choises with commas" textFill="#444a4c">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <DatePicker layoutX="167.0" layoutY="80.0" prefHeight="24.0" prefWidth="185.0" style="-fx-background-color: #444a4c; -fx-background-insets: 0;">
+      <DatePicker fx:id="bd" layoutX="167.0" layoutY="80.0" prefHeight="24.0" prefWidth="185.0" style="-fx-background-color: #444a4c; -fx-background-insets: 0;">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </DatePicker>
-      <TextField layoutX="177.0" layoutY="312.0" prefHeight="32.0" prefWidth="540.0" style="-fx-border-color: #444a4c; -fx-background-color: #d8d9d9; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style2.css">
+      <TextField fx:id="managers" layoutX="177.0" layoutY="312.0" prefHeight="32.0" prefWidth="540.0" style="-fx-border-color: #444a4c; -fx-background-color: #d8d9d9; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style2.css">
          <font>
             <Font size="14.0" />
          </font>
       </TextField>
+      <Label layoutX="324.0" layoutY="184.0" text="*e.g.: play soccer,play basket" textFill="#444a4c">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="error_l" layoutX="51.0" layoutY="427.0" prefHeight="29.0" prefWidth="195.0" text="Invalid Info" textFill="#d8d9d9">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

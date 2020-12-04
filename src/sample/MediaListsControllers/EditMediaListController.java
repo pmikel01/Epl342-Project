@@ -496,13 +496,6 @@ public class EditMediaListController implements Initializable {
         }
     }
 
-    //    WORK (Description)
-//    PROFILES_WORK (WORK_ID,USER_ID)
-//    EDUCATION (InstituteName)
-//    PROFILES_EDUCATION (EDUCATION_ID,USER_ID)
-//    INTERESTS (Name)
-//    PROFILES_INTERESTS (INTERESTS_ID,USER_ID)
-
     @FXML
     public void pressAddWorkButton(ActionEvent event) {
         TextInputDialog textIn = new TextInputDialog();

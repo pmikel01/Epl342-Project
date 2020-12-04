@@ -21,7 +21,8 @@ import sample.Objects.ProfSelection;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
+import java.sql.*;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class ShowProfListController implements Initializable {
@@ -44,10 +45,1140 @@ public class ShowProfListController implements Initializable {
         this.conn = conn;
         this.pSel = pSel;
 
+        items = FXCollections.observableArrayList();
+        PreparedStatement stmt=null;
+        ResultSet rs=null;
 
+        //FirstName=?,LastName=?,Birthday=?,livesIn=?
+
+        if (pSel.getEducation().isEmpty() && pSel.getManagers().isEmpty()) {
+            if (!pSel.getFirstName().isEmpty() && !pSel.getLastName().isEmpty() && !pSel.getLocation().isEmpty() && pSel.getBirthD().getValue()!=null) {
+                try {
+                    stmt = conn.prepareStatement("SELECT Name,ID FROM PROFILE WHERE SOUNDEX(Name)=SOUNDEX(?) AND livesIn=? AND Birthday=?");
+                    stmt.setString(1, pSel.getFirstName() + " " + pSel.getLastName());
+
+                    int loc_id = 0 ;
+                    PreparedStatement stmtLoc=null;
+                    ResultSet rsLoc=null;
+                    stmtLoc = conn.prepareStatement("SELECT Location_ID FROM LOCATION WHERE SOUNDEX(Name)=SOUNDEX(?)");
+                    stmtLoc.setString(1,pSel.getLocation());
+                    rsLoc = stmtLoc.executeQuery();
+                    if (rsLoc.next()) {
+                        loc_id = rsLoc.getInt("Location_ID");
+                    }
+                    stmt.setInt(2, loc_id);
+
+                    LocalDate bd_local = pSel.getBirthD().getValue();
+                    Date birthD = Date.valueOf(bd_local);
+                    stmt.setDate(3, birthD);
+
+                    rs = stmt.executeQuery();
+                    while (rs.next()) {
+                        int id_user = rs.getInt("ID");
+                        String name = rs.getString("Name");
+                        if (pSel.getEducation().isEmpty() && pSel.getManagers().isEmpty()) {
+                            String line = id_user + "  " + name;
+                            items.add(line);
+                        } else if (!pSel.getEducation().isEmpty() && pSel.getManagers().isEmpty()) {
+                            String[] arrOfStr = pSel.getEducation().split(",");
+                            for (String a : arrOfStr){
+                                PreparedStatement stmt2 = null;
+                                ResultSet rs2 = null;
+                                stmt2 = conn.prepareStatement("SELECT Education_ID FROM EDUCATION WHERE SOUNDEX(InstituteName)=SOUNDEX(?)");
+                                stmt2.setString(1,a);
+                                rs2 = stmt2.executeQuery();
+                                if (rs2.next()) {
+                                    int edu_id = rs2.getInt("Education_ID");
+                                    stmt2 = null;
+                                    rs2 = null;
+                                    stmt2 = conn.prepareStatement("SELECT USER_ID FROM PROFILES_EDUCATION WHERE EDUCATION_ID=? AND USER_ID=?");
+                                    stmt2.setInt(1,edu_id);
+                                    stmt2.setInt(2,id_user);
+                                    rs2 = stmt2.executeQuery();
+                                    if (rs2.next()) {
+                                        String line = id_user + "  " + name;
+                                        items.add(line);
+                                        break;
+                                    }
+                                }
+                            }
+                        } else if (pSel.getEducation().isEmpty() && !pSel.getManagers().isEmpty()) {
+                            String[] arrOfStr = pSel.getManagers().split(",");
+                            for (String a : arrOfStr){
+                                PreparedStatement stmt2 = null;
+                                ResultSet rs2 = null;
+                                stmt2 = conn.prepareStatement("SELECT Work_ID FROM WORK WHERE SOUNDEX(Description)=SOUNDEX(?)");
+                                stmt2.setString(1,a);
+                                rs2 = stmt2.executeQuery();
+                                if (rs2.next()) {
+                                    int wor_id = rs2.getInt("Work_ID");
+                                    stmt2 = null;
+                                    rs2 = null;
+                                    stmt2 = conn.prepareStatement("SELECT USER_ID FROM PROFILES_WORK WHERE WORK_ID=? AND USER_ID=?");
+                                    stmt2.setInt(1,wor_id);
+                                    stmt2.setInt(2,id_user);
+                                    rs2 = stmt2.executeQuery();
+                                    if (rs2.next()) {
+                                        String line = id_user + "  " + name;
+                                        items.add(line);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            } else if (!pSel.getFirstName().isEmpty() && !pSel.getLastName().isEmpty() && !pSel.getLocation().isEmpty() && pSel.getBirthD().getValue()==null){
+                try {
+                    stmt = conn.prepareStatement("SELECT Name,ID FROM PROFILE WHERE SOUNDEX(Name)=SOUNDEX(?) AND livesIn=?");
+                    stmt.setString(1, pSel.getFirstName() + " " + pSel.getLastName());
+
+                    int loc_id = 0 ;
+                    PreparedStatement stmtLoc=null;
+                    ResultSet rsLoc=null;
+                    stmtLoc = conn.prepareStatement("SELECT Location_ID FROM LOCATION WHERE SOUNDEX(Name)=SOUNDEX(?)");
+                    stmtLoc.setString(1,pSel.getLocation());
+                    rsLoc = stmtLoc.executeQuery();
+                    if (rsLoc.next()) {
+                        loc_id = rsLoc.getInt("Location_ID");
+                    }
+                    stmt.setInt(2, loc_id);
+
+                    rs = stmt.executeQuery();
+                    while (rs.next()) {
+                        int id_user = rs.getInt("ID");
+                        String name = rs.getString("Name");
+                        if (pSel.getEducation().isEmpty() && pSel.getManagers().isEmpty()) {
+                            String line = id_user + "  " + name;
+                            items.add(line);
+                        } else if (!pSel.getEducation().isEmpty() && pSel.getManagers().isEmpty()) {
+                            String[] arrOfStr = pSel.getEducation().split(",");
+                            for (String a : arrOfStr){
+                                PreparedStatement stmt2 = null;
+                                ResultSet rs2 = null;
+                                stmt2 = conn.prepareStatement("SELECT Education_ID FROM EDUCATION WHERE SOUNDEX(InstituteName)=SOUNDEX(?)");
+                                stmt2.setString(1,a);
+                                rs2 = stmt2.executeQuery();
+                                if (rs2.next()) {
+                                    int edu_id = rs2.getInt("Education_ID");
+                                    stmt2 = null;
+                                    rs2 = null;
+                                    stmt2 = conn.prepareStatement("SELECT USER_ID FROM PROFILES_EDUCATION WHERE EDUCATION_ID=? AND USER_ID=?");
+                                    stmt2.setInt(1,edu_id);
+                                    stmt2.setInt(2,id_user);
+                                    rs2 = stmt2.executeQuery();
+                                    if (rs2.next()) {
+                                        String line = id_user + "  " + name;
+                                        items.add(line);
+                                        break;
+                                    }
+                                }
+                            }
+                        } else if (pSel.getEducation().isEmpty() && !pSel.getManagers().isEmpty()) {
+                            String[] arrOfStr = pSel.getManagers().split(",");
+                            for (String a : arrOfStr){
+                                PreparedStatement stmt2 = null;
+                                ResultSet rs2 = null;
+                                stmt2 = conn.prepareStatement("SELECT Work_ID FROM WORK WHERE SOUNDEX(description)=SOUNDEX(?)");
+                                stmt2.setString(1,a);
+                                rs2 = stmt2.executeQuery();
+                                if (rs2.next()) {
+                                    int wor_id = rs2.getInt("Work_ID");
+                                    stmt2 = null;
+                                    rs2 = null;
+                                    stmt2 = conn.prepareStatement("SELECT USER_ID FROM PROFILES_WORK WHERE WORK_ID=? AND USER_ID=?");
+                                    stmt2.setInt(1,wor_id);
+                                    stmt2.setInt(2,id_user);
+                                    rs2 = stmt2.executeQuery();
+                                    if (rs2.next()) {
+                                        String line = id_user + "  " + name;
+                                        items.add(line);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            } else if (!pSel.getFirstName().isEmpty() && !pSel.getLastName().isEmpty() && pSel.getLocation().isEmpty() && pSel.getBirthD().getValue()!=null){
+                try {
+                    stmt = conn.prepareStatement("SELECT Name,ID FROM PROFILE WHERE SOUNDEX(Name)=SOUNDEX(?) AND Birthday=?");
+                    stmt.setString(1, pSel.getFirstName() + " " + pSel.getLastName());
+
+                    LocalDate bd_local = pSel.getBirthD().getValue();
+                    Date birthD = Date.valueOf(bd_local);
+                    stmt.setDate(2, birthD);
+
+                    rs = stmt.executeQuery();
+                    while (rs.next()) {
+                        int id_user = rs.getInt("ID");
+                        String name = rs.getString("Name");
+                        if (pSel.getEducation().isEmpty() && pSel.getManagers().isEmpty()) {
+                            String line = id_user + "  " + name;
+                            items.add(line);
+                        } else if (!pSel.getEducation().isEmpty() && pSel.getManagers().isEmpty()) {
+                            String[] arrOfStr = pSel.getEducation().split(",");
+                            for (String a : arrOfStr){
+                                PreparedStatement stmt2 = null;
+                                ResultSet rs2 = null;
+                                stmt2 = conn.prepareStatement("SELECT Education_ID FROM EDUCATION WHERE SOUNDEX(InstituteName)=SOUNDEX(?)");
+                                stmt2.setString(1,a);
+                                rs2 = stmt2.executeQuery();
+                                if (rs2.next()) {
+                                    int edu_id = rs2.getInt("Education_ID");
+                                    stmt2 = null;
+                                    rs2 = null;
+                                    stmt2 = conn.prepareStatement("SELECT USER_ID FROM PROFILES_EDUCATION WHERE EDUCATION_ID=? AND USER_ID=?");
+                                    stmt2.setInt(1,edu_id);
+                                    stmt2.setInt(2,id_user);
+                                    rs2 = stmt2.executeQuery();
+                                    if (rs2.next()) {
+                                        String line = id_user + "  " + name;
+                                        items.add(line);
+                                        break;
+                                    }
+                                }
+                            }
+                        } else if (pSel.getEducation().isEmpty() && !pSel.getManagers().isEmpty()) {
+                            String[] arrOfStr = pSel.getManagers().split(",");
+                            for (String a : arrOfStr){
+                                PreparedStatement stmt2 = null;
+                                ResultSet rs2 = null;
+                                stmt2 = conn.prepareStatement("SELECT Work_ID FROM WORK WHERE SOUNDEX(description)=SOUNDEX(?)");
+                                stmt2.setString(1,a);
+                                rs2 = stmt2.executeQuery();
+                                if (rs2.next()) {
+                                    int wor_id = rs2.getInt("Work_ID");
+                                    stmt2 = null;
+                                    rs2 = null;
+                                    stmt2 = conn.prepareStatement("SELECT USER_ID FROM PROFILES_WORK WHERE WORK_ID=? AND USER_ID=?");
+                                    stmt2.setInt(1,wor_id);
+                                    stmt2.setInt(2,id_user);
+                                    rs2 = stmt2.executeQuery();
+                                    if (rs2.next()) {
+                                        String line = id_user + "  " + name;
+                                        items.add(line);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            } else if (!pSel.getFirstName().isEmpty() && pSel.getLastName().isEmpty() && !pSel.getLocation().isEmpty() && pSel.getBirthD().getValue()!=null){
+                try {
+                    stmt = conn.prepareStatement("SELECT Name,ID FROM PROFILE WHERE SOUNDEX(firstname)=SOUNDEX(?) AND livesIn=? AND Birthday=?");
+                    stmt.setString(1, pSel.getFirstName());
+
+                    int loc_id = 0 ;
+                    PreparedStatement stmtLoc=null;
+                    ResultSet rsLoc=null;
+                    stmtLoc = conn.prepareStatement("SELECT Location_ID FROM LOCATION WHERE SOUNDEX(name)=SOUNDEX(?)");
+                    stmtLoc.setString(1,pSel.getLocation());
+                    rsLoc = stmtLoc.executeQuery();
+                    if (rsLoc.next()) {
+                        loc_id = rsLoc.getInt("Location_ID");
+                    }
+                    stmt.setInt(2, loc_id);
+
+                    LocalDate bd_local = pSel.getBirthD().getValue();
+                    Date birthD = Date.valueOf(bd_local);
+                    stmt.setDate(3, birthD);
+
+                    rs = stmt.executeQuery();
+                    while (rs.next()) {
+                        int id_user = rs.getInt("ID");
+                        String name = rs.getString("Name");
+                        if (pSel.getEducation().isEmpty() && pSel.getManagers().isEmpty()) {
+                            String line = id_user + "  " + name;
+                            items.add(line);
+                        } else if (!pSel.getEducation().isEmpty() && pSel.getManagers().isEmpty()) {
+                            String[] arrOfStr = pSel.getEducation().split(",");
+                            for (String a : arrOfStr){
+                                PreparedStatement stmt2 = null;
+                                ResultSet rs2 = null;
+                                stmt2 = conn.prepareStatement("SELECT Education_ID FROM EDUCATION WHERE SOUNDEX(InstituteName)=SOUNDEX(?)");
+                                stmt2.setString(1,a);
+                                rs2 = stmt2.executeQuery();
+                                if (rs2.next()) {
+                                    int edu_id = rs2.getInt("Education_ID");
+                                    stmt2 = null;
+                                    rs2 = null;
+                                    stmt2 = conn.prepareStatement("SELECT USER_ID FROM PROFILES_EDUCATION WHERE EDUCATION_ID=? AND USER_ID=?");
+                                    stmt2.setInt(1,edu_id);
+                                    stmt2.setInt(2,id_user);
+                                    rs2 = stmt2.executeQuery();
+                                    if (rs2.next()) {
+                                        String line = id_user + "  " + name;
+                                        items.add(line);
+                                        break;
+                                    }
+                                }
+                            }
+                        } else if (pSel.getEducation().isEmpty() && !pSel.getManagers().isEmpty()) {
+                            String[] arrOfStr = pSel.getManagers().split(",");
+                            for (String a : arrOfStr){
+                                PreparedStatement stmt2 = null;
+                                ResultSet rs2 = null;
+                                stmt2 = conn.prepareStatement("SELECT Work_ID FROM WORK WHERE SOUNDEX(description)=SOUNDEX(?)");
+                                stmt2.setString(1,a);
+                                rs2 = stmt2.executeQuery();
+                                if (rs2.next()) {
+                                    int wor_id = rs2.getInt("Work_ID");
+                                    stmt2 = null;
+                                    rs2 = null;
+                                    stmt2 = conn.prepareStatement("SELECT USER_ID FROM PROFILES_WORK WHERE WORK_ID=? AND USER_ID=?");
+                                    stmt2.setInt(1,wor_id);
+                                    stmt2.setInt(2,id_user);
+                                    rs2 = stmt2.executeQuery();
+                                    if (rs2.next()) {
+                                        String line = id_user + "  " + name;
+                                        items.add(line);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            } else if (pSel.getFirstName().isEmpty() && !pSel.getLastName().isEmpty() && !pSel.getLocation().isEmpty() && pSel.getBirthD().getValue()!=null){
+                try {
+                    stmt = conn.prepareStatement("SELECT Name,ID FROM PROFILE WHERE SOUNDEX(LastName)=SOUNDEX(?) AND livesIn=? AND Birthday=?");
+                    stmt.setString(1, pSel.getLastName());
+
+                    int loc_id = 0 ;
+                    PreparedStatement stmtLoc=null;
+                    ResultSet rsLoc=null;
+                    stmtLoc = conn.prepareStatement("SELECT Location_ID FROM LOCATION WHERE SOUNDEX(name)=SOUNDEX(?)");
+                    stmtLoc.setString(1,pSel.getLocation());
+                    rsLoc = stmtLoc.executeQuery();
+                    if (rsLoc.next()) {
+                        loc_id = rsLoc.getInt("Location_ID");
+                    }
+                    stmt.setInt(2, loc_id);
+
+                    LocalDate bd_local = pSel.getBirthD().getValue();
+                    Date birthD = Date.valueOf(bd_local);
+                    stmt.setDate(3, birthD);
+
+                    rs = stmt.executeQuery();
+                    while (rs.next()) {
+                        int id_user = rs.getInt("ID");
+                        String name = rs.getString("Name");
+                        if (pSel.getEducation().isEmpty() && pSel.getManagers().isEmpty()) {
+                            String line = id_user + "  " + name;
+                            items.add(line);
+                        } else if (!pSel.getEducation().isEmpty() && pSel.getManagers().isEmpty()) {
+                            String[] arrOfStr = pSel.getEducation().split(",");
+                            for (String a : arrOfStr){
+                                PreparedStatement stmt2 = null;
+                                ResultSet rs2 = null;
+                                stmt2 = conn.prepareStatement("SELECT Education_ID FROM EDUCATION WHERE SOUNDEX(InstituteName)=SOUNDEX(?)");
+                                stmt2.setString(1,a);
+                                rs2 = stmt2.executeQuery();
+                                if (rs2.next()) {
+                                    int edu_id = rs2.getInt("Education_ID");
+                                    stmt2 = null;
+                                    rs2 = null;
+                                    stmt2 = conn.prepareStatement("SELECT USER_ID FROM PROFILES_EDUCATION WHERE EDUCATION_ID=? AND USER_ID=?");
+                                    stmt2.setInt(1,edu_id);
+                                    stmt2.setInt(2,id_user);
+                                    rs2 = stmt2.executeQuery();
+                                    if (rs2.next()) {
+                                        String line = id_user + "  " + name;
+                                        items.add(line);
+                                        break;
+                                    }
+                                }
+                            }
+                        } else if (pSel.getEducation().isEmpty() && !pSel.getManagers().isEmpty()) {
+                            String[] arrOfStr = pSel.getManagers().split(",");
+                            for (String a : arrOfStr){
+                                PreparedStatement stmt2 = null;
+                                ResultSet rs2 = null;
+                                stmt2 = conn.prepareStatement("SELECT Work_ID FROM WORK WHERE SOUNDEX(description)=SOUNDEX(?)");
+                                stmt2.setString(1,a);
+                                rs2 = stmt2.executeQuery();
+                                if (rs2.next()) {
+                                    int wor_id = rs2.getInt("Work_ID");
+                                    stmt2 = null;
+                                    rs2 = null;
+                                    stmt2 = conn.prepareStatement("SELECT USER_ID FROM PROFILES_WORK WHERE WORK_ID=? AND USER_ID=?");
+                                    stmt2.setInt(1,wor_id);
+                                    stmt2.setInt(2,id_user);
+                                    rs2 = stmt2.executeQuery();
+                                    if (rs2.next()) {
+                                        String line = id_user + "  " + name;
+                                        items.add(line);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            } else if (pSel.getFirstName().isEmpty() && pSel.getLastName().isEmpty() && !pSel.getLocation().isEmpty() && pSel.getBirthD().getValue()!=null){
+                try {
+                    stmt = conn.prepareStatement("SELECT Name,ID FROM PROFILE WHERE livesIn=? AND Birthday=?");
+
+                    int loc_id = 0 ;
+                    PreparedStatement stmtLoc=null;
+                    ResultSet rsLoc=null;
+                    stmtLoc = conn.prepareStatement("SELECT Location_ID FROM LOCATION WHERE SOUNDEX(name)=SOUNDEX(?)");
+                    stmtLoc.setString(1,pSel.getLocation());
+                    rsLoc = stmtLoc.executeQuery();
+                    if (rsLoc.next()) {
+                        loc_id = rsLoc.getInt("Location_ID");
+                    }
+                    stmt.setInt(1, loc_id);
+
+                    LocalDate bd_local = pSel.getBirthD().getValue();
+                    Date birthD = Date.valueOf(bd_local);
+                    stmt.setDate(2, birthD);
+
+                    rs = stmt.executeQuery();
+                    while (rs.next()) {
+                        int id_user = rs.getInt("ID");
+                        String name = rs.getString("Name");
+                        if (pSel.getEducation().isEmpty() && pSel.getManagers().isEmpty()) {
+                            String line = id_user + "  " + name;
+                            items.add(line);
+                        } else if (!pSel.getEducation().isEmpty() && pSel.getManagers().isEmpty()) {
+                            String[] arrOfStr = pSel.getEducation().split(",");
+                            for (String a : arrOfStr){
+                                PreparedStatement stmt2 = null;
+                                ResultSet rs2 = null;
+                                stmt2 = conn.prepareStatement("SELECT Education_ID FROM EDUCATION WHERE SOUNDEX(InstituteName)=SOUNDEX(?)");
+                                stmt2.setString(1,a);
+                                rs2 = stmt2.executeQuery();
+                                if (rs2.next()) {
+                                    int edu_id = rs2.getInt("Education_ID");
+                                    stmt2 = null;
+                                    rs2 = null;
+                                    stmt2 = conn.prepareStatement("SELECT USER_ID FROM PROFILES_EDUCATION WHERE EDUCATION_ID=? AND USER_ID=?");
+                                    stmt2.setInt(1,edu_id);
+                                    stmt2.setInt(2,id_user);
+                                    rs2 = stmt2.executeQuery();
+                                    if (rs2.next()) {
+                                        String line = id_user + "  " + name;
+                                        items.add(line);
+                                        break;
+                                    }
+                                }
+                            }
+                        } else if (pSel.getEducation().isEmpty() && !pSel.getManagers().isEmpty()) {
+                            String[] arrOfStr = pSel.getManagers().split(",");
+                            for (String a : arrOfStr){
+                                PreparedStatement stmt2 = null;
+                                ResultSet rs2 = null;
+                                stmt2 = conn.prepareStatement("SELECT Work_ID FROM WORK WHERE SOUNDEX(description)=SOUNDEX(?)");
+                                stmt2.setString(1,a);
+                                rs2 = stmt2.executeQuery();
+                                if (rs2.next()) {
+                                    int wor_id = rs2.getInt("Work_ID");
+                                    stmt2 = null;
+                                    rs2 = null;
+                                    stmt2 = conn.prepareStatement("SELECT USER_ID FROM PROFILES_WORK WHERE WORK_ID=? AND USER_ID=?");
+                                    stmt2.setInt(1,wor_id);
+                                    stmt2.setInt(2,id_user);
+                                    rs2 = stmt2.executeQuery();
+                                    if (rs2.next()) {
+                                        String line = id_user + "  " + name;
+                                        items.add(line);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            } else if (!pSel.getFirstName().isEmpty() && pSel.getLastName().isEmpty() && pSel.getLocation().isEmpty() && pSel.getBirthD().getValue()!=null){
+                try {
+                    stmt = conn.prepareStatement("SELECT Name,ID FROM PROFILE WHERE SOUNDEX(firstname)=SOUNDEX(?) AND Birthday=?");
+                    stmt.setString(1, pSel.getFirstName());
+
+                    LocalDate bd_local = pSel.getBirthD().getValue();
+                    Date birthD = Date.valueOf(bd_local);
+                    stmt.setDate(2, birthD);
+
+                    rs = stmt.executeQuery();
+                    while (rs.next()) {
+                        int id_user = rs.getInt("ID");
+                        String name = rs.getString("Name");
+                        if (pSel.getEducation().isEmpty() && pSel.getManagers().isEmpty()) {
+                            String line = id_user + "  " + name;
+                            items.add(line);
+                        } else if (!pSel.getEducation().isEmpty() && pSel.getManagers().isEmpty()) {
+                            String[] arrOfStr = pSel.getEducation().split(",");
+                            for (String a : arrOfStr){
+                                PreparedStatement stmt2 = null;
+                                ResultSet rs2 = null;
+                                stmt2 = conn.prepareStatement("SELECT Education_ID FROM EDUCATION WHERE SOUNDEX(InstituteName)=SOUNDEX(?)");
+                                stmt2.setString(1,a);
+                                rs2 = stmt2.executeQuery();
+                                if (rs2.next()) {
+                                    int edu_id = rs2.getInt("Education_ID");
+                                    stmt2 = null;
+                                    rs2 = null;
+                                    stmt2 = conn.prepareStatement("SELECT USER_ID FROM PROFILES_EDUCATION WHERE EDUCATION_ID=? AND USER_ID=?");
+                                    stmt2.setInt(1,edu_id);
+                                    stmt2.setInt(2,id_user);
+                                    rs2 = stmt2.executeQuery();
+                                    if (rs2.next()) {
+                                        String line = id_user + "  " + name;
+                                        items.add(line);
+                                        break;
+                                    }
+                                }
+                            }
+                        } else if (pSel.getEducation().isEmpty() && !pSel.getManagers().isEmpty()) {
+                            String[] arrOfStr = pSel.getManagers().split(",");
+                            for (String a : arrOfStr){
+                                PreparedStatement stmt2 = null;
+                                ResultSet rs2 = null;
+                                stmt2 = conn.prepareStatement("SELECT Work_ID FROM WORK WHERE SOUNDEX(description)=SOUNDEX(?)");
+                                stmt2.setString(1,a);
+                                rs2 = stmt2.executeQuery();
+                                if (rs2.next()) {
+                                    int wor_id = rs2.getInt("Work_ID");
+                                    stmt2 = null;
+                                    rs2 = null;
+                                    stmt2 = conn.prepareStatement("SELECT USER_ID FROM PROFILES_WORK WHERE WORK_ID=? AND USER_ID=?");
+                                    stmt2.setInt(1,wor_id);
+                                    stmt2.setInt(2,id_user);
+                                    rs2 = stmt2.executeQuery();
+                                    if (rs2.next()) {
+                                        String line = id_user + "  " + name;
+                                        items.add(line);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            } else if (!pSel.getFirstName().isEmpty() && !pSel.getLastName().isEmpty() && pSel.getLocation().isEmpty() && pSel.getBirthD().getValue()==null){
+                try {
+                    stmt = conn.prepareStatement("SELECT Name,ID FROM PROFILE WHERE SOUNDEX(name)=SOUNDEX(?)");
+                    stmt.setString(1, pSel.getFirstName() + " " + pSel.getLastName());
+
+                    rs = stmt.executeQuery();
+                    while (rs.next()) {
+                        int id_user = rs.getInt("ID");
+                        String name = rs.getString("Name");
+                        if (pSel.getEducation().isEmpty() && pSel.getManagers().isEmpty()) {
+                            String line = id_user + "  " + name;
+                            items.add(line);
+                        } else if (!pSel.getEducation().isEmpty() && pSel.getManagers().isEmpty()) {
+                            String[] arrOfStr = pSel.getEducation().split(",");
+                            for (String a : arrOfStr){
+                                PreparedStatement stmt2 = null;
+                                ResultSet rs2 = null;
+                                stmt2 = conn.prepareStatement("SELECT Education_ID FROM EDUCATION WHERE SOUNDEX(InstituteName)=SOUNDEX(?)");
+                                stmt2.setString(1,a);
+                                rs2 = stmt2.executeQuery();
+                                if (rs2.next()) {
+                                    int edu_id = rs2.getInt("Education_ID");
+                                    stmt2 = null;
+                                    rs2 = null;
+                                    stmt2 = conn.prepareStatement("SELECT USER_ID FROM PROFILES_EDUCATION WHERE EDUCATION_ID=? AND USER_ID=?");
+                                    stmt2.setInt(1,edu_id);
+                                    stmt2.setInt(2,id_user);
+                                    rs2 = stmt2.executeQuery();
+                                    if (rs2.next()) {
+                                        String line = id_user + "  " + name;
+                                        items.add(line);
+                                        break;
+                                    }
+                                }
+                            }
+                        } else if (pSel.getEducation().isEmpty() && !pSel.getManagers().isEmpty()) {
+                            String[] arrOfStr = pSel.getManagers().split(",");
+                            for (String a : arrOfStr){
+                                PreparedStatement stmt2 = null;
+                                ResultSet rs2 = null;
+                                stmt2 = conn.prepareStatement("SELECT Work_ID FROM WORK WHERE SOUNDEX(description)=SOUNDEX(?)");
+                                stmt2.setString(1,a);
+                                rs2 = stmt2.executeQuery();
+                                if (rs2.next()) {
+                                    int wor_id = rs2.getInt("Work_ID");
+                                    stmt2 = null;
+                                    rs2 = null;
+                                    stmt2 = conn.prepareStatement("SELECT USER_ID FROM PROFILES_WORK WHERE WORK_ID=? AND USER_ID=?");
+                                    stmt2.setInt(1,wor_id);
+                                    stmt2.setInt(2,id_user);
+                                    rs2 = stmt2.executeQuery();
+                                    if (rs2.next()) {
+                                        String line = id_user + "  " + name;
+                                        items.add(line);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            } else if (pSel.getFirstName().isEmpty() && !pSel.getLastName().isEmpty() && pSel.getLocation().isEmpty() && pSel.getBirthD().getValue()!=null){
+                try {
+                    stmt = conn.prepareStatement("SELECT Name,ID FROM PROFILE WHERE SOUNDEX(LastName)=SOUNDEX(?) AND Birthday=?");
+                    stmt.setString(1, pSel.getLastName());
+
+                    LocalDate bd_local = pSel.getBirthD().getValue();
+                    Date birthD = Date.valueOf(bd_local);
+                    stmt.setDate(2, birthD);
+
+                    rs = stmt.executeQuery();
+                    while (rs.next()) {
+                        int id_user = rs.getInt("ID");
+                        String name = rs.getString("Name");
+                        if (pSel.getEducation().isEmpty() && pSel.getManagers().isEmpty()) {
+                            String line = id_user + "  " + name;
+                            items.add(line);
+                        } else if (!pSel.getEducation().isEmpty() && pSel.getManagers().isEmpty()) {
+                            String[] arrOfStr = pSel.getEducation().split(",");
+                            for (String a : arrOfStr){
+                                PreparedStatement stmt2 = null;
+                                ResultSet rs2 = null;
+                                stmt2 = conn.prepareStatement("SELECT Education_ID FROM EDUCATION WHERE SOUNDEX(InstituteName)=SOUNDEX(?)");
+                                stmt2.setString(1,a);
+                                rs2 = stmt2.executeQuery();
+                                if (rs2.next()) {
+                                    int edu_id = rs2.getInt("Education_ID");
+                                    stmt2 = null;
+                                    rs2 = null;
+                                    stmt2 = conn.prepareStatement("SELECT USER_ID FROM PROFILES_EDUCATION WHERE EDUCATION_ID=? AND USER_ID=?");
+                                    stmt2.setInt(1,edu_id);
+                                    stmt2.setInt(2,id_user);
+                                    rs2 = stmt2.executeQuery();
+                                    if (rs2.next()) {
+                                        String line = id_user + "  " + name;
+                                        items.add(line);
+                                        break;
+                                    }
+                                }
+                            }
+                        } else if (pSel.getEducation().isEmpty() && !pSel.getManagers().isEmpty()) {
+                            String[] arrOfStr = pSel.getManagers().split(",");
+                            for (String a : arrOfStr){
+                                PreparedStatement stmt2 = null;
+                                ResultSet rs2 = null;
+                                stmt2 = conn.prepareStatement("SELECT Work_ID FROM WORK WHERE SOUNDEX(description)=SOUNDEX(?)");
+                                stmt2.setString(1,a);
+                                rs2 = stmt2.executeQuery();
+                                if (rs2.next()) {
+                                    int wor_id = rs2.getInt("Work_ID");
+                                    stmt2 = null;
+                                    rs2 = null;
+                                    stmt2 = conn.prepareStatement("SELECT USER_ID FROM PROFILES_WORK WHERE WORK_ID=? AND USER_ID=?");
+                                    stmt2.setInt(1,wor_id);
+                                    stmt2.setInt(2,id_user);
+                                    rs2 = stmt2.executeQuery();
+                                    if (rs2.next()) {
+                                        String line = id_user + "  " + name;
+                                        items.add(line);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            } else if (pSel.getFirstName().isEmpty() && !pSel.getLastName().isEmpty() && !pSel.getLocation().isEmpty() && pSel.getBirthD().getValue()==null){
+                try {
+                    stmt = conn.prepareStatement("SELECT Name,ID FROM PROFILE WHERE SOUNDEX(LastName)=SOUNDEX(?) AND livesIn=?");
+                    stmt.setString(1, pSel.getLastName());
+
+                    int loc_id = 0 ;
+                    PreparedStatement stmtLoc=null;
+                    ResultSet rsLoc=null;
+                    stmtLoc = conn.prepareStatement("SELECT Location_ID FROM LOCATION WHERE SOUNDEX(name)=SOUNDEX(?)");
+                    stmtLoc.setString(1,pSel.getLocation());
+                    rsLoc = stmtLoc.executeQuery();
+                    if (rsLoc.next()) {
+                        loc_id = rsLoc.getInt("Location_ID");
+                    }
+                    stmt.setInt(2, loc_id);
+
+                    rs = stmt.executeQuery();
+                    while (rs.next()) {
+                        int id_user = rs.getInt("ID");
+                        String name = rs.getString("Name");
+                        if (pSel.getEducation().isEmpty() && pSel.getManagers().isEmpty()) {
+                            String line = id_user + "  " + name;
+                            items.add(line);
+                        } else if (!pSel.getEducation().isEmpty() && pSel.getManagers().isEmpty()) {
+                            String[] arrOfStr = pSel.getEducation().split(",");
+                            for (String a : arrOfStr){
+                                PreparedStatement stmt2 = null;
+                                ResultSet rs2 = null;
+                                stmt2 = conn.prepareStatement("SELECT Education_ID FROM EDUCATION WHERE SOUNDEX(InstituteName)=SOUNDEX(?)");
+                                stmt2.setString(1,a);
+                                rs2 = stmt2.executeQuery();
+                                if (rs2.next()) {
+                                    int edu_id = rs2.getInt("Education_ID");
+                                    stmt2 = null;
+                                    rs2 = null;
+                                    stmt2 = conn.prepareStatement("SELECT USER_ID FROM PROFILES_EDUCATION WHERE EDUCATION_ID=? AND USER_ID=?");
+                                    stmt2.setInt(1,edu_id);
+                                    stmt2.setInt(2,id_user);
+                                    rs2 = stmt2.executeQuery();
+                                    if (rs2.next()) {
+                                        String line = id_user + "  " + name;
+                                        items.add(line);
+                                        break;
+                                    }
+                                }
+                            }
+                        } else if (pSel.getEducation().isEmpty() && !pSel.getManagers().isEmpty()) {
+                            String[] arrOfStr = pSel.getManagers().split(",");
+                            for (String a : arrOfStr){
+                                PreparedStatement stmt2 = null;
+                                ResultSet rs2 = null;
+                                stmt2 = conn.prepareStatement("SELECT Work_ID FROM WORK WHERE SOUNDEX(description)=SOUNDEX(?)");
+                                stmt2.setString(1,a);
+                                rs2 = stmt2.executeQuery();
+                                if (rs2.next()) {
+                                    int wor_id = rs2.getInt("Work_ID");
+                                    stmt2 = null;
+                                    rs2 = null;
+                                    stmt2 = conn.prepareStatement("SELECT USER_ID FROM PROFILES_WORK WHERE WORK_ID=? AND USER_ID=?");
+                                    stmt2.setInt(1,wor_id);
+                                    stmt2.setInt(2,id_user);
+                                    rs2 = stmt2.executeQuery();
+                                    if (rs2.next()) {
+                                        String line = id_user + "  " + name;
+                                        items.add(line);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            } else if (!pSel.getFirstName().isEmpty() && pSel.getLastName().isEmpty() && !pSel.getLocation().isEmpty() && pSel.getBirthD().getValue()==null){
+                try {
+                    stmt = conn.prepareStatement("SELECT Name,ID FROM PROFILE WHERE SOUNDEX(firstname)=SOUNDEX(?) AND livesIn=?");
+                    stmt.setString(1, pSel.getFirstName());
+
+                    int loc_id = 0 ;
+                    PreparedStatement stmtLoc=null;
+                    ResultSet rsLoc=null;
+                    stmtLoc = conn.prepareStatement("SELECT Location_ID FROM LOCATION WHERE SOUNDEX(name)=SOUNDEX(?)");
+                    stmtLoc.setString(1,pSel.getLocation());
+                    rsLoc = stmtLoc.executeQuery();
+                    if (rsLoc.next()) {
+                        loc_id = rsLoc.getInt("Location_ID");
+                    }
+                    stmt.setInt(2, loc_id);
+
+                    rs = stmt.executeQuery();
+                    while (rs.next()) {
+                        int id_user = rs.getInt("ID");
+                        String name = rs.getString("Name");
+                        if (pSel.getEducation().isEmpty() && pSel.getManagers().isEmpty()) {
+                            String line = id_user + "  " + name;
+                            items.add(line);
+                        } else if (!pSel.getEducation().isEmpty() && pSel.getManagers().isEmpty()) {
+                            String[] arrOfStr = pSel.getEducation().split(",");
+                            for (String a : arrOfStr){
+                                PreparedStatement stmt2 = null;
+                                ResultSet rs2 = null;
+                                stmt2 = conn.prepareStatement("SELECT Education_ID FROM EDUCATION WHERE SOUNDEX(InstituteName)=SOUNDEX(?)");
+                                stmt2.setString(1,a);
+                                rs2 = stmt2.executeQuery();
+                                if (rs2.next()) {
+                                    int edu_id = rs2.getInt("Education_ID");
+                                    stmt2 = null;
+                                    rs2 = null;
+                                    stmt2 = conn.prepareStatement("SELECT USER_ID FROM PROFILES_EDUCATION WHERE EDUCATION_ID=? AND USER_ID=?");
+                                    stmt2.setInt(1,edu_id);
+                                    stmt2.setInt(2,id_user);
+                                    rs2 = stmt2.executeQuery();
+                                    if (rs2.next()) {
+                                        String line = id_user + "  " + name;
+                                        items.add(line);
+                                        break;
+                                    }
+                                }
+                            }
+                        } else if (pSel.getEducation().isEmpty() && !pSel.getManagers().isEmpty()) {
+                            String[] arrOfStr = pSel.getManagers().split(",");
+                            for (String a : arrOfStr){
+                                PreparedStatement stmt2 = null;
+                                ResultSet rs2 = null;
+                                stmt2 = conn.prepareStatement("SELECT Work_ID FROM WORK WHERE SOUNDEX(description)=SOUNDEX(?)");
+                                stmt2.setString(1,a);
+                                rs2 = stmt2.executeQuery();
+                                if (rs2.next()) {
+                                    int wor_id = rs2.getInt("Work_ID");
+                                    stmt2 = null;
+                                    rs2 = null;
+                                    stmt2 = conn.prepareStatement("SELECT USER_ID FROM PROFILES_WORK WHERE WORK_ID=? AND USER_ID=?");
+                                    stmt2.setInt(1,wor_id);
+                                    stmt2.setInt(2,id_user);
+                                    rs2 = stmt2.executeQuery();
+                                    if (rs2.next()) {
+                                        String line = id_user + "  " + name;
+                                        items.add(line);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            } else if (pSel.getFirstName().isEmpty() && pSel.getLastName().isEmpty() && pSel.getLocation().isEmpty() && pSel.getBirthD().getValue()!=null){
+                try {
+                    stmt = conn.prepareStatement("SELECT Name,ID FROM PROFILE WHERE Birthday=?");
+
+                    LocalDate bd_local = pSel.getBirthD().getValue();
+                    Date birthD = Date.valueOf(bd_local);
+                    stmt.setDate(1, birthD);
+
+                    rs = stmt.executeQuery();
+                    while (rs.next()) {
+                        int id_user = rs.getInt("ID");
+                        String name = rs.getString("Name");
+                        if (pSel.getEducation().isEmpty() && pSel.getManagers().isEmpty()) {
+                            String line = id_user + "  " + name;
+                            items.add(line);
+                        } else if (!pSel.getEducation().isEmpty() && pSel.getManagers().isEmpty()) {
+                            String[] arrOfStr = pSel.getEducation().split(",");
+                            for (String a : arrOfStr){
+                                PreparedStatement stmt2 = null;
+                                ResultSet rs2 = null;
+                                stmt2 = conn.prepareStatement("SELECT Education_ID FROM EDUCATION WHERE SOUNDEX(InstituteName)=SOUNDEX(?)");
+                                stmt2.setString(1,a);
+                                rs2 = stmt2.executeQuery();
+                                if (rs2.next()) {
+                                    int edu_id = rs2.getInt("Education_ID");
+                                    stmt2 = null;
+                                    rs2 = null;
+                                    stmt2 = conn.prepareStatement("SELECT USER_ID FROM PROFILES_EDUCATION WHERE EDUCATION_ID=? AND USER_ID=?");
+                                    stmt2.setInt(1,edu_id);
+                                    stmt2.setInt(2,id_user);
+                                    rs2 = stmt2.executeQuery();
+                                    if (rs2.next()) {
+                                        String line = id_user + "  " + name;
+                                        items.add(line);
+                                        break;
+                                    }
+                                }
+                            }
+                        } else if (pSel.getEducation().isEmpty() && !pSel.getManagers().isEmpty()) {
+                            String[] arrOfStr = pSel.getManagers().split(",");
+                            for (String a : arrOfStr){
+                                PreparedStatement stmt2 = null;
+                                ResultSet rs2 = null;
+                                stmt2 = conn.prepareStatement("SELECT Work_ID FROM WORK WHERE SOUNDEX(description)=SOUNDEX(?)");
+                                stmt2.setString(1,a);
+                                rs2 = stmt2.executeQuery();
+                                if (rs2.next()) {
+                                    int wor_id = rs2.getInt("Work_ID");
+                                    stmt2 = null;
+                                    rs2 = null;
+                                    stmt2 = conn.prepareStatement("SELECT USER_ID FROM PROFILES_WORK WHERE WORK_ID=? AND USER_ID=?");
+                                    stmt2.setInt(1,wor_id);
+                                    stmt2.setInt(2,id_user);
+                                    rs2 = stmt2.executeQuery();
+                                    if (rs2.next()) {
+                                        String line = id_user + "  " + name;
+                                        items.add(line);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            } else if (!pSel.getFirstName().isEmpty() && pSel.getLastName().isEmpty() && pSel.getLocation().isEmpty() && pSel.getBirthD().getValue()==null){
+                try {
+                    stmt = conn.prepareStatement("SELECT Name,ID FROM PROFILE WHERE SOUNDEX(FirstName)=SOUNDEX(?)");
+                    stmt.setString(1, pSel.getFirstName());
+
+                    rs = stmt.executeQuery();
+                    while (rs.next()) {
+                        int id_user = rs.getInt("ID");
+                        String name = rs.getString("Name");
+                        if (pSel.getEducation().isEmpty() && pSel.getManagers().isEmpty()) {
+                            String line = id_user + "  " + name;
+                            items.add(line);
+                        } else if (!pSel.getEducation().isEmpty() && pSel.getManagers().isEmpty()) {
+                            String[] arrOfStr = pSel.getEducation().split(",");
+                            for (String a : arrOfStr){
+                                PreparedStatement stmt2 = null;
+                                ResultSet rs2 = null;
+                                stmt2 = conn.prepareStatement("SELECT Education_ID FROM EDUCATION WHERE SOUNDEX(InstituteName)=SOUNDEX(?)");
+                                stmt2.setString(1,a);
+                                rs2 = stmt2.executeQuery();
+                                if (rs2.next()) {
+                                    int edu_id = rs2.getInt("Education_ID");
+                                    stmt2 = null;
+                                    rs2 = null;
+                                    stmt2 = conn.prepareStatement("SELECT USER_ID FROM PROFILES_EDUCATION WHERE EDUCATION_ID=? AND USER_ID=?");
+                                    stmt2.setInt(1,edu_id);
+                                    stmt2.setInt(2,id_user);
+                                    rs2 = stmt2.executeQuery();
+                                    if (rs2.next()) {
+                                        String line = id_user + "  " + name;
+                                        items.add(line);
+                                        break;
+                                    }
+                                }
+                            }
+                        } else if (pSel.getEducation().isEmpty() && !pSel.getManagers().isEmpty()) {
+                            String[] arrOfStr = pSel.getManagers().split(",");
+                            for (String a : arrOfStr){
+                                PreparedStatement stmt2 = null;
+                                ResultSet rs2 = null;
+                                stmt2 = conn.prepareStatement("SELECT Work_ID FROM WORK WHERE SOUNDEX(description)=SOUNDEX(?)");
+                                stmt2.setString(1,a);
+                                rs2 = stmt2.executeQuery();
+                                if (rs2.next()) {
+                                    int wor_id = rs2.getInt("Work_ID");
+                                    stmt2 = null;
+                                    rs2 = null;
+                                    stmt2 = conn.prepareStatement("SELECT USER_ID FROM PROFILES_WORK WHERE WORK_ID=? AND USER_ID=?");
+                                    stmt2.setInt(1,wor_id);
+                                    stmt2.setInt(2,id_user);
+                                    rs2 = stmt2.executeQuery();
+                                    if (rs2.next()) {
+                                        String line = id_user + "  " + name;
+                                        items.add(line);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            } else if (pSel.getFirstName().isEmpty() && !pSel.getLastName().isEmpty() && pSel.getLocation().isEmpty() && pSel.getBirthD().getValue()==null){
+                try {
+                    stmt = conn.prepareStatement("SELECT Name,ID FROM PROFILE WHERE SOUNDEX(LastName)=SOUNDEX(?)");
+                    stmt.setString(1, pSel.getLastName());
+
+                    rs = stmt.executeQuery();
+                    while (rs.next()) {
+                        int id_user = rs.getInt("ID");
+                        String name = rs.getString("Name");
+                        if (pSel.getEducation().isEmpty() && pSel.getManagers().isEmpty()) {
+                            String line = id_user + "  " + name;
+                            items.add(line);
+                        } else if (!pSel.getEducation().isEmpty() && pSel.getManagers().isEmpty()) {
+                            String[] arrOfStr = pSel.getEducation().split(",");
+                            for (String a : arrOfStr){
+                                PreparedStatement stmt2 = null;
+                                ResultSet rs2 = null;
+                                stmt2 = conn.prepareStatement("SELECT Education_ID FROM EDUCATION WHERE SOUNDEX(InstituteName)=SOUNDEX(?)");
+                                stmt2.setString(1,a);
+                                rs2 = stmt2.executeQuery();
+                                if (rs2.next()) {
+                                    int edu_id = rs2.getInt("Education_ID");
+                                    stmt2 = null;
+                                    rs2 = null;
+                                    stmt2 = conn.prepareStatement("SELECT USER_ID FROM PROFILES_EDUCATION WHERE EDUCATION_ID=? AND USER_ID=?");
+                                    stmt2.setInt(1,edu_id);
+                                    stmt2.setInt(2,id_user);
+                                    rs2 = stmt2.executeQuery();
+                                    if (rs2.next()) {
+                                        String line = id_user + "  " + name;
+                                        items.add(line);
+                                        break;
+                                    }
+                                }
+                            }
+                        } else if (pSel.getEducation().isEmpty() && !pSel.getManagers().isEmpty()) {
+                            String[] arrOfStr = pSel.getManagers().split(",");
+                            for (String a : arrOfStr){
+                                PreparedStatement stmt2 = null;
+                                ResultSet rs2 = null;
+                                stmt2 = conn.prepareStatement("SELECT Work_ID FROM WORK WHERE SOUNDEX(description)=SOUNDEX(?)");
+                                stmt2.setString(1,a);
+                                rs2 = stmt2.executeQuery();
+                                if (rs2.next()) {
+                                    int wor_id = rs2.getInt("Work_ID");
+                                    stmt2 = null;
+                                    rs2 = null;
+                                    stmt2 = conn.prepareStatement("SELECT USER_ID FROM PROFILES_WORK WHERE WORK_ID=? AND USER_ID=?");
+                                    stmt2.setInt(1,wor_id);
+                                    stmt2.setInt(2,id_user);
+                                    rs2 = stmt2.executeQuery();
+                                    if (rs2.next()) {
+                                        String line = id_user + "  " + name;
+                                        items.add(line);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            } else if (pSel.getFirstName().isEmpty() && pSel.getLastName().isEmpty() && !pSel.getLocation().isEmpty() && pSel.getBirthD().getValue()==null){
+                try {
+                    stmt = conn.prepareStatement("SELECT Name,ID FROM PROFILE WHERE livesIn=?");
+
+                    int loc_id = 0 ;
+                    PreparedStatement stmtLoc=null;
+                    ResultSet rsLoc=null;
+                    stmtLoc = conn.prepareStatement("SELECT Location_ID FROM LOCATION WHERE SOUNDEX(name)=SOUNDEX(?)");
+                    stmtLoc.setString(1,pSel.getLocation());
+                    rsLoc = stmtLoc.executeQuery();
+                    if (rsLoc.next()) {
+                        loc_id = rsLoc.getInt("Location_ID");
+                    }
+                    stmt.setInt(1, loc_id);
+
+                    rs = stmt.executeQuery();
+                    while (rs.next()) {
+                        int id_user = rs.getInt("ID");
+                        String name = rs.getString("Name");
+                        if (pSel.getEducation().isEmpty() && pSel.getManagers().isEmpty()) {
+                            String line = id_user + "  " + name;
+                            items.add(line);
+                        } else if (!pSel.getEducation().isEmpty() && pSel.getManagers().isEmpty()) {
+                            String[] arrOfStr = pSel.getEducation().split(",");
+                            for (String a : arrOfStr){
+                                PreparedStatement stmt2 = null;
+                                ResultSet rs2 = null;
+                                stmt2 = conn.prepareStatement("SELECT Education_ID FROM EDUCATION WHERE SOUNDEX(InstituteName)=SOUNDEX(?)");
+                                stmt2.setString(1,a);
+                                rs2 = stmt2.executeQuery();
+                                if (rs2.next()) {
+                                    int edu_id = rs2.getInt("Education_ID");
+                                    stmt2 = null;
+                                    rs2 = null;
+                                    stmt2 = conn.prepareStatement("SELECT USER_ID FROM PROFILES_EDUCATION WHERE EDUCATION_ID=? AND USER_ID=?");
+                                    stmt2.setInt(1,edu_id);
+                                    stmt2.setInt(2,id_user);
+                                    rs2 = stmt2.executeQuery();
+                                    if (rs2.next()) {
+                                        String line = id_user + "  " + name;
+                                        items.add(line);
+                                        break;
+                                    }
+                                }
+                            }
+                        } else if (pSel.getEducation().isEmpty() && !pSel.getManagers().isEmpty()) {
+                            String[] arrOfStr = pSel.getManagers().split(",");
+                            for (String a : arrOfStr){
+                                PreparedStatement stmt2 = null;
+                                ResultSet rs2 = null;
+                                stmt2 = conn.prepareStatement("SELECT Work_ID FROM WORK WHERE SOUNDEX(description)=SOUNDEX(?)");
+                                stmt2.setString(1,a);
+                                rs2 = stmt2.executeQuery();
+                                if (rs2.next()) {
+                                    int wor_id = rs2.getInt("Work_ID");
+                                    stmt2 = null;
+                                    rs2 = null;
+                                    stmt2 = conn.prepareStatement("SELECT USER_ID FROM PROFILES_WORK WHERE WORK_ID=? AND USER_ID=?");
+                                    stmt2.setInt(1,wor_id);
+                                    stmt2.setInt(2,id_user);
+                                    rs2 = stmt2.executeQuery();
+                                    if (rs2.next()) {
+                                        String line = id_user + "  " + name;
+                                        items.add(line);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            } else if (pSel.getFirstName().isEmpty() && pSel.getLastName().isEmpty() && pSel.getLocation().isEmpty() && pSel.getBirthD().getValue()==null){
+                try {
+                    stmt = conn.prepareStatement("SELECT Name,ID FROM PROFILE");
+
+                    rs = stmt.executeQuery();
+                    while (rs.next()) {
+                        int id_user = rs.getInt("ID");
+                        String name = rs.getString("Name");
+                        if (pSel.getEducation().isEmpty() && pSel.getManagers().isEmpty()) {
+                            String line = id_user + "  " + name;
+                            items.add(line);
+                        } else if (!pSel.getEducation().isEmpty() && pSel.getManagers().isEmpty()) {
+                            String[] arrOfStr = pSel.getEducation().split(",");
+                            for (String a : arrOfStr){
+                                PreparedStatement stmt2 = null;
+                                ResultSet rs2 = null;
+                                stmt2 = conn.prepareStatement("SELECT Education_ID FROM EDUCATION WHERE SOUNDEX(InstituteName)=SOUNDEX(?)");
+                                stmt2.setString(1,a);
+                                rs2 = stmt2.executeQuery();
+                                if (rs2.next()) {
+                                    int edu_id = rs2.getInt("Education_ID");
+                                    stmt2 = null;
+                                    rs2 = null;
+                                    stmt2 = conn.prepareStatement("SELECT USER_ID FROM PROFILES_EDUCATION WHERE EDUCATION_ID=? AND USER_ID=?");
+                                    stmt2.setInt(1,edu_id);
+                                    stmt2.setInt(2,id_user);
+                                    rs2 = stmt2.executeQuery();
+                                    if (rs2.next()) {
+                                        String line = id_user + "  " + name;
+                                        items.add(line);
+                                        break;
+                                    }
+                                }
+                            }
+                        } else if (pSel.getEducation().isEmpty() && !pSel.getManagers().isEmpty()) {
+                            String[] arrOfStr = pSel.getManagers().split(",");
+                            for (String a : arrOfStr){
+                                PreparedStatement stmt2 = null;
+                                ResultSet rs2 = null;
+                                stmt2 = conn.prepareStatement("SELECT Work_ID FROM WORK WHERE SOUNDEX(description)=SOUNDEX(?)");
+                                stmt2.setString(1,a);
+                                rs2 = stmt2.executeQuery();
+                                if (rs2.next()) {
+                                    int wor_id = rs2.getInt("Work_ID");
+                                    stmt2 = null;
+                                    rs2 = null;
+                                    stmt2 = conn.prepareStatement("SELECT USER_ID FROM PROFILES_WORK WHERE WORK_ID=? AND USER_ID=?");
+                                    stmt2.setInt(1,wor_id);
+                                    stmt2.setInt(2,id_user);
+                                    rs2 = stmt2.executeQuery();
+                                    if (rs2.next()) {
+                                        String line = id_user + "  " + name;
+                                        items.add(line);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+        }
         profList.setItems(items);
-        //loop
-        items.add("903458   Pantelis Mikelli");
         profList.setCellFactory(param -> new XCell(p_pane, myID, conn));
     }
 

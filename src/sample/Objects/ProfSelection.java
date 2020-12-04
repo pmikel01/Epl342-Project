@@ -3,13 +3,14 @@ package sample.Objects;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.DatePicker;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class ProfSelection {
     private SimpleStringProperty firstName, lastName, location, education, managers;
-    Date birthD ;
+    DatePicker birthD ;
 
-    public ProfSelection(String firstName, String lastName, String location, String education, String managers, Date birthD) {
+    public ProfSelection(String firstName, String lastName, String location, String education, String managers, DatePicker birthD) {
         this.firstName = new SimpleStringProperty(firstName);
         this.lastName = new SimpleStringProperty(lastName);
         this.location = new SimpleStringProperty(location);
@@ -38,7 +39,7 @@ public class ProfSelection {
         return managers.get();
     }
 
-    public Date getBirthD() {
+    public DatePicker getBirthD() {
         return birthD;
     }
 }
