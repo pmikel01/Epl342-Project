@@ -28,6 +28,10 @@ public class Main extends Application {
         //create query
         controller.initData(conn);
 
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        //Source=?,Height=?,Width=?,Taken=?
+
         primaryStage.setScene(new Scene(root));
         primaryStage.initStyle(StageStyle.UNDECORATED);
 

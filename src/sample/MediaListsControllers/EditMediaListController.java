@@ -1255,6 +1255,11 @@ public class EditMediaListController implements Initializable {
                         stmt.setInt(2, Integer.parseInt(firstWord(getItem())));
                         stmt.executeUpdate();
 
+                        stmt = conn.prepareStatement("DELETE FROM FRIENDS WHERE USER_ID=? AND FRIEND_ID=?");
+                        stmt.setInt(1, Integer.parseInt(firstWord(getItem())));
+                        stmt.setInt(2, Integer.parseInt(myID));
+                        stmt.executeUpdate();
+
                         getListView().getItems().remove(getItem());
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();

@@ -16,7 +16,7 @@ import sample.MediaListsControllers.MediaListController;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
+import java.sql.*;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -43,9 +43,127 @@ public class ShowCommentsController implements Initializable {
         this.mediaID = mediaID;
         this.conn = conn;
 
+        if (choose.equals("video")) {
+            items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                stmt = conn.prepareStatement("SELECT COMMENT_ID,USER_ID FROM PROFILES_COMMENTS WHERE VIDEO_ID=?");
+                stmt.setInt(1, Integer.parseInt(mediaID));
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    PreparedStatement stmt2=null;
+                    ResultSet rs2=null;
+                    int user_id=0;
+                    int comm_id=0;
+                    try {
+                        stmt = conn.prepareStatement("SELECT COMMENT_ID,USER_ID FROM PROFILES_COMMENTS WHERE VIDEO_ID=?");
+                        stmt.setInt(1, Integer.parseInt(mediaID));
+                        rs = stmt.executeQuery();
+                        if (rs.next()) {
+                            user_id = rs.getInt("USER_ID");
+                            comm_id = rs.getInt("COMMENT_ID");
+                        }
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+
+                    stmt2=null;
+                    rs2=null;
+                    String comm = "";
+                    try {
+                        stmt = conn.prepareStatement("SELECT Comment_Text FROM COMMENT WHERE Comment_ID=?");
+                        stmt.setInt(1, comm_id);
+                        rs = stmt.executeQuery();
+                        if (rs.next()) {
+                            comm = rs.getString("Comment_Text");
+                        }
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+
+                    stmt2=null;
+                    rs2=null;
+                    String name = "";
+                    try {
+                        stmt = conn.prepareStatement("SELECT Name FROM PROFILE WHERE ID=?");
+                        stmt.setInt(1, user_id);
+                        rs = stmt.executeQuery();
+                        if (rs.next()) {
+                            name = rs.getString("Name");
+                        }
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+
+                    String line = name + ":  " + comm;
+                    items.add(line);
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        } else {
+            items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                stmt = conn.prepareStatement("SELECT COMMENT_ID,USER_ID FROM PROFILES_COMMENTS WHERE ALBUM_ID=?");
+                stmt.setInt(1, Integer.parseInt(mediaID));
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    PreparedStatement stmt2=null;
+                    ResultSet rs2=null;
+                    int user_id=0;
+                    int comm_id=0;
+                    try {
+                        stmt = conn.prepareStatement("SELECT COMMENT_ID,USER_ID FROM PROFILES_COMMENTS WHERE VIDEO_ID=?");
+                        stmt.setInt(1, Integer.parseInt(mediaID));
+                        rs = stmt.executeQuery();
+                        if (rs.next()) {
+                            user_id = rs.getInt("USER_ID");
+                            comm_id = rs.getInt("COMMENT_ID");
+                        }
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+
+                    stmt2=null;
+                    rs2=null;
+                    String comm = "";
+                    try {
+                        stmt = conn.prepareStatement("SELECT Comment_Text FROM COMMENT WHERE Comment_ID=?");
+                        stmt.setInt(1, comm_id);
+                        rs = stmt.executeQuery();
+                        if (rs.next()) {
+                            comm = rs.getString("Comment_Text");
+                        }
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+
+                    stmt2=null;
+                    rs2=null;
+                    String name = "";
+                    try {
+                        stmt = conn.prepareStatement("SELECT Name FROM PROFILE WHERE ID=?");
+                        stmt.setInt(1, user_id);
+                        rs = stmt.executeQuery();
+                        if (rs.next()) {
+                            name = rs.getString("Name");
+                        }
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+
+                    String line = name + ":  " + comm;
+                    items.add(line);
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+
         listV.setItems(items);
-        //loop
-        items.add("Pantelis Mikelli: COMMENT........");
     }
 
     @FXML
@@ -115,10 +233,45 @@ public class ShowCommentsController implements Initializable {
         textIn.getDialogPane().setContentText("Comment: ");
         Optional<String> result = textIn.showAndWait();
         TextField input = textIn.getEditor();
-        if(input.getText() != null && input.getText().toString().length() != 0)
-            System.out.println("correct");
-        else
+        if(input.getText() != null && input.getText().toString().length() != 0) {
+            PreparedStatement stmt = null;
+            ResultSet rs = null;
+            //Source=?,Height=?,Width=?,Taken=?
+            try {
+                stmt = conn.prepareStatement("INSERT INTO [dbo].COMMENT (Comment_Text) VALUES (?)",Statement.RETURN_GENERATED_KEYS);
+                stmt.setString(1,input.getText());
+                stmt.executeUpdate();
+
+                int id_created=0;
+                try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        id_created = (int) generatedKeys.getLong(1);
+                    }
+                }
+
+                if (choose.equals("video")) {
+                    stmt=null;
+                    stmt = conn.prepareStatement("INSERT INTO [dbo].PROFILES_COMMENTS (COMMENT_ID,USER_ID,VIDEO_ID) VALUES (?,?,?)");
+                    stmt.setInt(1,id_created);
+                    stmt.setInt(2,Integer.parseInt(myID));
+                    stmt.setInt(3,Integer.parseInt(mediaID));
+                    stmt.executeUpdate();
+                } else {
+                    stmt=null;
+                    stmt = conn.prepareStatement("INSERT INTO [dbo].PROFILES_COMMENTS (COMMENT_ID,USER_ID,ALBUM_ID) VALUES (?,?,?)");
+                    stmt.setInt(1,id_created);
+                    stmt.setInt(2,Integer.parseInt(myID));
+                    stmt.setInt(3,Integer.parseInt(mediaID));
+                    stmt.executeUpdate();
+                }
+
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }else {
             System.out.println("");
+
+        }
     }
 
     @Override

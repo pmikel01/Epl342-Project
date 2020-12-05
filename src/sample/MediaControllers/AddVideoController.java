@@ -106,19 +106,18 @@ public class AddVideoController implements Initializable {
             }catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("../MediaLists/edit_videos_list.fxml"));
+            Pane showProfParent = null;
+            showProfParent = loader.load();
+            //access the controller and call a method
+            EditMediaListController controller = loader.getController();
+
+            //create query
+            controller.initData("video", myID, conn);
+
+            p_pane.getChildren().setAll(showProfParent);
         }
-
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("../MediaLists/edit_videos_list.fxml"));
-        Pane showProfParent = null;
-        showProfParent = loader.load();
-        //access the controller and call a method
-        EditMediaListController controller = loader.getController();
-
-        //create query
-        controller.initData("video", myID, conn);
-
-        p_pane.getChildren().setAll(showProfParent);
     }
 
     @FXML

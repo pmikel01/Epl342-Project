@@ -25,6 +25,9 @@ package sample.MediaListsControllers;
         import java.io.IOException;
         import java.net.URL;
         import java.sql.Connection;
+        import java.sql.PreparedStatement;
+        import java.sql.ResultSet;
+        import java.sql.SQLException;
         import java.util.ResourceBundle;
 
 public class MediaListController implements Initializable {
@@ -48,46 +51,198 @@ public class MediaListController implements Initializable {
         this.conn = conn;
 
         if (choose.equals("album")) {
+            items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                stmt = conn.prepareStatement("SELECT Album_ID,Title FROM ALBUM WHERE USER_ID=?");
+                stmt.setInt(1, Integer.parseInt(id));
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int album_id = rs.getInt("Album_ID");
+                    String title = rs.getString("Title");
+                    String line = album_id + "  " + title;
+                    items.add(line);
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
             listV.setItems(items);
-            //loop
-            items.add("album name");
             listV.setCellFactory(param -> new AlbumCell(p_pane, myID, id, conn));
         } else if (choose.equals("picture")) {
+            items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                stmt = conn.prepareStatement("SELECT Pic_ID FROM PICTURE WHERE USER_ID=?");
+                stmt.setInt(1, Integer.parseInt(id));
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int pic_id = rs.getInt("Pic_ID");
+                    items.add(pic_id+"");
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
             listV.setItems(items);
-            //loop
-            items.add("picture name");
             listV.setCellFactory(param -> new PictureCell(p_pane, myID, id, conn));
         } else if (choose.equals("video")) {
+            items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                stmt = conn.prepareStatement("SELECT Vid_ID,Title FROM VIDEO WHERE USER_ID=?");
+                stmt.setInt(1, Integer.parseInt(id));
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int video_id = rs.getInt("Vid_ID");
+                    String title = rs.getString("Title");
+                    String line = video_id + "  " + title;
+                    items.add(line);
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
             listV.setItems(items);
-            //loop
-            items.add("video name");
             listV.setCellFactory(param -> new VideoCell(p_pane, myID, id, conn));
         } else if (choose.equals("event")) {
+            items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                stmt = conn.prepareStatement("SELECT Event_ID,Name FROM EVENT WHERE Creator=?");
+                stmt.setInt(1, Integer.parseInt(id));
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int event_id = rs.getInt("Event_ID");
+                    String name = rs.getString("Name");
+                    String line = event_id + "  " + name;
+                    items.add(line);
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
             listV.setItems(items);
-            //loop
-            items.add("event name");
             listV.setCellFactory(param -> new EventCell(p_pane, myID, id, conn));
         } else if (choose.equals("link")) {
+            items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                stmt = conn.prepareStatement("SELECT Link_ID,Name FROM LINK WHERE USER_ID=?");
+                stmt.setInt(1, Integer.parseInt(id));
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int link_id = rs.getInt("Link_ID");
+                    String name = rs.getString("Name");
+                    String line = link_id + "  " + name;
+                    items.add(line);
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
             listV.setItems(items);
-            //loop
-            items.add("link name");
             listV.setCellFactory(param -> new LinkCell(p_pane, myID, id, conn));
         } else if (choose.equals("interest")) {
+            items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                stmt = conn.prepareStatement("SELECT INTERESTS_ID FROM PROFILES_INTERESTS WHERE USER_ID=?");
+                stmt.setInt(1, Integer.parseInt(id));
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int interest_id = rs.getInt("INTERESTS_ID");
+
+                    PreparedStatement stmt2=null;
+                    ResultSet rs2=null;
+                    stmt2 = conn.prepareStatement("SELECT Name FROM INTERESTS WHERE Interest_ID=?");
+                    stmt2.setInt(1, interest_id);
+                    rs2 = stmt2.executeQuery();
+                    if (rs2.next()) {
+                        String interest_text = rs2.getString("Name");
+                        items.add(interest_text);
+                    }
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
             listV.setItems(items);
-            //loop
-            items.add("interest name");
         } else if (choose.equals("quote")) {
+            items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                stmt = conn.prepareStatement("SELECT QUOTES_ID FROM PROFILES_QUOTES WHERE USER_ID=?");
+                stmt.setInt(1, Integer.parseInt(id));
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int quote_id = rs.getInt("QUOTES_ID");
+
+                    PreparedStatement stmt2=null;
+                    ResultSet rs2=null;
+                    stmt2 = conn.prepareStatement("SELECT QuoteText FROM QUOTES WHERE Quote_ID=?");
+                    stmt2.setInt(1, quote_id);
+                    rs2 = stmt2.executeQuery();
+                    if (rs2.next()) {
+                        String quote_text = rs2.getString("QuoteText");
+                        items.add(quote_text);
+                    }
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
             listV.setItems(items);
-            //loop
-            items.add("quote name");
         } else if (choose.equals("work")) {
+            items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                stmt = conn.prepareStatement("SELECT WORK_ID FROM PROFILES_WORK WHERE USER_ID=?");
+                stmt.setInt(1, Integer.parseInt(id));
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int work_id = rs.getInt("WORK_ID");
+
+                    PreparedStatement stmt2=null;
+                    ResultSet rs2=null;
+                    stmt2 = conn.prepareStatement("SELECT Description FROM WORK WHERE Work_ID=?");
+                    stmt2.setInt(1, work_id);
+                    rs2 = stmt2.executeQuery();
+                    if (rs2.next()) {
+                        String work_text = rs2.getString("Description");
+                        items.add(work_text);
+                    }
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
             listV.setItems(items);
-            //loop
-            items.add("work name");
         } else if (choose.equals("education")) {
+            items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                stmt = conn.prepareStatement("SELECT EDUCATION_ID FROM PROFILES_EDUCATION WHERE USER_ID=?");
+                stmt.setInt(1, Integer.parseInt(id));
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int education_id = rs.getInt("EDUCATION_ID");
+
+                    PreparedStatement stmt2=null;
+                    ResultSet rs2=null;
+                    stmt2 = conn.prepareStatement("SELECT InstituteName FROM EDUCATION WHERE Education_ID=?");
+                    stmt2.setInt(1, education_id);
+                    rs2 = stmt2.executeQuery();
+                    if (rs2.next()) {
+                        String education_text = rs2.getString("InstituteName");
+                        items.add(education_text);
+                    }
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
             listV.setItems(items);
-            //loop
-            items.add("education name");
         }
     }
 
@@ -166,6 +321,10 @@ public class MediaListController implements Initializable {
         p_pane.getChildren().setAll(view);
     }
 
+    public static String firstWord(String input) {
+        return input.split(" ")[0];
+    }
+
     static class AlbumCell extends ListCell<String> {
         HBox hbox = new HBox();
         Label label = new Label("");
@@ -195,7 +354,7 @@ public class MediaListController implements Initializable {
                         ShowAlbumController controller = loader.getController();
 
                         //create query
-                        controller.initData(id, myID, "album id", conn);
+                        controller.initData(id, myID, firstWord(getItem()), conn);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -215,7 +374,7 @@ public class MediaListController implements Initializable {
                         ShowCommentsController controller = loader.getController();
 
                         //create query
-                        controller.initData(id, myID, "album", "album ID", conn);
+                        controller.initData(id, myID, "album", firstWord(getItem()), conn);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -263,7 +422,7 @@ public class MediaListController implements Initializable {
                         ShowPictureController controller = loader.getController();
 
                         //create query
-                        controller.initData(id, myID, "picture id", conn, 0);
+                        controller.initData(id, myID, firstWord(getItem()), conn, 0);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -314,7 +473,7 @@ public class MediaListController implements Initializable {
                         ShowVideoController controller = loader.getController();
 
                         //create query
-                        controller.initData(id, myID, "video id", conn, 0);
+                        controller.initData(id, myID, firstWord(getItem()), conn, 0);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -334,7 +493,7 @@ public class MediaListController implements Initializable {
                         ShowCommentsController controller = loader.getController();
 
                         //create query
-                        controller.initData(id, myID, "video", "video id", conn);
+                        controller.initData(id, myID, "video", firstWord(getItem()), conn);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -382,7 +541,7 @@ public class MediaListController implements Initializable {
                         ShowEventController controller = loader.getController();
 
                         //create query
-                        controller.initData(id, myID, "event id", conn);
+                        controller.initData(id, myID, firstWord(getItem()), conn);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -430,7 +589,7 @@ public class MediaListController implements Initializable {
                         ShowLinkController controller = loader.getController();
 
                         //create query
-                        controller.initData(id, myID, "link id", conn);
+                        controller.initData(id, myID, firstWord(getItem()), conn);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
