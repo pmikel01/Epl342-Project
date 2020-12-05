@@ -20,7 +20,7 @@ package sample.MainScenesControllers;
 
 public class ChangelogController implements Initializable {
 
-    ObservableList<String> mediaList = FXCollections.observableArrayList("Albums", "Pictures", "Videos", "Events", "Links", "Friends");
+    ObservableList<String> mediaList = FXCollections.observableArrayList("Albums", "Pictures", "Videos", "Events", "Links");
 
     @FXML
     private ComboBox<String> mediaBox;
@@ -52,7 +52,7 @@ public class ChangelogController implements Initializable {
         ChangeLogListController controller = loader.getController();
 
         //create query
-        controller.initData("all", myID, conn);
+        controller.initData("all", myID, conn, allChangeC.getValue());
 
         p_pane.getChildren().setAll(view);
     }
@@ -70,7 +70,7 @@ public class ChangelogController implements Initializable {
 
         //create query
         //combobox selection
-        controller.initData(selection, myID, conn);
+        controller.initData(selection, myID, conn, changeC.getValue());
 
         p_pane.getChildren().setAll(view);
     }

@@ -55,11 +55,14 @@ public class MediaListController implements Initializable {
             PreparedStatement stmt=null;
             ResultSet rs=null;
             try {
-                stmt = conn.prepareStatement("SELECT Album_ID,Title FROM ALBUM WHERE USER_ID=?");
+                stmt = conn.prepareStatement("SELECT Album_ID,Title,Privacy FROM ALBUM WHERE USER_ID=?");
                 stmt.setInt(1, Integer.parseInt(id));
                 rs = stmt.executeQuery();
                 while (rs.next()) {
                     int album_id = rs.getInt("Album_ID");
+                    if (rs.getInt("Privacy") == 1) {
+
+                    }
                     String title = rs.getString("Title");
                     String line = album_id + "  " + title;
                     items.add(line);
