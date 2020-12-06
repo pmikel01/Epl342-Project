@@ -1368,20 +1368,38 @@ public class ShowProfListController implements Initializable {
             button.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent e) {
-                    try {
-                        FXMLLoader loader = new FXMLLoader();
-                        loader.setLocation(getClass().getResource("../MainScenes/profile.fxml"));
-                        Pane showProfParent = null;
-                        showProfParent = loader.load();
-                        //access the controller and call a method
-                        ShowProfController controller = loader.getController();
+                    if (myID.equals(firstWord(getItem()))) {
+                        try {
+                            FXMLLoader loader = new FXMLLoader();
+                            loader.setLocation(getClass().getResource("../MainScenes/my_profile.fxml"));
+                            Pane view = null;
+                            view = loader.load();
+                            //access the controller and call a method
+                            MyProfController controller = loader.getController();
 
-                        //create query
-                        controller.initData(firstWord(getItem()), myID, conn);
+                            //create query
+                            controller.initData(myID, conn);
 
-                        p_pane.getChildren().setAll(showProfParent);
-                    } catch (IOException ioException) {
-                        ioException.printStackTrace();
+                            p_pane.getChildren().setAll(view);
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
+                    } else {
+                        try {
+                            FXMLLoader loader = new FXMLLoader();
+                            loader.setLocation(getClass().getResource("../MainScenes/profile.fxml"));
+                            Pane showProfParent = null;
+                            showProfParent = loader.load();
+                            //access the controller and call a method
+                            ShowProfController controller = loader.getController();
+
+                            //create query
+                            controller.initData(firstWord(getItem()), myID, conn);
+
+                            p_pane.getChildren().setAll(showProfParent);
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
                     }
                 }
             });

@@ -1,14 +1,15 @@
 package sample.Objects;
 
 import javafx.beans.property.SimpleStringProperty;
+import javafx.scene.control.DatePicker;
 
 import java.util.Date;
 
 public class SearchEvents {
     private SimpleStringProperty name, venue, location, id;
-    Date date ;
+    DatePicker date ;
 
-    public SearchEvents(String id, String name, String location, String venue, Date date) {
+    public SearchEvents(String id, String name, String location, String venue, DatePicker date) {
         this.id = new SimpleStringProperty(id);
         this.name = new SimpleStringProperty(name);
         this.location = new SimpleStringProperty(location);
@@ -32,7 +33,7 @@ public class SearchEvents {
         return id.get();
     }
 
-    public Date getDate() {
+    public DatePicker getDate() {
         return date;
     }
 

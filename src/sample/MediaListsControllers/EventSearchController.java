@@ -60,6 +60,10 @@ public class EventSearchController implements Initializable {
         listV.setCellFactory(param -> new EventSearchController.XCell(p_pane, myID, events, conn));
     }
 
+    public static String firstWord(String input) {
+        return input.split(" ")[0];
+    }
+
     static class XCell extends ListCell<String> {
         HBox hbox = new HBox();
         Label label = new Label("");
@@ -71,6 +75,8 @@ public class EventSearchController implements Initializable {
         Button button3 = new Button("Interested");
         Pane pane4 = new Pane();
         Button button4 = new Button("Not Going");
+        Pane pane5 = new Pane();
+        Button button5 = new Button("Interested Users");
 
         public XCell(AnchorPane p_pane, String myID, SearchEvents events, Connection conn) {
             super();
@@ -79,10 +85,11 @@ public class EventSearchController implements Initializable {
             button2.setCursor(Cursor.HAND);
             button3.setCursor(Cursor.HAND);
             button4.setCursor(Cursor.HAND);
-            hbox.getChildren().addAll(label, pane, button, pane2, button2, pane3, button3, pane4, button4);
+            button5.setCursor(Cursor.HAND);
+            hbox.getChildren().addAll(label, pane5, button5, pane, button, pane2, button2, pane3, button3, pane4, button4);
             hbox.setAlignment(Pos.CENTER);
             hbox.setSpacing(5);
-            HBox.setHgrow(pane, Priority.ALWAYS);
+            HBox.setHgrow(pane5, Priority.ALWAYS);
 //            button.setOnAction(event -> getListView().getItems().remove(getItem()));
             button.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
@@ -120,6 +127,26 @@ public class EventSearchController implements Initializable {
                 @Override
                 public void handle(ActionEvent e) {
                     //message
+                }
+            });
+            button5.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent e) {
+                    try {
+                        FXMLLoader loader = new FXMLLoader();
+                        loader.setLocation(getClass().getResource("../MediaLists/interested_list.fxml"));
+                        Pane view = null;
+                        view = loader.load();
+                        //access the controller and call a method
+                        EventInterestedController controller = loader.getController();
+
+                        //Integer.parseInt(firstWord(getItem()))
+                        controller.initData(myID, conn, 5);
+
+                        p_pane.getChildren().setAll(view);
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
                 }
             });
         }

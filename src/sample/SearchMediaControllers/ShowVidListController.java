@@ -29,6 +29,9 @@ import sample.Objects.SearchVideos;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ShowVidListController implements Initializable {
@@ -52,15 +55,97 @@ public class ShowVidListController implements Initializable {
         this.myID = myID;
         this.conn = conn;
 
-        listV.setItems(items);
-        //loop
-        items.add("video name");
+        if (!videos.getMessage().isEmpty() && !videos.getDescription().isEmpty()) {
+            items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                stmt = conn.prepareStatement("SELECT Vid_ID,Title FROM VIDEO WHERE SOUNDEX(Title)=SOUNDEX(?) AND SOUNDEX(Description)=SOUNDEX(?) AND Length>=? AND Likes>=?");
+                stmt.setString(1, videos.getMessage());
+                stmt.setString(2, videos.getDescription());
+                stmt.setInt(3, videos.getLength());
+                stmt.setInt(4, videos.getLikes());
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int video_id = rs.getInt("Vid_ID");
+                    String title = rs.getString("Title");
+                    String line = video_id + "  " + title;
+                    items.add(line);
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            listV.setItems(items);
+        } else if (videos.getMessage().isEmpty() && !videos.getDescription().isEmpty()) {
+            items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                stmt = conn.prepareStatement("SELECT Vid_ID,Title FROM VIDEO WHERE SOUNDEX(Description)=SOUNDEX(?) AND Length>=? AND Likes>=?");
+                stmt.setString(1, videos.getDescription());
+                stmt.setInt(2, videos.getLength());
+                stmt.setInt(3, videos.getLikes());
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int video_id = rs.getInt("Vid_ID");
+                    String title = rs.getString("Title");
+                    String line = video_id + "  " + title;
+                    items.add(line);
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            listV.setItems(items);
+        } else if (!videos.getMessage().isEmpty() && videos.getDescription().isEmpty()) {
+            items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                stmt = conn.prepareStatement("SELECT Vid_ID,Title FROM VIDEO WHERE SOUNDEX(Title)=SOUNDEX(?) AND Length>=? AND Likes>=?");
+                stmt.setString(1, videos.getMessage());
+                stmt.setInt(2, videos.getLength());
+                stmt.setInt(3, videos.getLikes());
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int video_id = rs.getInt("Vid_ID");
+                    String title = rs.getString("Title");
+                    String line = video_id + "  " + title;
+                    items.add(line);
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            listV.setItems(items);
+        } else if (videos.getMessage().isEmpty() && videos.getDescription().isEmpty()) {
+            items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                stmt = conn.prepareStatement("SELECT Vid_ID,Title FROM VIDEO WHERE Length>=? AND Likes>=?");
+                stmt.setInt(1, videos.getLength());
+                stmt.setInt(2, videos.getLikes());
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int video_id = rs.getInt("Vid_ID");
+                    String title = rs.getString("Title");
+                    String line = video_id + "  " + title;
+                    items.add(line);
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            listV.setItems(items);
+        }
 
         if (id.equals(myID)) {
             listV.setCellFactory(param -> new ShowVidListController.MyVideoCell(p_pane, myID, id, conn));
         } else {
             listV.setCellFactory(param -> new ShowVidListController.VideoCell(p_pane, myID, id, conn));
         }
+    }
+
+    public static String firstWord(String input) {
+        return input.split(" ")[0];
     }
 
     static class VideoCell extends ListCell<String> {
@@ -92,7 +177,7 @@ public class ShowVidListController implements Initializable {
                         ShowVideoController controller = loader.getController();
 
                         //create query
-                        controller.initData(id, myID, "video id", conn, 0);
+                        controller.initData(id, myID,  firstWord(getItem()), conn, 0);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -112,7 +197,7 @@ public class ShowVidListController implements Initializable {
                         ShowCommentsController controller = loader.getController();
 
                         //create query
-                        controller.initData(id, myID, "video", "video id", conn);
+                        controller.initData(id, myID, "video",  firstWord(getItem()), conn);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -170,7 +255,7 @@ public class ShowVidListController implements Initializable {
                         ShowVideoController controller = loader.getController();
 
                         //create query
-                        controller.initData(id, myID, "video id", conn, 0);
+                        controller.initData(id, myID,  firstWord(getItem()), conn, 0);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -190,7 +275,7 @@ public class ShowVidListController implements Initializable {
                         ShowCommentsController controller = loader.getController();
 
                         //create query
-                        controller.initData(id, myID, "video", "video id", conn);
+                        controller.initData(id, myID, "video",  firstWord(getItem()), conn);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -210,7 +295,7 @@ public class ShowVidListController implements Initializable {
                         EditVideoController controller = loader.getController();
 
                         //create query
-                        controller.initData("video id", myID, conn, 0);
+                        controller.initData( firstWord(getItem()), myID, conn, 0);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {

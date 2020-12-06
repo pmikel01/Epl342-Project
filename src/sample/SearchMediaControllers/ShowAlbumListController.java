@@ -27,7 +27,8 @@ import sample.Objects.SearchAlbums;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
+import java.sql.*;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class ShowAlbumListController implements Initializable {
@@ -51,15 +52,335 @@ public class ShowAlbumListController implements Initializable {
         this.myID = myID;
         this.conn = conn;
 
-        listV.setItems(items);
-        //loop
-        items.add("album name");
+        PreparedStatement stmt=null;
+        ResultSet rs=null;
+
+        if (!album.getName().isEmpty() && !album.getLocation().isEmpty() && !album.getDescription().isEmpty()) {
+            items = FXCollections.observableArrayList();
+            try {
+                int loc_id = 0 ;
+                PreparedStatement stmtLoc=null;
+                ResultSet rsLoc=null;
+                stmtLoc = conn.prepareStatement("SELECT Location_ID FROM LOCATION WHERE SOUNDEX(Name)=SOUNDEX(?)");
+                stmtLoc.setString(1,album.getLocation());
+                rsLoc = stmtLoc.executeQuery();
+                if (rsLoc.next()) {
+                    loc_id = rsLoc.getInt("Location_ID");
+                }
+
+                stmt = conn.prepareStatement("SELECT Album_ID,Title,Privacy FROM ALBUM WHERE SOUNDEX(Title)=SOUNDEX(?) AND SOUNDEX(Desciption)=SOUNDEX(?) AND Taken=?");
+                stmt.setString(1,album.getName());
+                stmt.setString(2, album.getDescription());
+                stmt.setInt(3, loc_id);
+
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int album_id = rs.getInt("Album_ID");
+                    //open(1) closed(2) friend(3) network(4)
+                    if (rs.getInt("Privacy") == 1) {
+                        String title = rs.getString("Title");
+                        String line = album_id + "  " + title;
+                        items.add(line);
+                    } else if (rs.getInt("Privacy") == 3) {
+                        PreparedStatement stmt2 =null;
+                        ResultSet rs2=null;
+                        stmt = conn.prepareStatement("SELECT FRIEND_ID FROM FRIENDS WHERE USER_ID=? AND FRIEND_ID=?");
+                        stmt.setInt(1, Integer.parseInt(myID));
+                        stmt.setInt(2, Integer.parseInt(id));
+                        rs = stmt.executeQuery();
+                        if (rs2.next()) {
+                            String title = rs.getString("Title");
+                            String line = album_id + "  " + title;
+                            items.add(line);
+                        }
+                    } else if (rs.getInt("Privacy") == 4) {
+
+                    }
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            listV.setItems(items);
+        } else if (album.getName().isEmpty() && !album.getLocation().isEmpty() && !album.getDescription().isEmpty()) {
+            items = FXCollections.observableArrayList();
+            try {
+                int loc_id = 0 ;
+                PreparedStatement stmtLoc=null;
+                ResultSet rsLoc=null;
+                stmtLoc = conn.prepareStatement("SELECT Location_ID FROM LOCATION WHERE SOUNDEX(Name)=SOUNDEX(?)");
+                stmtLoc.setString(1,album.getLocation());
+                rsLoc = stmtLoc.executeQuery();
+                if (rsLoc.next()) {
+                    loc_id = rsLoc.getInt("Location_ID");
+                }
+
+                stmt = conn.prepareStatement("SELECT Album_ID,Title,Privacy FROM ALBUM WHERE AND SOUNDEX(Desciption)=SOUNDEX(?) AND Taken=?");
+                stmt.setString(1, album.getDescription());
+                stmt.setInt(2, loc_id);
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int album_id = rs.getInt("Album_ID");
+                    //open(1) closed(2) friend(3) network(4)
+                    if (rs.getInt("Privacy") == 1) {
+                        String title = rs.getString("Title");
+                        String line = album_id + "  " + title;
+                        items.add(line);
+                    } else if (rs.getInt("Privacy") == 3) {
+                        PreparedStatement stmt2 =null;
+                        ResultSet rs2=null;
+                        stmt = conn.prepareStatement("SELECT FRIEND_ID FROM FRIENDS WHERE USER_ID=? AND FRIEND_ID=?");
+                        stmt.setInt(1, Integer.parseInt(myID));
+                        stmt.setInt(2, Integer.parseInt(id));
+                        rs = stmt.executeQuery();
+                        if (rs2.next()) {
+                            String title = rs.getString("Title");
+                            String line = album_id + "  " + title;
+                            items.add(line);
+                        }
+                    } else if (rs.getInt("Privacy") == 4) {
+
+                    }
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            listV.setItems(items);
+        } else if (!album.getName().isEmpty() && album.getLocation().isEmpty() && !album.getDescription().isEmpty()) {
+            items = FXCollections.observableArrayList();
+            try {
+                stmt = conn.prepareStatement("SELECT Album_ID,Title,Privacy FROM ALBUM WHERE SOUNDEX(Title)=SOUNDEX(?) AND SOUNDEX(Desciption)=SOUNDEX(?)");
+                stmt.setString(1,album.getName());
+                stmt.setString(2, album.getDescription());
+
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int album_id = rs.getInt("Album_ID");
+                    //open(1) closed(2) friend(3) network(4)
+                    if (rs.getInt("Privacy") == 1) {
+                        String title = rs.getString("Title");
+                        String line = album_id + "  " + title;
+                        items.add(line);
+                    } else if (rs.getInt("Privacy") == 3) {
+                        PreparedStatement stmt2 =null;
+                        ResultSet rs2=null;
+                        stmt = conn.prepareStatement("SELECT FRIEND_ID FROM FRIENDS WHERE USER_ID=? AND FRIEND_ID=?");
+                        stmt.setInt(1, Integer.parseInt(myID));
+                        stmt.setInt(2, Integer.parseInt(id));
+                        rs = stmt.executeQuery();
+                        if (rs2.next()) {
+                            String title = rs.getString("Title");
+                            String line = album_id + "  " + title;
+                            items.add(line);
+                        }
+                    } else if (rs.getInt("Privacy") == 4) {
+
+                    }
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            listV.setItems(items);
+        } else if (!album.getName().isEmpty() && !album.getLocation().isEmpty() && album.getDescription().isEmpty()) {
+            items = FXCollections.observableArrayList();
+            try {
+                int loc_id = 0 ;
+                PreparedStatement stmtLoc=null;
+                ResultSet rsLoc=null;
+                stmtLoc = conn.prepareStatement("SELECT Location_ID FROM LOCATION WHERE SOUNDEX(Name)=SOUNDEX(?)");
+                stmtLoc.setString(1,album.getLocation());
+                rsLoc = stmtLoc.executeQuery();
+                if (rsLoc.next()) {
+                    loc_id = rsLoc.getInt("Location_ID");
+                }
+
+                stmt = conn.prepareStatement("SELECT Album_ID,Title,Privacy FROM ALBUM WHERE SOUNDEX(Title)=SOUNDEX(?) AND Taken=?");
+                stmt.setString(1,album.getName());
+                stmt.setInt(2, loc_id);
+
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int album_id = rs.getInt("Album_ID");
+                    //open(1) closed(2) friend(3) network(4)
+                    if (rs.getInt("Privacy") == 1) {
+                        String title = rs.getString("Title");
+                        String line = album_id + "  " + title;
+                        items.add(line);
+                    } else if (rs.getInt("Privacy") == 3) {
+                        PreparedStatement stmt2 =null;
+                        ResultSet rs2=null;
+                        stmt = conn.prepareStatement("SELECT FRIEND_ID FROM FRIENDS WHERE USER_ID=? AND FRIEND_ID=?");
+                        stmt.setInt(1, Integer.parseInt(myID));
+                        stmt.setInt(2, Integer.parseInt(id));
+                        rs = stmt.executeQuery();
+                        if (rs2.next()) {
+                            String title = rs.getString("Title");
+                            String line = album_id + "  " + title;
+                            items.add(line);
+                        }
+                    } else if (rs.getInt("Privacy") == 4) {
+
+                    }
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            listV.setItems(items);
+        } else if (album.getName().isEmpty() && album.getLocation().isEmpty() && !album.getDescription().isEmpty()) {
+            items = FXCollections.observableArrayList();
+            try {
+                stmt = conn.prepareStatement("SELECT Album_ID,Title,Privacy FROM ALBUM WHERE SOUNDEX(Desciption)=SOUNDEX(?)");
+                stmt.setString(1, album.getDescription());
+
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int album_id = rs.getInt("Album_ID");
+                    //open(1) closed(2) friend(3) network(4)
+                    if (rs.getInt("Privacy") == 1) {
+                        String title = rs.getString("Title");
+                        String line = album_id + "  " + title;
+                        items.add(line);
+                    } else if (rs.getInt("Privacy") == 3) {
+                        PreparedStatement stmt2 =null;
+                        ResultSet rs2=null;
+                        stmt = conn.prepareStatement("SELECT FRIEND_ID FROM FRIENDS WHERE USER_ID=? AND FRIEND_ID=?");
+                        stmt.setInt(1, Integer.parseInt(myID));
+                        stmt.setInt(2, Integer.parseInt(id));
+                        rs = stmt.executeQuery();
+                        if (rs2.next()) {
+                            String title = rs.getString("Title");
+                            String line = album_id + "  " + title;
+                            items.add(line);
+                        }
+                    } else if (rs.getInt("Privacy") == 4) {
+
+                    }
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            listV.setItems(items);
+        } else if (!album.getName().isEmpty() && album.getLocation().isEmpty() && album.getDescription().isEmpty()) {
+            items = FXCollections.observableArrayList();
+            try {
+                stmt = conn.prepareStatement("SELECT Album_ID,Title,Privacy FROM ALBUM WHERE SOUNDEX(Title)=SOUNDEX(?)");
+                stmt.setString(1,album.getName());
+
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int album_id = rs.getInt("Album_ID");
+                    //open(1) closed(2) friend(3) network(4)
+                    if (rs.getInt("Privacy") == 1) {
+                        String title = rs.getString("Title");
+                        String line = album_id + "  " + title;
+                        items.add(line);
+                    } else if (rs.getInt("Privacy") == 3) {
+                        PreparedStatement stmt2 =null;
+                        ResultSet rs2=null;
+                        stmt = conn.prepareStatement("SELECT FRIEND_ID FROM FRIENDS WHERE USER_ID=? AND FRIEND_ID=?");
+                        stmt.setInt(1, Integer.parseInt(myID));
+                        stmt.setInt(2, Integer.parseInt(id));
+                        rs = stmt.executeQuery();
+                        if (rs2.next()) {
+                            String title = rs.getString("Title");
+                            String line = album_id + "  " + title;
+                            items.add(line);
+                        }
+                    } else if (rs.getInt("Privacy") == 4) {
+
+                    }
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            listV.setItems(items);
+        } else if (album.getName().isEmpty() && !album.getLocation().isEmpty() && album.getDescription().isEmpty()) {
+            items = FXCollections.observableArrayList();
+            try {
+                int loc_id = 0 ;
+                PreparedStatement stmtLoc=null;
+                ResultSet rsLoc=null;
+                stmtLoc = conn.prepareStatement("SELECT Location_ID FROM LOCATION WHERE SOUNDEX(Name)=SOUNDEX(?)");
+                stmtLoc.setString(1,album.getLocation());
+                rsLoc = stmtLoc.executeQuery();
+                if (rsLoc.next()) {
+                    loc_id = rsLoc.getInt("Location_ID");
+                }
+
+                stmt = conn.prepareStatement("SELECT Album_ID,Title,Privacy FROM ALBUM WHERE AND Taken=?");
+                stmt.setInt(1, loc_id);
+
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int album_id = rs.getInt("Album_ID");
+                    //open(1) closed(2) friend(3) network(4)
+                    if (rs.getInt("Privacy") == 1) {
+                        String title = rs.getString("Title");
+                        String line = album_id + "  " + title;
+                        items.add(line);
+                    } else if (rs.getInt("Privacy") == 3) {
+                        PreparedStatement stmt2 =null;
+                        ResultSet rs2=null;
+                        stmt = conn.prepareStatement("SELECT FRIEND_ID FROM FRIENDS WHERE USER_ID=? AND FRIEND_ID=?");
+                        stmt.setInt(1, Integer.parseInt(myID));
+                        stmt.setInt(2, Integer.parseInt(id));
+                        rs = stmt.executeQuery();
+                        if (rs2.next()) {
+                            String title = rs.getString("Title");
+                            String line = album_id + "  " + title;
+                            items.add(line);
+                        }
+                    } else if (rs.getInt("Privacy") == 4) {
+
+                    }
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            listV.setItems(items);
+        } else if (album.getName().isEmpty() && album.getLocation().isEmpty() && album.getDescription().isEmpty()) {
+            items = FXCollections.observableArrayList();
+            try {
+                stmt = conn.prepareStatement("SELECT Album_ID,Title,Privacy FROM ALBUM");
+
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int album_id = rs.getInt("Album_ID");
+                    //open(1) closed(2) friend(3) network(4)
+                    if (rs.getInt("Privacy") == 1) {
+                        String title = rs.getString("Title");
+                        String line = album_id + "  " + title;
+                        items.add(line);
+                    } else if (rs.getInt("Privacy") == 3) {
+                        PreparedStatement stmt2 =null;
+                        ResultSet rs2=null;
+                        stmt = conn.prepareStatement("SELECT FRIEND_ID FROM FRIENDS WHERE USER_ID=? AND FRIEND_ID=?");
+                        stmt.setInt(1, Integer.parseInt(myID));
+                        stmt.setInt(2, Integer.parseInt(id));
+                        rs = stmt.executeQuery();
+                        if (rs2.next()) {
+                            String title = rs.getString("Title");
+                            String line = album_id + "  " + title;
+                            items.add(line);
+                        }
+                    } else if (rs.getInt("Privacy") == 4) {
+
+                    }
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            listV.setItems(items);
+        }
 
         if (id.equals(myID)) {
             listV.setCellFactory(param -> new ShowAlbumListController.MyAlbumCell(p_pane, myID, id, conn));
         } else {
             listV.setCellFactory(param -> new ShowAlbumListController.AlbumCell(p_pane, myID, id, conn));
         }
+    }
+
+    public static String firstWord(String input) {
+        return input.split(" ")[0];
     }
 
     static class AlbumCell extends ListCell<String> {
@@ -91,7 +412,7 @@ public class ShowAlbumListController implements Initializable {
                         ShowAlbumController controller = loader.getController();
 
                         //create query
-                        controller.initData(id,myID, "album id", conn);
+                        controller.initData(id,myID, firstWord(getItem()), conn);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -111,7 +432,7 @@ public class ShowAlbumListController implements Initializable {
                         ShowCommentsController controller = loader.getController();
 
                         //create query
-                        controller.initData(id,myID, "album", "album id", conn);
+                        controller.initData(id,myID, "album",  firstWord(getItem()), conn);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -168,7 +489,7 @@ public class ShowAlbumListController implements Initializable {
                         ShowAlbumController controller = loader.getController();
 
                         //create query
-                        controller.initData(id,myID, "album id", conn);
+                        controller.initData(id,myID,  firstWord(getItem()), conn);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -188,7 +509,7 @@ public class ShowAlbumListController implements Initializable {
                         ShowCommentsController controller = loader.getController();
 
                         //create query
-                        controller.initData(id, myID, "album", "album id", conn);
+                        controller.initData(id, myID, "album",  firstWord(getItem()), conn);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -208,7 +529,7 @@ public class ShowAlbumListController implements Initializable {
                         EditAlbumController controller = loader.getController();
 
                         //create query
-                        controller.initData("album id", myID, conn);
+                        controller.initData( firstWord(getItem()), myID, conn);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {

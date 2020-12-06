@@ -6,13 +6,14 @@ import java.util.Date;
 
 public class SearchVideos {
     private SimpleStringProperty message, description, id;
-    private Integer length;
+    private Integer length,likes;
 
-    public SearchVideos(String id, String message, String description, Integer length) {
+    public SearchVideos(String id, String message, String description, Integer length, Integer likes) {
         this.id = new SimpleStringProperty(id);
         this.message = new SimpleStringProperty(message);
         this.description = new SimpleStringProperty(description);
         this.length = length;
+        this.likes = likes;
     }
 
     public String getId() {
@@ -30,4 +31,9 @@ public class SearchVideos {
     public Integer getLength() {
         return length;
     }
+
+    public Integer getLikes() {
+        return likes;
+    }
+
 }

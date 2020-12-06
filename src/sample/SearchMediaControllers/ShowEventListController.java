@@ -26,7 +26,8 @@ import sample.Objects.SearchLinks;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
+import java.sql.*;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class ShowEventListController implements Initializable {
@@ -50,15 +51,414 @@ public class ShowEventListController implements Initializable {
         this.myID = myID;
         this.conn = conn;
 
-        listV.setItems(items);
-        //loop
-        items.add("event name");
+        if (!events.getName().isEmpty() && !events.getVenue().isEmpty() && !events.getLocation().isEmpty() && events.getDate().getValue()!=null) {
+            items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                int loc_id = 0 ;
+                PreparedStatement stmtLoc=null;
+                ResultSet rsLoc=null;
+                stmtLoc = conn.prepareStatement("SELECT Location_ID FROM LOCATION WHERE SOUNDEX(Name)=SOUNDEX(?)");
+                stmtLoc.setString(1,events.getLocation());
+                rsLoc = stmtLoc.executeQuery();
+                if (rsLoc.next()) {
+                    loc_id = rsLoc.getInt("Location_ID");
+                }
+
+                stmt = conn.prepareStatement("SELECT Event_ID,Name FROM EVENT WHERE SOUNDEX(Name)=SOUNDEX(?) AND SOUNDEX(Venue)=SOUNDEX(?) AND Location=? AND CAST(StartTime as DATE)=?");
+                stmt.setString(1, events.getName());
+                stmt.setString(2, events.getVenue());
+                stmt.setInt(3,loc_id);
+                Date dt = Date.valueOf(events.getDate().getValue());
+                stmt.setDate(4, dt);
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int event_id = rs.getInt("Event_ID");
+                    String name = rs.getString("Name");
+                    String line = event_id + "  " + name;
+                    items.add(line);
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            listV.setItems(items);
+        } else if (!events.getName().isEmpty() && !events.getVenue().isEmpty() && !events.getLocation().isEmpty() && events.getDate().getValue()==null){
+            items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                int loc_id = 0 ;
+                PreparedStatement stmtLoc=null;
+                ResultSet rsLoc=null;
+                stmtLoc = conn.prepareStatement("SELECT Location_ID FROM LOCATION WHERE SOUNDEX(Name)=SOUNDEX(?)");
+                stmtLoc.setString(1,events.getLocation());
+                rsLoc = stmtLoc.executeQuery();
+                if (rsLoc.next()) {
+                    loc_id = rsLoc.getInt("Location_ID");
+                }
+
+                stmt = conn.prepareStatement("SELECT Event_ID,Name FROM EVENT WHERE SOUNDEX(Name)=SOUNDEX(?) AND SOUNDEX(Venue)=SOUNDEX(?) AND Location=?");
+                stmt.setString(1, events.getName());
+                stmt.setString(2, events.getVenue());
+                stmt.setInt(3,loc_id);
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int event_id = rs.getInt("Event_ID");
+                    String name = rs.getString("Name");
+                    String line = event_id + "  " + name;
+                    items.add(line);
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            listV.setItems(items);
+        } else if (!events.getName().isEmpty() && !events.getVenue().isEmpty() && events.getLocation().isEmpty() && events.getDate().getValue()!=null){
+            items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+
+                stmt = conn.prepareStatement("SELECT Event_ID,Name FROM EVENT WHERE SOUNDEX(Name)=SOUNDEX(?) AND SOUNDEX(Venue)=SOUNDEX(?) AND CAST(StartTime as DATE)=?");
+                stmt.setString(1, events.getName());
+                stmt.setString(2, events.getVenue());
+                Date dt = Date.valueOf(events.getDate().getValue());
+                stmt.setDate(3, dt);
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int event_id = rs.getInt("Event_ID");
+                    String name = rs.getString("Name");
+                    String line = event_id + "  " + name;
+                    items.add(line);
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            listV.setItems(items);
+        } else if (!events.getName().isEmpty() && events.getVenue().isEmpty() && !events.getLocation().isEmpty() && events.getDate().getValue()!=null){
+            items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                int loc_id = 0 ;
+                PreparedStatement stmtLoc=null;
+                ResultSet rsLoc=null;
+                stmtLoc = conn.prepareStatement("SELECT Location_ID FROM LOCATION WHERE SOUNDEX(Name)=SOUNDEX(?)");
+                stmtLoc.setString(1,events.getLocation());
+                rsLoc = stmtLoc.executeQuery();
+                if (rsLoc.next()) {
+                    loc_id = rsLoc.getInt("Location_ID");
+                }
+
+                stmt = conn.prepareStatement("SELECT Event_ID,Name FROM EVENT WHERE SOUNDEX(Name)=SOUNDEX(?) AND Location=? AND CAST(StartTime as DATE)=?");
+                stmt.setString(1, events.getName());
+                stmt.setInt(2,loc_id);
+                Date dt = Date.valueOf(events.getDate().getValue());
+                stmt.setDate(3, dt);
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int event_id = rs.getInt("Event_ID");
+                    String name = rs.getString("Name");
+                    String line = event_id + "  " + name;
+                    items.add(line);
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            listV.setItems(items);
+        } else if (events.getName().isEmpty() && !events.getVenue().isEmpty() && !events.getLocation().isEmpty() && events.getDate().getValue()!=null){
+            items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                int loc_id = 0 ;
+                PreparedStatement stmtLoc=null;
+                ResultSet rsLoc=null;
+                stmtLoc = conn.prepareStatement("SELECT Location_ID FROM LOCATION WHERE SOUNDEX(Name)=SOUNDEX(?)");
+                stmtLoc.setString(1,events.getLocation());
+                rsLoc = stmtLoc.executeQuery();
+                if (rsLoc.next()) {
+                    loc_id = rsLoc.getInt("Location_ID");
+                }
+
+                stmt = conn.prepareStatement("SELECT Event_ID,Name FROM EVENT WHERE AND SOUNDEX(Venue)=SOUNDEX(?) AND Location=? AND CAST(StartTime as DATE)=?");
+                stmt.setString(1, events.getVenue());
+                stmt.setInt(2,loc_id);
+                Date dt = Date.valueOf(events.getDate().getValue());
+                stmt.setDate(3, dt);
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int event_id = rs.getInt("Event_ID");
+                    String name = rs.getString("Name");
+                    String line = event_id + "  " + name;
+                    items.add(line);
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            listV.setItems(items);
+        } else if (events.getName().isEmpty() && events.getVenue().isEmpty() && !events.getLocation().isEmpty() && events.getDate().getValue()!=null){
+            items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                int loc_id = 0 ;
+                PreparedStatement stmtLoc=null;
+                ResultSet rsLoc=null;
+                stmtLoc = conn.prepareStatement("SELECT Location_ID FROM LOCATION WHERE SOUNDEX(Name)=SOUNDEX(?)");
+                stmtLoc.setString(1,events.getLocation());
+                rsLoc = stmtLoc.executeQuery();
+                if (rsLoc.next()) {
+                    loc_id = rsLoc.getInt("Location_ID");
+                }
+
+                stmt = conn.prepareStatement("SELECT Event_ID,Name FROM EVENT WHERE Location=? AND CAST(StartTime as DATE)=?");
+                stmt.setInt(1,loc_id);
+                Date dt = Date.valueOf(events.getDate().getValue());
+                stmt.setDate(2, dt);
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int event_id = rs.getInt("Event_ID");
+                    String name = rs.getString("Name");
+                    String line = event_id + "  " + name;
+                    items.add(line);
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            listV.setItems(items);
+        } else if (!events.getName().isEmpty() && events.getVenue().isEmpty() && events.getLocation().isEmpty() && events.getDate().getValue()!=null){
+            items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+
+                stmt = conn.prepareStatement("SELECT Event_ID,Name FROM EVENT WHERE SOUNDEX(Name)=SOUNDEX(?) AND CAST(StartTime as DATE)=?");
+                stmt.setString(1, events.getName());
+                Date dt = Date.valueOf(events.getDate().getValue());
+                stmt.setDate(2, dt);
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int event_id = rs.getInt("Event_ID");
+                    String name = rs.getString("Name");
+                    String line = event_id + "  " + name;
+                    items.add(line);
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            listV.setItems(items);
+        } else if (!events.getName().isEmpty() && !events.getVenue().isEmpty() && events.getLocation().isEmpty() && events.getDate().getValue()==null){
+            items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                stmt = conn.prepareStatement("SELECT Event_ID,Name FROM EVENT WHERE SOUNDEX(Name)=SOUNDEX(?) AND SOUNDEX(Venue)=SOUNDEX(?)");
+                stmt.setString(1, events.getName());
+                stmt.setString(2, events.getVenue());
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int event_id = rs.getInt("Event_ID");
+                    String name = rs.getString("Name");
+                    String line = event_id + "  " + name;
+                    items.add(line);
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            listV.setItems(items);
+        } else if (events.getName().isEmpty() && !events.getVenue().isEmpty() && events.getLocation().isEmpty() && events.getDate().getValue()!=null){
+            items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                stmt = conn.prepareStatement("SELECT Event_ID,Name FROM EVENT WHERE SOUNDEX(Venue)=SOUNDEX(?) AND CAST(StartTime as DATE)=?");
+                stmt.setString(1, events.getVenue());
+                Date dt = Date.valueOf(events.getDate().getValue());
+                stmt.setDate(2, dt);
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int event_id = rs.getInt("Event_ID");
+                    String name = rs.getString("Name");
+                    String line = event_id + "  " + name;
+                    items.add(line);
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            listV.setItems(items);
+        } else if (events.getName().isEmpty() && !events.getVenue().isEmpty() && !events.getLocation().isEmpty() && events.getDate().getValue()==null){
+            items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                int loc_id = 0 ;
+                PreparedStatement stmtLoc=null;
+                ResultSet rsLoc=null;
+                stmtLoc = conn.prepareStatement("SELECT Location_ID FROM LOCATION WHERE SOUNDEX(Name)=SOUNDEX(?)");
+                stmtLoc.setString(1,events.getLocation());
+                rsLoc = stmtLoc.executeQuery();
+                if (rsLoc.next()) {
+                    loc_id = rsLoc.getInt("Location_ID");
+                }
+
+                stmt = conn.prepareStatement("SELECT Event_ID,Name FROM EVENT WHERE SOUNDEX(Venue)=SOUNDEX(?) AND Location=?");
+                stmt.setString(1, events.getVenue());
+                stmt.setInt(2,loc_id);
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int event_id = rs.getInt("Event_ID");
+                    String name = rs.getString("Name");
+                    String line = event_id + "  " + name;
+                    items.add(line);
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            listV.setItems(items);
+        } else if (!events.getName().isEmpty() && events.getVenue().isEmpty() && !events.getLocation().isEmpty() && events.getDate().getValue()==null){
+            items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                int loc_id = 0 ;
+                PreparedStatement stmtLoc=null;
+                ResultSet rsLoc=null;
+                stmtLoc = conn.prepareStatement("SELECT Location_ID FROM LOCATION WHERE SOUNDEX(Name)=SOUNDEX(?)");
+                stmtLoc.setString(1,events.getLocation());
+                rsLoc = stmtLoc.executeQuery();
+                if (rsLoc.next()) {
+                    loc_id = rsLoc.getInt("Location_ID");
+                }
+
+                stmt = conn.prepareStatement("SELECT Event_ID,Name FROM EVENT WHERE SOUNDEX(Name)=SOUNDEX(?) AND Location=?");
+                stmt.setString(1, events.getName());
+                stmt.setInt(2,loc_id);
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int event_id = rs.getInt("Event_ID");
+                    String name = rs.getString("Name");
+                    String line = event_id + "  " + name;
+                    items.add(line);
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            listV.setItems(items);
+        } else if (events.getName().isEmpty() && events.getVenue().isEmpty() && events.getLocation().isEmpty() && events.getDate().getValue()!=null){
+            items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                //SELECT *
+                //FROM [User] U
+                //WHERE CAST(U.DateCreated as DATE) = '2014-02-07'
+                stmt = conn.prepareStatement("SELECT Event_ID,Name FROM EVENT WHERE CAST(StartTime as DATE)=?");
+                Date dt = Date.valueOf(events.getDate().getValue());
+                stmt.setDate(1, dt);
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int event_id = rs.getInt("Event_ID");
+                    String name = rs.getString("Name");
+                    String line = event_id + "  " + name;
+                    items.add(line);
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            listV.setItems(items);
+        } else if (!events.getName().isEmpty() && events.getVenue().isEmpty() && events.getLocation().isEmpty() && events.getDate().getValue()==null){
+            items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                stmt = conn.prepareStatement("SELECT Event_ID,Name FROM EVENT WHERE SOUNDEX(Name)=SOUNDEX(?)");
+                stmt.setString(1, events.getName());
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int event_id = rs.getInt("Event_ID");
+                    String name = rs.getString("Name");
+                    String line = event_id + "  " + name;
+                    items.add(line);
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            listV.setItems(items);
+        } else if (events.getName().isEmpty() && !events.getVenue().isEmpty() && events.getLocation().isEmpty() && events.getDate().getValue()==null){
+            items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                stmt = conn.prepareStatement("SELECT Event_ID,Name FROM EVENT WHERE SOUNDEX(Venue)=SOUNDEX(?)");
+                stmt.setString(1, events.getVenue());
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int event_id = rs.getInt("Event_ID");
+                    String name = rs.getString("Name");
+                    String line = event_id + "  " + name;
+                    items.add(line);
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            listV.setItems(items);
+        } else if (events.getName().isEmpty() && events.getVenue().isEmpty() && !events.getLocation().isEmpty() && events.getDate().getValue()==null){
+            items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                int loc_id = 0 ;
+                PreparedStatement stmtLoc=null;
+                ResultSet rsLoc=null;
+                stmtLoc = conn.prepareStatement("SELECT Location_ID FROM LOCATION WHERE SOUNDEX(Name)=SOUNDEX(?)");
+                stmtLoc.setString(1,events.getLocation());
+                rsLoc = stmtLoc.executeQuery();
+                if (rsLoc.next()) {
+                    loc_id = rsLoc.getInt("Location_ID");
+                }
+
+                stmt = conn.prepareStatement("SELECT Event_ID,Name FROM EVENT WHERE Location=?");
+                stmt.setInt(1,loc_id);
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int event_id = rs.getInt("Event_ID");
+                    String name = rs.getString("Name");
+                    String line = event_id + "  " + name;
+                    items.add(line);
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            listV.setItems(items);
+        } else if (events.getName().isEmpty() && events.getVenue().isEmpty() && events.getLocation().isEmpty() && events.getDate().getValue()==null){
+            items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                stmt = conn.prepareStatement("SELECT Event_ID,Name FROM EVENT");
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int event_id = rs.getInt("Event_ID");
+                    String name = rs.getString("Name");
+                    String line = event_id + "  " + name;
+                    items.add(line);
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            listV.setItems(items);
+        }
 
         if (id.equals(myID)) {
             listV.setCellFactory(param -> new ShowEventListController.MyEventCell(p_pane, myID, id, conn));
         } else {
             listV.setCellFactory(param -> new ShowEventListController.EventCell(p_pane, myID, id, conn));
         }
+    }
+
+    public static String firstWord(String input) {
+        return input.split(" ")[0];
     }
 
     static class EventCell extends ListCell<String> {
@@ -87,7 +487,7 @@ public class ShowEventListController implements Initializable {
                         ShowEventController controller = loader.getController();
 
                         //create query
-                        controller.initData(id, myID, "event id", conn);
+                        controller.initData(id, myID,  firstWord(getItem()), conn);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -141,7 +541,7 @@ public class ShowEventListController implements Initializable {
                         ShowEventController controller = loader.getController();
 
                         //create query
-                        controller.initData(id, myID, "event id", conn);
+                        controller.initData(id, myID,  firstWord(getItem()), conn);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -161,7 +561,7 @@ public class ShowEventListController implements Initializable {
                         EditEventController controller = loader.getController();
 
                         //create query
-                        controller.initData("event id", myID, conn);
+                        controller.initData( firstWord(getItem()), myID, conn);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {

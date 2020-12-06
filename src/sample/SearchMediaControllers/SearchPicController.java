@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import sample.Main.FxmlLoader;
@@ -26,6 +27,12 @@ public class SearchPicController implements Initializable {
     @FXML
     private Spinner<Integer> spinn;
 
+    @FXML
+    private TextField height;
+
+    @FXML
+    private TextField width;
+
     private String id;
     private String myID;
     private Connection conn;
@@ -46,7 +53,7 @@ public class SearchPicController implements Initializable {
         ShowPicListController controller = loader.getController();
 
         //create query
-        SearchPhotos pic = new SearchPhotos("","", "", 0);
+        SearchPhotos pic = new SearchPhotos("",height.getText(), width.getText(), spinn.getValue());
         controller.initData(pic, id, myID, conn);
 
         p_pane.getChildren().setAll(view);
@@ -85,7 +92,7 @@ public class SearchPicController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        SpinnerValueFactory<Integer> spinnCount = new SpinnerValueFactory.IntegerSpinnerValueFactory(1,9999,1);
+        SpinnerValueFactory<Integer> spinnCount = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,9999,0);
         this.spinn.setValueFactory(spinnCount);
     }
 }

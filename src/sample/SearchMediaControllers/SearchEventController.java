@@ -3,6 +3,8 @@ package sample.SearchMediaControllers;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import sample.Main.FxmlLoader;
@@ -20,6 +22,18 @@ import java.util.ResourceBundle;
 public class SearchEventController implements Initializable {
     @FXML
     private AnchorPane p_pane ;
+
+    @FXML
+    private TextField name;
+
+    @FXML
+    private TextField location;
+
+    @FXML
+    private TextField venue;
+
+    @FXML
+    private DatePicker date;
 
     private String id;
     private String myID;
@@ -41,7 +55,7 @@ public class SearchEventController implements Initializable {
         ShowEventListController controller = loader.getController();
 
         //create query
-        SearchEvents event = new SearchEvents("","", "", "", new Date());
+        SearchEvents event = new SearchEvents("",name.getText(), location.getText(), venue.getText(), date);
         controller.initData(event, id, myID, conn);
 
         p_pane.getChildren().setAll(view);
@@ -57,8 +71,6 @@ public class SearchEventController implements Initializable {
             //access the controller and call a method
             EditMediaListController controller = loader.getController();
 
-            //create query
-            SearchAlbums album = new SearchAlbums("","", "", "");
             controller.initData("event", myID, conn);
 
             p_pane.getChildren().setAll(view);
@@ -70,8 +82,6 @@ public class SearchEventController implements Initializable {
             //access the controller and call a method
             MediaListController controller = loader.getController();
 
-            //create query
-            SearchAlbums album = new SearchAlbums("","", "", "");
             controller.initData("event", id, myID, conn);
 
             p_pane.getChildren().setAll(view);

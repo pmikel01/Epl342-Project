@@ -24,10 +24,7 @@ package sample.MediaListsControllers;
 
         import java.io.IOException;
         import java.net.URL;
-        import java.sql.Connection;
-        import java.sql.PreparedStatement;
-        import java.sql.ResultSet;
-        import java.sql.SQLException;
+        import java.sql.*;
         import java.util.ResourceBundle;
 
 public class MediaListController implements Initializable {
@@ -60,12 +57,39 @@ public class MediaListController implements Initializable {
                 rs = stmt.executeQuery();
                 while (rs.next()) {
                     int album_id = rs.getInt("Album_ID");
+                    //open(1) closed(2) friend(3) network(4)
                     if (rs.getInt("Privacy") == 1) {
-
+                        String title = rs.getString("Title");
+                        String line = album_id + "  " + title;
+                        items.add(line);
+                    } else if (rs.getInt("Privacy") == 3) {
+                        PreparedStatement stmt2 =null;
+                        ResultSet rs2=null;
+                        stmt2 = conn.prepareStatement("SELECT FRIEND_ID FROM FRIENDS WHERE USER_ID=? AND FRIEND_ID=?");
+                        stmt2.setInt(1, Integer.parseInt(myID));
+                        stmt2.setInt(2, Integer.parseInt(id));
+                        rs2 = stmt2.executeQuery();
+                        if (rs2.next()) {
+                            String title = rs.getString("Title");
+                            String line = album_id + "  " + title;
+                            items.add(line);
+                        }
+                    } else if (rs.getInt("Privacy") == 4) {
+                        ResultSet rs2=null;
+                        CallableStatement stmt2 = conn.prepareCall("{call Procedure_Friends_Network_3(?)}");
+                        stmt2.setInt(1,Integer.parseInt(myID));
+                        rs2 = stmt2.executeQuery();
+                        while (rs2.next()) {
+                            int possible = rs2.getInt(1);
+                            int possible2 = rs2.getInt(2);
+                            if (possible==Integer.parseInt(id) || possible2==Integer.parseInt(id)) {
+                                String title = rs.getString("Title");
+                                String line = album_id + "  " + title;
+                                items.add(line);
+                                break;
+                            }
+                        }
                     }
-                    String title = rs.getString("Title");
-                    String line = album_id + "  " + title;
-                    items.add(line);
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();

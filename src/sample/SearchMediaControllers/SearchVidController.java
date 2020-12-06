@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import sample.Main.FxmlLoader;
@@ -26,6 +27,15 @@ public class SearchVidController implements Initializable {
     @FXML
     private Spinner<Integer> spinn;
 
+    @FXML
+    private Spinner<Integer> spinn2;
+
+    @FXML
+    private TextField message;
+
+    @FXML
+    private TextField description;
+
     private String id;
     private String myID;
     private Connection conn;
@@ -46,7 +56,7 @@ public class SearchVidController implements Initializable {
         ShowVidListController controller = loader.getController();
 
         //create query
-        SearchVideos video = new SearchVideos("","", "", 0);
+        SearchVideos video = new SearchVideos("",message.getText(),description.getText(),spinn.getValue(),spinn2.getValue());
         controller.initData(video, id, myID, conn);
 
         p_pane.getChildren().setAll(view);
@@ -62,8 +72,6 @@ public class SearchVidController implements Initializable {
             //access the controller and call a method
             EditMediaListController controller = loader.getController();
 
-            //create query
-            SearchAlbums album = new SearchAlbums("","", "", "");
             controller.initData("video", myID, conn);
 
             p_pane.getChildren().setAll(view);
@@ -75,8 +83,6 @@ public class SearchVidController implements Initializable {
             //access the controller and call a method
             MediaListController controller = loader.getController();
 
-            //create query
-            SearchAlbums album = new SearchAlbums("","", "", "");
             controller.initData("video", id, myID, conn);
 
             p_pane.getChildren().setAll(view);
@@ -85,7 +91,10 @@ public class SearchVidController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        SpinnerValueFactory<Integer> spinnCount = new SpinnerValueFactory.IntegerSpinnerValueFactory(1,9999,1);
+        SpinnerValueFactory<Integer> spinnCount = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,9999,0);
         this.spinn.setValueFactory(spinnCount);
+
+        SpinnerValueFactory<Integer> spinnCount2 = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,9999,0);
+        this.spinn2.setValueFactory(spinnCount2);
     }
 }

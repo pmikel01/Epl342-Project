@@ -27,6 +27,9 @@ import sample.Objects.SearchPhotos;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ShowLinkListController implements Initializable {
@@ -50,15 +53,165 @@ public class ShowLinkListController implements Initializable {
         this.myID = myID;
         this.conn = conn;
 
-        listV.setItems(items);
-        //loop
-        items.add("link name");
+        if (!links.getName().isEmpty() && !links.getLink().isEmpty() && !links.getCaption().isEmpty()) {
+            items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                stmt = conn.prepareStatement("SELECT Link_ID,Name FROM LINK WHERE SOUNDEX(Name)=SOUNDEX(?) AND SOUNDEX(URL)=SOUNDEX(?) AND SOUNDEX(Caption)=SOUNDEX(?)");
+                stmt.setString(1, links.getName());
+                stmt.setString(2, links.getLink());
+                stmt.setString(3, links.getCaption());
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int link_id = rs.getInt("Link_ID");
+                    String name = rs.getString("Name");
+                    String line = link_id + "  " + name;
+                    items.add(line);
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            listV.setItems(items);
+        } else if (links.getName().isEmpty() && !links.getLink().isEmpty() && !links.getCaption().isEmpty()) {
+            items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                stmt = conn.prepareStatement("SELECT Link_ID,Name FROM LINK WHERE SOUNDEX(URL)=SOUNDEX(?) AND SOUNDEX(Caption)=SOUNDEX(?)");
+                stmt.setString(1, links.getLink());
+                stmt.setString(2, links.getCaption());
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int link_id = rs.getInt("Link_ID");
+                    String name = rs.getString("Name");
+                    String line = link_id + "  " + name;
+                    items.add(line);
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            listV.setItems(items);
+        } else if (!links.getName().isEmpty() && links.getLink().isEmpty() && !links.getCaption().isEmpty()) {
+            items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                stmt = conn.prepareStatement("SELECT Link_ID,Name FROM LINK WHERE SOUNDEX(Name)=SOUNDEX(?) AND SOUNDEX(Caption)=SOUNDEX(?)");
+                stmt.setString(1, links.getName());
+                stmt.setString(2, links.getCaption());
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int link_id = rs.getInt("Link_ID");
+                    String name = rs.getString("Name");
+                    String line = link_id + "  " + name;
+                    items.add(line);
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            listV.setItems(items);
+        } else if (!links.getName().isEmpty() && !links.getLink().isEmpty() && links.getCaption().isEmpty()) {
+            items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                stmt = conn.prepareStatement("SELECT Link_ID,Name FROM LINK WHERE SOUNDEX(Name)=SOUNDEX(?) AND SOUNDEX(URL)=SOUNDEX(?)");
+                stmt.setString(1, links.getName());
+                stmt.setString(2, links.getLink());
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int link_id = rs.getInt("Link_ID");
+                    String name = rs.getString("Name");
+                    String line = link_id + "  " + name;
+                    items.add(line);
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            listV.setItems(items);
+        } else if (links.getName().isEmpty() && links.getLink().isEmpty() && !links.getCaption().isEmpty()) {
+            items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                stmt = conn.prepareStatement("SELECT Link_ID,Name FROM LINK WHERE SOUNDEX(Caption)=SOUNDEX(?)");
+                stmt.setString(1, links.getCaption());
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int link_id = rs.getInt("Link_ID");
+                    String name = rs.getString("Name");
+                    String line = link_id + "  " + name;
+                    items.add(line);
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            listV.setItems(items);
+        } else if (!links.getName().isEmpty() && links.getLink().isEmpty() && links.getCaption().isEmpty()) {
+            items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                stmt = conn.prepareStatement("SELECT Link_ID,Name FROM LINK WHERE SOUNDEX(Name)=SOUNDEX(?)");
+                stmt.setString(1, links.getName());
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int link_id = rs.getInt("Link_ID");
+                    String name = rs.getString("Name");
+                    String line = link_id + "  " + name;
+                    items.add(line);
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            listV.setItems(items);
+        } else if (links.getName().isEmpty() && !links.getLink().isEmpty() && links.getCaption().isEmpty()) {
+            items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                stmt = conn.prepareStatement("SELECT Link_ID,Name FROM LINK WHERE SOUNDEX(URL)=SOUNDEX(?)");
+                stmt.setString(1, links.getLink());
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int link_id = rs.getInt("Link_ID");
+                    String name = rs.getString("Name");
+                    String line = link_id + "  " + name;
+                    items.add(line);
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            listV.setItems(items);
+        } else if (links.getName().isEmpty() && links.getLink().isEmpty() && links.getCaption().isEmpty()) {
+            items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                stmt = conn.prepareStatement("SELECT Link_ID,Name FROM LINK");
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int link_id = rs.getInt("Link_ID");
+                    String name = rs.getString("Name");
+                    String line = link_id + "  " + name;
+                    items.add(line);
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            listV.setItems(items);
+        }
 
         if (id.equals(myID)) {
             listV.setCellFactory(param -> new ShowLinkListController.MyLinkCell(p_pane, myID, id, conn));
         } else {
             listV.setCellFactory(param -> new ShowLinkListController.LinkCell(p_pane, myID, id, conn));
         }
+    }
+
+    public static String firstWord(String input) {
+        return input.split(" ")[0];
     }
 
     static class LinkCell extends ListCell<String> {
@@ -87,7 +240,7 @@ public class ShowLinkListController implements Initializable {
                         ShowLinkController controller = loader.getController();
 
                         //create query
-                        controller.initData(id, myID, "link id", conn);
+                        controller.initData(id, myID,  firstWord(getItem()), conn);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -141,7 +294,7 @@ public class ShowLinkListController implements Initializable {
                         ShowLinkController controller = loader.getController();
 
                         //create query
-                        controller.initData(id, myID, "link id", conn);
+                        controller.initData(id, myID,  firstWord(getItem()), conn);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -161,7 +314,7 @@ public class ShowLinkListController implements Initializable {
                         EditLinkController controller = loader.getController();
 
                         //create query
-                        controller.initData("link id", myID, conn);
+                        controller.initData( firstWord(getItem()), myID, conn);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {

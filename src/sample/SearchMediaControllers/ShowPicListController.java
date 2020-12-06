@@ -27,6 +27,9 @@ import sample.Objects.SearchVideos;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ShowPicListController implements Initializable {
@@ -50,15 +53,84 @@ public class ShowPicListController implements Initializable {
         this.myID = myID;
         this.conn = conn;
 
-        listV.setItems(items);
-        //loop
-        items.add("picture name");
+        if (!photos.getHeight().isEmpty() && !photos.getWidth().isEmpty()) {
+            items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                stmt = conn.prepareStatement("SELECT Pic_ID FROM PICTURE WHERE Height=? AND Width=? AND Likes>=?");
+                stmt.setInt(1, Integer.parseInt(photos.getHeight()));
+                stmt.setInt(2, Integer.parseInt(photos.getWidth()));
+                stmt.setInt(3, photos.getLikes());
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int pic_id = rs.getInt("Pic_ID");
+                    items.add(pic_id+"");
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            listV.setItems(items);
+        } else if (photos.getHeight().isEmpty() && !photos.getWidth().isEmpty()) {
+            items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                stmt = conn.prepareStatement("SELECT Pic_ID FROM PICTURE WHERE Height=? AND Likes>=?");
+                stmt.setInt(1, Integer.parseInt(photos.getWidth()));
+                stmt.setInt(2, photos.getLikes());
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int pic_id = rs.getInt("Pic_ID");
+                    items.add(pic_id+"");
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            listV.setItems(items);
+        } else if (!photos.getHeight().isEmpty() && photos.getWidth().isEmpty()) {
+            items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                stmt = conn.prepareStatement("SELECT Pic_ID FROM PICTURE WHERE Height=? AND Likes>=?");
+                stmt.setInt(1, Integer.parseInt(photos.getHeight()));
+                stmt.setInt(2, photos.getLikes());
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int pic_id = rs.getInt("Pic_ID");
+                    items.add(pic_id+"");
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            listV.setItems(items);
+        } else if (photos.getHeight().isEmpty() && photos.getWidth().isEmpty()) {
+            items = FXCollections.observableArrayList();
+            PreparedStatement stmt=null;
+            ResultSet rs=null;
+            try {
+                stmt = conn.prepareStatement("SELECT Pic_ID FROM PICTURE WHERE Likes>=?");
+                stmt.setInt(1, photos.getLikes());
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    int pic_id = rs.getInt("Pic_ID");
+                    items.add(pic_id+"");
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            listV.setItems(items);
+        }
 
         if (id.equals(myID)) {
             listV.setCellFactory(param -> new ShowPicListController.MyPictureCell(p_pane, myID, id, conn));
         } else {
             listV.setCellFactory(param -> new ShowPicListController.PictureCell(p_pane, myID, id, conn));
         }
+    }
+    public static String firstWord(String input) {
+        return input.split(" ")[0];
     }
 
     static class PictureCell extends ListCell<String> {
@@ -87,7 +159,7 @@ public class ShowPicListController implements Initializable {
                         ShowPictureController controller = loader.getController();
 
                         //create query
-                        controller.initData(id, myID, "picture id", conn, 0);
+                        controller.initData(id, myID, firstWord(getItem()), conn, 0);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -141,7 +213,7 @@ public class ShowPicListController implements Initializable {
                         ShowPictureController controller = loader.getController();
 
                         //create query
-                        controller.initData(id, myID, "picture id", conn, 0);
+                        controller.initData(id, myID, firstWord(getItem()), conn, 0);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {
@@ -161,7 +233,7 @@ public class ShowPicListController implements Initializable {
                         EditPhotoController controller = loader.getController();
 
                         //create query
-                        controller.initData("pic id", myID, conn, 0);
+                        controller.initData(firstWord(getItem()), myID, conn, 0);
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {

@@ -3,6 +3,7 @@ package sample.SearchMediaControllers;
         import javafx.fxml.FXML;
         import javafx.fxml.FXMLLoader;
         import javafx.fxml.Initializable;
+        import javafx.scene.control.TextField;
         import javafx.scene.layout.AnchorPane;
         import javafx.scene.layout.Pane;
         import sample.Main.FxmlLoader;
@@ -21,6 +22,15 @@ package sample.SearchMediaControllers;
 public class SearchLinkController implements Initializable {
     @FXML
     private AnchorPane p_pane ;
+
+    @FXML
+    private TextField name;
+
+    @FXML
+    private TextField link;
+
+    @FXML
+    private TextField caption;
 
     private String id;
     private String myID;
@@ -42,8 +52,8 @@ public class SearchLinkController implements Initializable {
         ShowLinkListController controller = loader.getController();
 
         //create query
-        SearchLinks link = new SearchLinks("","", "", "");
-        controller.initData(link, id, myID, conn);
+        SearchLinks link2 = new SearchLinks("",name.getText(), link.getText(),caption.getText());
+        controller.initData(link2, id, myID, conn);
 
         p_pane.getChildren().setAll(view);
     }
