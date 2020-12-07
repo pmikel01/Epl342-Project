@@ -256,11 +256,12 @@ public class EditInfoController implements Initializable {
                         throwables.printStackTrace();
                     }
                     stmt.setInt(8, livesExists);
-
-                    stmt.setInt(9, Integer.parseInt(myID));
-
-                    stmt.executeUpdate();
                 }
+                
+                stmt.setInt(9, Integer.parseInt(myID));
+
+                stmt.executeUpdate();
+
                 FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(getClass().getResource("../MainScenes/my_profile.fxml"));
                 Pane view = loader.load();

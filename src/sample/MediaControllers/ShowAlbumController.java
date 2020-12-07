@@ -24,10 +24,7 @@ import sample.SearchMediaControllers.ShowPicListController;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ResourceBundle;
 
 public class ShowAlbumController implements Initializable {
@@ -64,7 +61,43 @@ public class ShowAlbumController implements Initializable {
             rs = stmt.executeQuery();
             while (rs.next()) {
                 int pic_id = rs.getInt("PICTURE_ID");
-                items.add("Picture: " + pic_id);
+
+                if (id.equals(myID)) {
+                    items.add("Picture: " + pic_id);
+                } else {
+                    PreparedStatement stmt3 = null;
+                    ResultSet rs3 = null;
+                    stmt3 = conn.prepareStatement("SELECT Privacy FROM PICTURE WHERE Pic_ID=?");
+                    stmt3.setInt(1, pic_id);
+                    rs3 = stmt3.executeQuery();
+                    if (rs3.next()) {
+                        if (rs3.getInt("Privacy") == 1) {
+                            items.add("Picture: " + pic_id);
+                        } else if (rs3.getInt("Privacy") == 3) {
+                            PreparedStatement stmt2 =null;
+                            ResultSet rs2=null;
+                            stmt2 = conn.prepareStatement("SELECT FRIEND_ID FROM FRIENDS WHERE USER_ID=? AND FRIEND_ID=?");
+                            stmt2.setInt(1, Integer.parseInt(myID));
+                            stmt2.setInt(2, Integer.parseInt(id));
+                            rs2 = stmt2.executeQuery();
+                            if (rs2.next()) {
+                                items.add("Picture: " + pic_id);
+                            }
+                        } else if (rs3.getInt("Privacy") == 4) {
+                            ResultSet rs2=null;
+                            CallableStatement stmt2 = conn.prepareCall("{call Procedure_Friends_Network_3(?)}");
+                            stmt2.setInt(1,Integer.parseInt(myID));
+                            rs2 = stmt2.executeQuery();
+                            while (rs2.next()) {
+                                int possible = rs2.getInt(1);
+                                if (possible==Integer.parseInt(id)) {
+                                    items.add("Picture: " + pic_id);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -94,12 +127,13 @@ public class ShowAlbumController implements Initializable {
         stmt = null;
         rs = null;
         try {
-            stmt = conn.prepareStatement("SELECT Count FROM ALBUM WHERE Album_ID=?");
+            stmt = conn.prepareStatement("SELECT Count_Videos,Count_Images FROM ALBUM WHERE Album_ID=?");
             stmt.setInt(1, Integer.parseInt(album_id));
             rs = stmt.executeQuery();
             if (rs.next()) {
-                int count2 = rs.getInt("Count");
-                count.setText("Album Has " + count2 + " Objects");
+                int count2 = rs.getInt("Count_Videos");
+                int count3 = rs.getInt("Count_Images");
+                count.setText("Album Has " + count3 + " Images and " + count2 + " Videos");
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -140,7 +174,7 @@ public class ShowAlbumController implements Initializable {
                         ShowPictureController controller = loader.getController();
 
                         //create query
-                        controller.initData(id, myID, "picture id", conn, Integer.parseInt(ShowAlbumController.this.album_id));
+                        controller.initData(id, myID, secondWord(getItem()), conn, Integer.parseInt(ShowAlbumController.this.album_id));
 
                         p_pane.getChildren().setAll(view);
                     } catch (IOException ioException) {

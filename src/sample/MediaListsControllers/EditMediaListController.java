@@ -73,6 +73,7 @@ public class EditMediaListController implements Initializable {
                 throwables.printStackTrace();
             }
             listV.setItems(items);
+
             listV.setCellFactory(param -> new EditMediaListController.AlbumCell(p_pane, myID, conn));
         } else if (choose.equals("picture")) {
             items = FXCollections.observableArrayList();

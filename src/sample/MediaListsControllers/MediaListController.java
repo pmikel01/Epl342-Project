@@ -81,8 +81,8 @@ public class MediaListController implements Initializable {
                         rs2 = stmt2.executeQuery();
                         while (rs2.next()) {
                             int possible = rs2.getInt(1);
-                            int possible2 = rs2.getInt(2);
-                            if (possible==Integer.parseInt(id) || possible2==Integer.parseInt(id)) {
+//                            int possible2 = rs2.getInt(2);
+                            if (possible==Integer.parseInt(id)) {
                                 String title = rs.getString("Title");
                                 String line = album_id + "  " + title;
                                 items.add(line);
@@ -101,12 +101,38 @@ public class MediaListController implements Initializable {
             PreparedStatement stmt=null;
             ResultSet rs=null;
             try {
-                stmt = conn.prepareStatement("SELECT Pic_ID FROM PICTURE WHERE USER_ID=?");
+                stmt = conn.prepareStatement("SELECT Pic_ID,Privacy FROM PICTURE WHERE USER_ID=?");
                 stmt.setInt(1, Integer.parseInt(id));
                 rs = stmt.executeQuery();
                 while (rs.next()) {
                     int pic_id = rs.getInt("Pic_ID");
-                    items.add(pic_id+"");
+
+                    if (rs.getInt("Privacy") == 1) {
+                        items.add(pic_id+"");
+                    } else if (rs.getInt("Privacy") == 3) {
+                        PreparedStatement stmt2 =null;
+                        ResultSet rs2=null;
+                        stmt2 = conn.prepareStatement("SELECT FRIEND_ID FROM FRIENDS WHERE USER_ID=? AND FRIEND_ID=?");
+                        stmt2.setInt(1, Integer.parseInt(myID));
+                        stmt2.setInt(2, Integer.parseInt(id));
+                        rs2 = stmt2.executeQuery();
+                        if (rs2.next()) {
+                            items.add(pic_id+"");
+                        }
+                    } else if (rs.getInt("Privacy") == 4) {
+                        ResultSet rs2=null;
+                        CallableStatement stmt2 = conn.prepareCall("{call Procedure_Friends_Network_3(?)}");
+                        stmt2.setInt(1,Integer.parseInt(myID));
+                        rs2 = stmt2.executeQuery();
+                        while (rs2.next()) {
+                            int possible = rs2.getInt(1);
+//                            int possible2 = rs2.getInt(2);
+                            if (possible==Integer.parseInt(id)) {
+                                items.add(pic_id+"");
+                                break;
+                            }
+                        }
+                    }
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -118,7 +144,7 @@ public class MediaListController implements Initializable {
             PreparedStatement stmt=null;
             ResultSet rs=null;
             try {
-                stmt = conn.prepareStatement("SELECT Vid_ID,Title FROM VIDEO WHERE USER_ID=?");
+                stmt = conn.prepareStatement("SELECT Vid_ID,Title,Privacy FROM VIDEO WHERE USER_ID=?");
                 stmt.setInt(1, Integer.parseInt(id));
                 rs = stmt.executeQuery();
                 while (rs.next()) {
@@ -137,14 +163,40 @@ public class MediaListController implements Initializable {
             PreparedStatement stmt=null;
             ResultSet rs=null;
             try {
-                stmt = conn.prepareStatement("SELECT Event_ID,Name FROM EVENT WHERE Creator=?");
+                stmt = conn.prepareStatement("SELECT Event_ID,Name,Privacy FROM EVENT WHERE Creator=?");
                 stmt.setInt(1, Integer.parseInt(id));
                 rs = stmt.executeQuery();
                 while (rs.next()) {
                     int event_id = rs.getInt("Event_ID");
                     String name = rs.getString("Name");
                     String line = event_id + "  " + name;
-                    items.add(line);
+
+                    if (rs.getInt("Privacy") == 1) {
+                        items.add(line);
+                    } else if (rs.getInt("Privacy") == 3) {
+                        PreparedStatement stmt2 =null;
+                        ResultSet rs2=null;
+                        stmt2 = conn.prepareStatement("SELECT FRIEND_ID FROM FRIENDS WHERE USER_ID=? AND FRIEND_ID=?");
+                        stmt2.setInt(1, Integer.parseInt(myID));
+                        stmt2.setInt(2, Integer.parseInt(id));
+                        rs2 = stmt2.executeQuery();
+                        if (rs2.next()) {
+                            items.add(line);
+                        }
+                    } else if (rs.getInt("Privacy") == 4) {
+                        ResultSet rs2=null;
+                        CallableStatement stmt2 = conn.prepareCall("{call Procedure_Friends_Network_3(?)}");
+                        stmt2.setInt(1,Integer.parseInt(myID));
+                        rs2 = stmt2.executeQuery();
+                        while (rs2.next()) {
+                            int possible = rs2.getInt(1);
+//                            int possible2 = rs2.getInt(2);
+                            if (possible==Integer.parseInt(id)) {
+                                items.add(line);
+                                break;
+                            }
+                        }
+                    }
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -156,7 +208,7 @@ public class MediaListController implements Initializable {
             PreparedStatement stmt=null;
             ResultSet rs=null;
             try {
-                stmt = conn.prepareStatement("SELECT Link_ID,Name FROM LINK WHERE USER_ID=?");
+                stmt = conn.prepareStatement("SELECT Link_ID,Name,Privacy FROM LINK WHERE USER_ID=?");
                 stmt.setInt(1, Integer.parseInt(id));
                 rs = stmt.executeQuery();
                 while (rs.next()) {

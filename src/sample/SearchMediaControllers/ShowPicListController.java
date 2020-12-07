@@ -26,10 +26,7 @@ import sample.Objects.SearchVideos;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ResourceBundle;
 
 public class ShowPicListController implements Initializable {
@@ -58,14 +55,45 @@ public class ShowPicListController implements Initializable {
             PreparedStatement stmt=null;
             ResultSet rs=null;
             try {
-                stmt = conn.prepareStatement("SELECT Pic_ID FROM PICTURE WHERE Height=? AND Width=? AND Likes>=?");
+                stmt = conn.prepareStatement("SELECT Pic_ID,Privacy FROM PICTURE WHERE Height=? AND Width=? AND Likes>=?");
                 stmt.setInt(1, Integer.parseInt(photos.getHeight()));
                 stmt.setInt(2, Integer.parseInt(photos.getWidth()));
                 stmt.setInt(3, photos.getLikes());
                 rs = stmt.executeQuery();
                 while (rs.next()) {
                     int pic_id = rs.getInt("Pic_ID");
-                    items.add(pic_id+"");
+
+                    if (id.equals(myID)) {
+                        items.add(pic_id+"");
+
+                    } else if (rs.getInt("Privacy") == 1) {
+                        items.add(pic_id+"");
+
+                    } else if (rs.getInt("Privacy") == 3) {
+                        PreparedStatement stmt2 =null;
+                        ResultSet rs2=null;
+                        stmt2 = conn.prepareStatement("SELECT FRIEND_ID FROM FRIENDS WHERE USER_ID=? AND FRIEND_ID=?");
+                        stmt2.setInt(1, Integer.parseInt(myID));
+                        stmt2.setInt(2, Integer.parseInt(id));
+                        rs2 = stmt2.executeQuery();
+                        if (rs2.next()) {
+                            items.add(pic_id+"");
+
+                        }
+                    } else if (rs.getInt("Privacy") == 4) {
+                        ResultSet rs2=null;
+                        CallableStatement stmt2 = conn.prepareCall("{call Procedure_Friends_Network_3(?)}");
+                        stmt2.setInt(1,Integer.parseInt(myID));
+                        rs2 = stmt2.executeQuery();
+                        while (rs2.next()) {
+                            int possible = rs2.getInt(1);
+//                            int possible2 = rs2.getInt(2);
+                            if (possible==Integer.parseInt(id)) {
+                                items.add(pic_id+"");
+                                break;
+                            }
+                        }
+                    }
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -76,13 +104,43 @@ public class ShowPicListController implements Initializable {
             PreparedStatement stmt=null;
             ResultSet rs=null;
             try {
-                stmt = conn.prepareStatement("SELECT Pic_ID FROM PICTURE WHERE Height=? AND Likes>=?");
+                stmt = conn.prepareStatement("SELECT Pic_ID,Privacy FROM PICTURE WHERE Height=? AND Likes>=?");
                 stmt.setInt(1, Integer.parseInt(photos.getWidth()));
                 stmt.setInt(2, photos.getLikes());
                 rs = stmt.executeQuery();
                 while (rs.next()) {
                     int pic_id = rs.getInt("Pic_ID");
-                    items.add(pic_id+"");
+                    if (id.equals(myID)) {
+                        items.add(pic_id+"");
+
+                    } else if (rs.getInt("Privacy") == 1) {
+                        items.add(pic_id+"");
+
+                    } else if (rs.getInt("Privacy") == 3) {
+                        PreparedStatement stmt2 =null;
+                        ResultSet rs2=null;
+                        stmt2 = conn.prepareStatement("SELECT FRIEND_ID FROM FRIENDS WHERE USER_ID=? AND FRIEND_ID=?");
+                        stmt2.setInt(1, Integer.parseInt(myID));
+                        stmt2.setInt(2, Integer.parseInt(id));
+                        rs2 = stmt2.executeQuery();
+                        if (rs2.next()) {
+                            items.add(pic_id+"");
+
+                        }
+                    } else if (rs.getInt("Privacy") == 4) {
+                        ResultSet rs2=null;
+                        CallableStatement stmt2 = conn.prepareCall("{call Procedure_Friends_Network_3(?)}");
+                        stmt2.setInt(1,Integer.parseInt(myID));
+                        rs2 = stmt2.executeQuery();
+                        while (rs2.next()) {
+                            int possible = rs2.getInt(1);
+//                            int possible2 = rs2.getInt(2);
+                            if (possible==Integer.parseInt(id)) {
+                                items.add(pic_id+"");
+                                break;
+                            }
+                        }
+                    }
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -93,13 +151,43 @@ public class ShowPicListController implements Initializable {
             PreparedStatement stmt=null;
             ResultSet rs=null;
             try {
-                stmt = conn.prepareStatement("SELECT Pic_ID FROM PICTURE WHERE Height=? AND Likes>=?");
+                stmt = conn.prepareStatement("SELECT Pic_ID,Privacy FROM PICTURE WHERE Height=? AND Likes>=?");
                 stmt.setInt(1, Integer.parseInt(photos.getHeight()));
                 stmt.setInt(2, photos.getLikes());
                 rs = stmt.executeQuery();
                 while (rs.next()) {
                     int pic_id = rs.getInt("Pic_ID");
-                    items.add(pic_id+"");
+                    if (id.equals(myID)) {
+                        items.add(pic_id+"");
+
+                    } else if (rs.getInt("Privacy") == 1) {
+                        items.add(pic_id+"");
+
+                    } else if (rs.getInt("Privacy") == 3) {
+                        PreparedStatement stmt2 =null;
+                        ResultSet rs2=null;
+                        stmt2 = conn.prepareStatement("SELECT FRIEND_ID FROM FRIENDS WHERE USER_ID=? AND FRIEND_ID=?");
+                        stmt2.setInt(1, Integer.parseInt(myID));
+                        stmt2.setInt(2, Integer.parseInt(id));
+                        rs2 = stmt2.executeQuery();
+                        if (rs2.next()) {
+                            items.add(pic_id+"");
+
+                        }
+                    } else if (rs.getInt("Privacy") == 4) {
+                        ResultSet rs2=null;
+                        CallableStatement stmt2 = conn.prepareCall("{call Procedure_Friends_Network_3(?)}");
+                        stmt2.setInt(1,Integer.parseInt(myID));
+                        rs2 = stmt2.executeQuery();
+                        while (rs2.next()) {
+                            int possible = rs2.getInt(1);
+//                            int possible2 = rs2.getInt(2);
+                            if (possible==Integer.parseInt(id)) {
+                                items.add(pic_id+"");
+                                break;
+                            }
+                        }
+                    }
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -110,12 +198,42 @@ public class ShowPicListController implements Initializable {
             PreparedStatement stmt=null;
             ResultSet rs=null;
             try {
-                stmt = conn.prepareStatement("SELECT Pic_ID FROM PICTURE WHERE Likes>=?");
+                stmt = conn.prepareStatement("SELECT Pic_ID,Privacy FROM PICTURE WHERE Likes>=?");
                 stmt.setInt(1, photos.getLikes());
                 rs = stmt.executeQuery();
                 while (rs.next()) {
                     int pic_id = rs.getInt("Pic_ID");
-                    items.add(pic_id+"");
+                    if (id.equals(myID)) {
+                        items.add(pic_id+"");
+
+                    } else if (rs.getInt("Privacy") == 1) {
+                        items.add(pic_id+"");
+
+                    } else if (rs.getInt("Privacy") == 3) {
+                        PreparedStatement stmt2 =null;
+                        ResultSet rs2=null;
+                        stmt2 = conn.prepareStatement("SELECT FRIEND_ID FROM FRIENDS WHERE USER_ID=? AND FRIEND_ID=?");
+                        stmt2.setInt(1, Integer.parseInt(myID));
+                        stmt2.setInt(2, Integer.parseInt(id));
+                        rs2 = stmt2.executeQuery();
+                        if (rs2.next()) {
+                            items.add(pic_id+"");
+
+                        }
+                    } else if (rs.getInt("Privacy") == 4) {
+                        ResultSet rs2=null;
+                        CallableStatement stmt2 = conn.prepareCall("{call Procedure_Friends_Network_3(?)}");
+                        stmt2.setInt(1,Integer.parseInt(myID));
+                        rs2 = stmt2.executeQuery();
+                        while (rs2.next()) {
+                            int possible = rs2.getInt(1);
+//                            int possible2 = rs2.getInt(2);
+                            if (possible==Integer.parseInt(id)) {
+                                items.add(pic_id+"");
+                                break;
+                            }
+                        }
+                    }
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();

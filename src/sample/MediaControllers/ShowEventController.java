@@ -77,6 +77,7 @@ public class ShowEventController implements Initializable {
         this.event_id = event_id;
         this.myID = myID;
         this.events = events;
+        this.conn = conn;
 
         name.setText("");
         description.setText("");
@@ -157,7 +158,7 @@ public class ShowEventController implements Initializable {
             EventSearchController controller = loader.getController();
 
             //create query
-            controller.initData(events, myID);
+            controller.initData(events, myID, conn);
 
             p_pane.getChildren().setAll(view);
         } else {

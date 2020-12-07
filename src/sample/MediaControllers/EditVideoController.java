@@ -187,10 +187,10 @@ public class EditVideoController implements Initializable {
                 Pane showProfParent = null;
                 showProfParent = loader.load();
                 //access the controller and call a method
-                ShowAlbumController controller = loader.getController();
+                EditMediaListController controller = loader.getController();
 
                 //create query
-                controller.initData(myID, myID, albumID + "", conn);
+                controller.initData("album", myID, conn);
 
                 p_pane.getChildren().setAll(showProfParent);
             }
@@ -217,10 +217,10 @@ public class EditVideoController implements Initializable {
             Pane showProfParent = null;
             showProfParent = loader.load();
             //access the controller and call a method
-            ShowAlbumController controller = loader.getController();
+            EditMediaListController controller = loader.getController();
 
             //create query
-            controller.initData(myID, myID, albumID+"", conn);
+            controller.initData("album", myID, conn);
 
             p_pane.getChildren().setAll(showProfParent);
         }

@@ -1,8 +1,11 @@
 package sample.MediaControllers;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -24,8 +27,13 @@ import java.sql.*;
 import java.util.ResourceBundle;
 
 public class AddPhotoInAlbumController implements Initializable {
-    private static final String SQL_INSERT_PICTURE = "INSERT INTO [dbo].PICTURE (Source,Height,Width,User_ID,Link,Likes,Taken) VALUES (?,?,?,?,?,?,?)";
+    private static final String SQL_INSERT_PICTURE = "INSERT INTO [dbo].PICTURE (Source,Height,Width,User_ID,Link,Likes,Taken,Privacy) VALUES (?,?,?,?,?,?,?,?)";
     private static final String SQL_INSERT_PICTURE_ALBUM = "INSERT INTO [dbo].PICTURES_ALBUMS (ALBUM_ID,PICTURE_ID) VALUES (?,?)";
+
+    ObservableList<String> privacyList = FXCollections.observableArrayList("OPEN", "CLOSED", "FRIEND", "NETWORK");
+
+    @FXML
+    private ComboBox<String> privacyBox;
 
     @FXML
     private AnchorPane p_pane ;
@@ -114,6 +122,17 @@ public class AddPhotoInAlbumController implements Initializable {
                     stmt.setInt(7, Location.getLocID(conn, location.getText()));
                 }
 
+                //"OPEN", "CLOSED", "FRIEND", "NETWORK"
+                if (privacyBox.getValue().equals("OPEN")) {
+                    stmt.setInt(8, 1);
+                } else if (privacyBox.getValue().equals("CLOSED")) {
+                    stmt.setInt(8, 2);
+                } else if (privacyBox.getValue().equals("FRIEND")) {
+                    stmt.setInt(8, 3);
+                } else {
+                    stmt.setInt(8, 4);
+                }
+
                 stmt.executeUpdate();
 
                 int id_created=0;
@@ -133,16 +152,16 @@ public class AddPhotoInAlbumController implements Initializable {
 
                 stmt = null;
                 rs=null;
-                stmt = conn.prepareStatement("SELECT Count FROM ALBUM WHERE Album_ID=?");
+                stmt = conn.prepareStatement("SELECT Count_Images FROM ALBUM WHERE Album_ID=?");
                 stmt.setInt(1, Integer.parseInt(albumID));
                 rs = stmt.executeQuery();
                 int count2 = 2 ;
                 if (rs.next()) {
-                    count2 = rs.getInt("Count");
+                    count2 = rs.getInt("Count_Images");
                 }
 
                 stmt = null;
-                stmt = conn.prepareStatement("UPDATE ALBUM SET Count=? WHERE Album_ID=?");
+                stmt = conn.prepareStatement("UPDATE ALBUM SET Count_Images=? WHERE Album_ID=?");
                 stmt.setInt(1,count2+1);
                 stmt.setInt(2,Integer.parseInt(albumID));
                 stmt.executeUpdate();
@@ -180,5 +199,7 @@ public class AddPhotoInAlbumController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        privacyBox.setValue("OPEN");
+        privacyBox.setItems(privacyList);
     }
 }

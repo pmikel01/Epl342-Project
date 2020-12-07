@@ -26,10 +26,7 @@ import sample.Objects.SearchPhotos;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ResourceBundle;
 
 public class ShowLinkListController implements Initializable {
@@ -58,7 +55,7 @@ public class ShowLinkListController implements Initializable {
             PreparedStatement stmt=null;
             ResultSet rs=null;
             try {
-                stmt = conn.prepareStatement("SELECT Link_ID,Name FROM LINK WHERE SOUNDEX(Name)=SOUNDEX(?) AND SOUNDEX(URL)=SOUNDEX(?) AND SOUNDEX(Caption)=SOUNDEX(?)");
+                stmt = conn.prepareStatement("SELECT Link_ID,Name,Privacy FROM LINK WHERE SOUNDEX(Name)=SOUNDEX(?) AND SOUNDEX(URL)=SOUNDEX(?) AND SOUNDEX(Caption)=SOUNDEX(?)");
                 stmt.setString(1, links.getName());
                 stmt.setString(2, links.getLink());
                 stmt.setString(3, links.getCaption());
@@ -67,7 +64,36 @@ public class ShowLinkListController implements Initializable {
                     int link_id = rs.getInt("Link_ID");
                     String name = rs.getString("Name");
                     String line = link_id + "  " + name;
-                    items.add(line);
+                    if (id.equals(myID)) {
+                        items.add(line);
+                    } else if (rs.getInt("Privacy") == 1) {
+                        items.add(line);
+
+                    } else if (rs.getInt("Privacy") == 3) {
+                        PreparedStatement stmt2 =null;
+                        ResultSet rs2=null;
+                        stmt2 = conn.prepareStatement("SELECT FRIEND_ID FROM FRIENDS WHERE USER_ID=? AND FRIEND_ID=?");
+                        stmt2.setInt(1, Integer.parseInt(myID));
+                        stmt2.setInt(2, Integer.parseInt(id));
+                        rs2 = stmt2.executeQuery();
+                        if (rs2.next()) {
+                            items.add(line);
+
+                        }
+                    } else if (rs.getInt("Privacy") == 4) {
+                        ResultSet rs2=null;
+                        CallableStatement stmt2 = conn.prepareCall("{call Procedure_Friends_Network_3(?)}");
+                        stmt2.setInt(1,Integer.parseInt(myID));
+                        rs2 = stmt2.executeQuery();
+                        while (rs2.next()) {
+                            int possible = rs2.getInt(1);
+//                            int possible2 = rs2.getInt(2);
+                            if (possible==Integer.parseInt(id)) {
+                                items.add(line);
+                                break;
+                            }
+                        }
+                    }
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -78,7 +104,7 @@ public class ShowLinkListController implements Initializable {
             PreparedStatement stmt=null;
             ResultSet rs=null;
             try {
-                stmt = conn.prepareStatement("SELECT Link_ID,Name FROM LINK WHERE SOUNDEX(URL)=SOUNDEX(?) AND SOUNDEX(Caption)=SOUNDEX(?)");
+                stmt = conn.prepareStatement("SELECT Link_ID,Name,Privacy FROM LINK WHERE SOUNDEX(URL)=SOUNDEX(?) AND SOUNDEX(Caption)=SOUNDEX(?)");
                 stmt.setString(1, links.getLink());
                 stmt.setString(2, links.getCaption());
                 rs = stmt.executeQuery();
@@ -86,7 +112,38 @@ public class ShowLinkListController implements Initializable {
                     int link_id = rs.getInt("Link_ID");
                     String name = rs.getString("Name");
                     String line = link_id + "  " + name;
-                    items.add(line);
+                    if (id.equals(myID)) {
+                        items.add(line);
+
+
+                    } else if (rs.getInt("Privacy") == 1) {
+                        items.add(line);
+
+                    } else if (rs.getInt("Privacy") == 3) {
+                        PreparedStatement stmt2 =null;
+                        ResultSet rs2=null;
+                        stmt2 = conn.prepareStatement("SELECT FRIEND_ID FROM FRIENDS WHERE USER_ID=? AND FRIEND_ID=?");
+                        stmt2.setInt(1, Integer.parseInt(myID));
+                        stmt2.setInt(2, Integer.parseInt(id));
+                        rs2 = stmt2.executeQuery();
+                        if (rs2.next()) {
+                            items.add(line);
+
+                        }
+                    } else if (rs.getInt("Privacy") == 4) {
+                        ResultSet rs2=null;
+                        CallableStatement stmt2 = conn.prepareCall("{call Procedure_Friends_Network_3(?)}");
+                        stmt2.setInt(1,Integer.parseInt(myID));
+                        rs2 = stmt2.executeQuery();
+                        while (rs2.next()) {
+                            int possible = rs2.getInt(1);
+//                            int possible2 = rs2.getInt(2);
+                            if (possible==Integer.parseInt(id)) {
+                                items.add(line);
+                                break;
+                            }
+                        }
+                    }
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -97,7 +154,7 @@ public class ShowLinkListController implements Initializable {
             PreparedStatement stmt=null;
             ResultSet rs=null;
             try {
-                stmt = conn.prepareStatement("SELECT Link_ID,Name FROM LINK WHERE SOUNDEX(Name)=SOUNDEX(?) AND SOUNDEX(Caption)=SOUNDEX(?)");
+                stmt = conn.prepareStatement("SELECT Link_ID,Name,Privacy FROM LINK WHERE SOUNDEX(Name)=SOUNDEX(?) AND SOUNDEX(Caption)=SOUNDEX(?)");
                 stmt.setString(1, links.getName());
                 stmt.setString(2, links.getCaption());
                 rs = stmt.executeQuery();
@@ -105,7 +162,38 @@ public class ShowLinkListController implements Initializable {
                     int link_id = rs.getInt("Link_ID");
                     String name = rs.getString("Name");
                     String line = link_id + "  " + name;
-                    items.add(line);
+                    if (id.equals(myID)) {
+                        items.add(line);
+
+
+                    } else if (rs.getInt("Privacy") == 1) {
+                        items.add(line);
+
+                    } else if (rs.getInt("Privacy") == 3) {
+                        PreparedStatement stmt2 =null;
+                        ResultSet rs2=null;
+                        stmt2 = conn.prepareStatement("SELECT FRIEND_ID FROM FRIENDS WHERE USER_ID=? AND FRIEND_ID=?");
+                        stmt2.setInt(1, Integer.parseInt(myID));
+                        stmt2.setInt(2, Integer.parseInt(id));
+                        rs2 = stmt2.executeQuery();
+                        if (rs2.next()) {
+                            items.add(line);
+
+                        }
+                    } else if (rs.getInt("Privacy") == 4) {
+                        ResultSet rs2=null;
+                        CallableStatement stmt2 = conn.prepareCall("{call Procedure_Friends_Network_3(?)}");
+                        stmt2.setInt(1,Integer.parseInt(myID));
+                        rs2 = stmt2.executeQuery();
+                        while (rs2.next()) {
+                            int possible = rs2.getInt(1);
+//                            int possible2 = rs2.getInt(2);
+                            if (possible==Integer.parseInt(id)) {
+                                items.add(line);
+                                break;
+                            }
+                        }
+                    }
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -116,7 +204,7 @@ public class ShowLinkListController implements Initializable {
             PreparedStatement stmt=null;
             ResultSet rs=null;
             try {
-                stmt = conn.prepareStatement("SELECT Link_ID,Name FROM LINK WHERE SOUNDEX(Name)=SOUNDEX(?) AND SOUNDEX(URL)=SOUNDEX(?)");
+                stmt = conn.prepareStatement("SELECT Link_ID,Name,Privacy FROM LINK WHERE SOUNDEX(Name)=SOUNDEX(?) AND SOUNDEX(URL)=SOUNDEX(?)");
                 stmt.setString(1, links.getName());
                 stmt.setString(2, links.getLink());
                 rs = stmt.executeQuery();
@@ -124,7 +212,38 @@ public class ShowLinkListController implements Initializable {
                     int link_id = rs.getInt("Link_ID");
                     String name = rs.getString("Name");
                     String line = link_id + "  " + name;
-                    items.add(line);
+                    if (id.equals(myID)) {
+                        items.add(line);
+
+
+                    } else if (rs.getInt("Privacy") == 1) {
+                        items.add(line);
+
+                    } else if (rs.getInt("Privacy") == 3) {
+                        PreparedStatement stmt2 =null;
+                        ResultSet rs2=null;
+                        stmt2 = conn.prepareStatement("SELECT FRIEND_ID FROM FRIENDS WHERE USER_ID=? AND FRIEND_ID=?");
+                        stmt2.setInt(1, Integer.parseInt(myID));
+                        stmt2.setInt(2, Integer.parseInt(id));
+                        rs2 = stmt2.executeQuery();
+                        if (rs2.next()) {
+                            items.add(line);
+
+                        }
+                    } else if (rs.getInt("Privacy") == 4) {
+                        ResultSet rs2=null;
+                        CallableStatement stmt2 = conn.prepareCall("{call Procedure_Friends_Network_3(?)}");
+                        stmt2.setInt(1,Integer.parseInt(myID));
+                        rs2 = stmt2.executeQuery();
+                        while (rs2.next()) {
+                            int possible = rs2.getInt(1);
+//                            int possible2 = rs2.getInt(2);
+                            if (possible==Integer.parseInt(id)) {
+                                items.add(line);
+                                break;
+                            }
+                        }
+                    }
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -135,14 +254,45 @@ public class ShowLinkListController implements Initializable {
             PreparedStatement stmt=null;
             ResultSet rs=null;
             try {
-                stmt = conn.prepareStatement("SELECT Link_ID,Name FROM LINK WHERE SOUNDEX(Caption)=SOUNDEX(?)");
+                stmt = conn.prepareStatement("SELECT Link_ID,Name,Privacy FROM LINK WHERE SOUNDEX(Caption)=SOUNDEX(?)");
                 stmt.setString(1, links.getCaption());
                 rs = stmt.executeQuery();
                 while (rs.next()) {
                     int link_id = rs.getInt("Link_ID");
                     String name = rs.getString("Name");
                     String line = link_id + "  " + name;
-                    items.add(line);
+                    if (id.equals(myID)) {
+                        items.add(line);
+
+
+                    } else if (rs.getInt("Privacy") == 1) {
+                        items.add(line);
+
+                    } else if (rs.getInt("Privacy") == 3) {
+                        PreparedStatement stmt2 =null;
+                        ResultSet rs2=null;
+                        stmt2 = conn.prepareStatement("SELECT FRIEND_ID FROM FRIENDS WHERE USER_ID=? AND FRIEND_ID=?");
+                        stmt2.setInt(1, Integer.parseInt(myID));
+                        stmt2.setInt(2, Integer.parseInt(id));
+                        rs2 = stmt2.executeQuery();
+                        if (rs2.next()) {
+                            items.add(line);
+
+                        }
+                    } else if (rs.getInt("Privacy") == 4) {
+                        ResultSet rs2=null;
+                        CallableStatement stmt2 = conn.prepareCall("{call Procedure_Friends_Network_3(?)}");
+                        stmt2.setInt(1,Integer.parseInt(myID));
+                        rs2 = stmt2.executeQuery();
+                        while (rs2.next()) {
+                            int possible = rs2.getInt(1);
+//                            int possible2 = rs2.getInt(2);
+                            if (possible==Integer.parseInt(id)) {
+                                items.add(line);
+                                break;
+                            }
+                        }
+                    }
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -153,14 +303,45 @@ public class ShowLinkListController implements Initializable {
             PreparedStatement stmt=null;
             ResultSet rs=null;
             try {
-                stmt = conn.prepareStatement("SELECT Link_ID,Name FROM LINK WHERE SOUNDEX(Name)=SOUNDEX(?)");
+                stmt = conn.prepareStatement("SELECT Link_ID,Name,Privacy FROM LINK WHERE SOUNDEX(Name)=SOUNDEX(?)");
                 stmt.setString(1, links.getName());
                 rs = stmt.executeQuery();
                 while (rs.next()) {
                     int link_id = rs.getInt("Link_ID");
                     String name = rs.getString("Name");
                     String line = link_id + "  " + name;
-                    items.add(line);
+                    if (id.equals(myID)) {
+                        items.add(line);
+
+
+                    } else if (rs.getInt("Privacy") == 1) {
+                        items.add(line);
+
+                    } else if (rs.getInt("Privacy") == 3) {
+                        PreparedStatement stmt2 =null;
+                        ResultSet rs2=null;
+                        stmt2 = conn.prepareStatement("SELECT FRIEND_ID FROM FRIENDS WHERE USER_ID=? AND FRIEND_ID=?");
+                        stmt2.setInt(1, Integer.parseInt(myID));
+                        stmt2.setInt(2, Integer.parseInt(id));
+                        rs2 = stmt2.executeQuery();
+                        if (rs2.next()) {
+                            items.add(line);
+
+                        }
+                    } else if (rs.getInt("Privacy") == 4) {
+                        ResultSet rs2=null;
+                        CallableStatement stmt2 = conn.prepareCall("{call Procedure_Friends_Network_3(?)}");
+                        stmt2.setInt(1,Integer.parseInt(myID));
+                        rs2 = stmt2.executeQuery();
+                        while (rs2.next()) {
+                            int possible = rs2.getInt(1);
+//                            int possible2 = rs2.getInt(2);
+                            if (possible==Integer.parseInt(id)) {
+                                items.add(line);
+                                break;
+                            }
+                        }
+                    }
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -171,14 +352,45 @@ public class ShowLinkListController implements Initializable {
             PreparedStatement stmt=null;
             ResultSet rs=null;
             try {
-                stmt = conn.prepareStatement("SELECT Link_ID,Name FROM LINK WHERE SOUNDEX(URL)=SOUNDEX(?)");
+                stmt = conn.prepareStatement("SELECT Link_ID,Name,Privacy FROM LINK WHERE SOUNDEX(URL)=SOUNDEX(?)");
                 stmt.setString(1, links.getLink());
                 rs = stmt.executeQuery();
                 while (rs.next()) {
                     int link_id = rs.getInt("Link_ID");
                     String name = rs.getString("Name");
                     String line = link_id + "  " + name;
-                    items.add(line);
+                    if (id.equals(myID)) {
+                        items.add(line);
+
+
+                    } else if (rs.getInt("Privacy") == 1) {
+                        items.add(line);
+
+                    } else if (rs.getInt("Privacy") == 3) {
+                        PreparedStatement stmt2 =null;
+                        ResultSet rs2=null;
+                        stmt2 = conn.prepareStatement("SELECT FRIEND_ID FROM FRIENDS WHERE USER_ID=? AND FRIEND_ID=?");
+                        stmt2.setInt(1, Integer.parseInt(myID));
+                        stmt2.setInt(2, Integer.parseInt(id));
+                        rs2 = stmt2.executeQuery();
+                        if (rs2.next()) {
+                            items.add(line);
+
+                        }
+                    } else if (rs.getInt("Privacy") == 4) {
+                        ResultSet rs2=null;
+                        CallableStatement stmt2 = conn.prepareCall("{call Procedure_Friends_Network_3(?)}");
+                        stmt2.setInt(1,Integer.parseInt(myID));
+                        rs2 = stmt2.executeQuery();
+                        while (rs2.next()) {
+                            int possible = rs2.getInt(1);
+//                            int possible2 = rs2.getInt(2);
+                            if (possible==Integer.parseInt(id)) {
+                                items.add(line);
+                                break;
+                            }
+                        }
+                    }
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -189,13 +401,44 @@ public class ShowLinkListController implements Initializable {
             PreparedStatement stmt=null;
             ResultSet rs=null;
             try {
-                stmt = conn.prepareStatement("SELECT Link_ID,Name FROM LINK");
+                stmt = conn.prepareStatement("SELECT Link_ID,Name,Privacy FROM LINK");
                 rs = stmt.executeQuery();
                 while (rs.next()) {
                     int link_id = rs.getInt("Link_ID");
                     String name = rs.getString("Name");
                     String line = link_id + "  " + name;
-                    items.add(line);
+                    if (id.equals(myID)) {
+                        items.add(line);
+
+
+                    } else if (rs.getInt("Privacy") == 1) {
+                        items.add(line);
+
+                    } else if (rs.getInt("Privacy") == 3) {
+                        PreparedStatement stmt2 =null;
+                        ResultSet rs2=null;
+                        stmt2 = conn.prepareStatement("SELECT FRIEND_ID FROM FRIENDS WHERE USER_ID=? AND FRIEND_ID=?");
+                        stmt2.setInt(1, Integer.parseInt(myID));
+                        stmt2.setInt(2, Integer.parseInt(id));
+                        rs2 = stmt2.executeQuery();
+                        if (rs2.next()) {
+                            items.add(line);
+
+                        }
+                    } else if (rs.getInt("Privacy") == 4) {
+                        ResultSet rs2=null;
+                        CallableStatement stmt2 = conn.prepareCall("{call Procedure_Friends_Network_3(?)}");
+                        stmt2.setInt(1,Integer.parseInt(myID));
+                        rs2 = stmt2.executeQuery();
+                        while (rs2.next()) {
+                            int possible = rs2.getInt(1);
+//                            int possible2 = rs2.getInt(2);
+                            if (possible==Integer.parseInt(id)) {
+                                items.add(line);
+                                break;
+                            }
+                        }
+                    }
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();

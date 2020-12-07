@@ -66,7 +66,7 @@ public class ShowEventListController implements Initializable {
                     loc_id = rsLoc.getInt("Location_ID");
                 }
 
-                stmt = conn.prepareStatement("SELECT Event_ID,Name FROM EVENT WHERE SOUNDEX(Name)=SOUNDEX(?) AND SOUNDEX(Venue)=SOUNDEX(?) AND Location=? AND CAST(StartTime as DATE)=?");
+                stmt = conn.prepareStatement("SELECT Event_ID,Name,Privacy FROM EVENT WHERE SOUNDEX(Name)=SOUNDEX(?) AND SOUNDEX(Venue)=SOUNDEX(?) AND Location=? AND CAST(StartTime as DATE)=?");
                 stmt.setString(1, events.getName());
                 stmt.setString(2, events.getVenue());
                 stmt.setInt(3,loc_id);
@@ -77,7 +77,36 @@ public class ShowEventListController implements Initializable {
                     int event_id = rs.getInt("Event_ID");
                     String name = rs.getString("Name");
                     String line = event_id + "  " + name;
-                    items.add(line);
+                    if (id.equals(myID)) {
+                        items.add(line);
+                    } else if (rs.getInt("Privacy") == 1) {
+                        items.add(line);
+
+                    } else if (rs.getInt("Privacy") == 3) {
+                        PreparedStatement stmt2 =null;
+                        ResultSet rs2=null;
+                        stmt2 = conn.prepareStatement("SELECT FRIEND_ID FROM FRIENDS WHERE USER_ID=? AND FRIEND_ID=?");
+                        stmt2.setInt(1, Integer.parseInt(myID));
+                        stmt2.setInt(2, Integer.parseInt(id));
+                        rs2 = stmt2.executeQuery();
+                        if (rs2.next()) {
+                            items.add(line);
+
+                        }
+                    } else if (rs.getInt("Privacy") == 4) {
+                        ResultSet rs2=null;
+                        CallableStatement stmt2 = conn.prepareCall("{call Procedure_Friends_Network_3(?)}");
+                        stmt2.setInt(1,Integer.parseInt(myID));
+                        rs2 = stmt2.executeQuery();
+                        while (rs2.next()) {
+                            int possible = rs2.getInt(1);
+//                            int possible2 = rs2.getInt(2);
+                            if (possible==Integer.parseInt(id)) {
+                                items.add(line);
+                                break;
+                            }
+                        }
+                    }
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -98,7 +127,7 @@ public class ShowEventListController implements Initializable {
                     loc_id = rsLoc.getInt("Location_ID");
                 }
 
-                stmt = conn.prepareStatement("SELECT Event_ID,Name FROM EVENT WHERE SOUNDEX(Name)=SOUNDEX(?) AND SOUNDEX(Venue)=SOUNDEX(?) AND Location=?");
+                stmt = conn.prepareStatement("SELECT Event_ID,Name,Privacy FROM EVENT WHERE SOUNDEX(Name)=SOUNDEX(?) AND SOUNDEX(Venue)=SOUNDEX(?) AND Location=?");
                 stmt.setString(1, events.getName());
                 stmt.setString(2, events.getVenue());
                 stmt.setInt(3,loc_id);
@@ -107,7 +136,36 @@ public class ShowEventListController implements Initializable {
                     int event_id = rs.getInt("Event_ID");
                     String name = rs.getString("Name");
                     String line = event_id + "  " + name;
-                    items.add(line);
+                    if (id.equals(myID)) {
+                        items.add(line);
+                    } else if (rs.getInt("Privacy") == 1) {
+                        items.add(line);
+
+                    } else if (rs.getInt("Privacy") == 3) {
+                        PreparedStatement stmt2 =null;
+                        ResultSet rs2=null;
+                        stmt2 = conn.prepareStatement("SELECT FRIEND_ID FROM FRIENDS WHERE USER_ID=? AND FRIEND_ID=?");
+                        stmt2.setInt(1, Integer.parseInt(myID));
+                        stmt2.setInt(2, Integer.parseInt(id));
+                        rs2 = stmt2.executeQuery();
+                        if (rs2.next()) {
+                            items.add(line);
+
+                        }
+                    } else if (rs.getInt("Privacy") == 4) {
+                        ResultSet rs2=null;
+                        CallableStatement stmt2 = conn.prepareCall("{call Procedure_Friends_Network_3(?)}");
+                        stmt2.setInt(1,Integer.parseInt(myID));
+                        rs2 = stmt2.executeQuery();
+                        while (rs2.next()) {
+                            int possible = rs2.getInt(1);
+//                            int possible2 = rs2.getInt(2);
+                            if (possible==Integer.parseInt(id)) {
+                                items.add(line);
+                                break;
+                            }
+                        }
+                    }
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -119,7 +177,7 @@ public class ShowEventListController implements Initializable {
             ResultSet rs=null;
             try {
 
-                stmt = conn.prepareStatement("SELECT Event_ID,Name FROM EVENT WHERE SOUNDEX(Name)=SOUNDEX(?) AND SOUNDEX(Venue)=SOUNDEX(?) AND CAST(StartTime as DATE)=?");
+                stmt = conn.prepareStatement("SELECT Event_ID,Name,Privacy FROM EVENT WHERE SOUNDEX(Name)=SOUNDEX(?) AND SOUNDEX(Venue)=SOUNDEX(?) AND CAST(StartTime as DATE)=?");
                 stmt.setString(1, events.getName());
                 stmt.setString(2, events.getVenue());
                 Date dt = Date.valueOf(events.getDate().getValue());
@@ -129,7 +187,36 @@ public class ShowEventListController implements Initializable {
                     int event_id = rs.getInt("Event_ID");
                     String name = rs.getString("Name");
                     String line = event_id + "  " + name;
-                    items.add(line);
+                    if (id.equals(myID)) {
+                        items.add(line);
+                    } else if (rs.getInt("Privacy") == 1) {
+                        items.add(line);
+
+                    } else if (rs.getInt("Privacy") == 3) {
+                        PreparedStatement stmt2 =null;
+                        ResultSet rs2=null;
+                        stmt2 = conn.prepareStatement("SELECT FRIEND_ID FROM FRIENDS WHERE USER_ID=? AND FRIEND_ID=?");
+                        stmt2.setInt(1, Integer.parseInt(myID));
+                        stmt2.setInt(2, Integer.parseInt(id));
+                        rs2 = stmt2.executeQuery();
+                        if (rs2.next()) {
+                            items.add(line);
+
+                        }
+                    } else if (rs.getInt("Privacy") == 4) {
+                        ResultSet rs2=null;
+                        CallableStatement stmt2 = conn.prepareCall("{call Procedure_Friends_Network_3(?)}");
+                        stmt2.setInt(1,Integer.parseInt(myID));
+                        rs2 = stmt2.executeQuery();
+                        while (rs2.next()) {
+                            int possible = rs2.getInt(1);
+//                            int possible2 = rs2.getInt(2);
+                            if (possible==Integer.parseInt(id)) {
+                                items.add(line);
+                                break;
+                            }
+                        }
+                    }
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -150,7 +237,7 @@ public class ShowEventListController implements Initializable {
                     loc_id = rsLoc.getInt("Location_ID");
                 }
 
-                stmt = conn.prepareStatement("SELECT Event_ID,Name FROM EVENT WHERE SOUNDEX(Name)=SOUNDEX(?) AND Location=? AND CAST(StartTime as DATE)=?");
+                stmt = conn.prepareStatement("SELECT Event_ID,Name,Privacy FROM EVENT WHERE SOUNDEX(Name)=SOUNDEX(?) AND Location=? AND CAST(StartTime as DATE)=?");
                 stmt.setString(1, events.getName());
                 stmt.setInt(2,loc_id);
                 Date dt = Date.valueOf(events.getDate().getValue());
@@ -160,7 +247,36 @@ public class ShowEventListController implements Initializable {
                     int event_id = rs.getInt("Event_ID");
                     String name = rs.getString("Name");
                     String line = event_id + "  " + name;
-                    items.add(line);
+                    if (id.equals(myID)) {
+                        items.add(line);
+                    } else if (rs.getInt("Privacy") == 1) {
+                        items.add(line);
+
+                    } else if (rs.getInt("Privacy") == 3) {
+                        PreparedStatement stmt2 =null;
+                        ResultSet rs2=null;
+                        stmt2 = conn.prepareStatement("SELECT FRIEND_ID FROM FRIENDS WHERE USER_ID=? AND FRIEND_ID=?");
+                        stmt2.setInt(1, Integer.parseInt(myID));
+                        stmt2.setInt(2, Integer.parseInt(id));
+                        rs2 = stmt2.executeQuery();
+                        if (rs2.next()) {
+                            items.add(line);
+
+                        }
+                    } else if (rs.getInt("Privacy") == 4) {
+                        ResultSet rs2=null;
+                        CallableStatement stmt2 = conn.prepareCall("{call Procedure_Friends_Network_3(?)}");
+                        stmt2.setInt(1,Integer.parseInt(myID));
+                        rs2 = stmt2.executeQuery();
+                        while (rs2.next()) {
+                            int possible = rs2.getInt(1);
+//                            int possible2 = rs2.getInt(2);
+                            if (possible==Integer.parseInt(id)) {
+                                items.add(line);
+                                break;
+                            }
+                        }
+                    }
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -181,7 +297,7 @@ public class ShowEventListController implements Initializable {
                     loc_id = rsLoc.getInt("Location_ID");
                 }
 
-                stmt = conn.prepareStatement("SELECT Event_ID,Name FROM EVENT WHERE AND SOUNDEX(Venue)=SOUNDEX(?) AND Location=? AND CAST(StartTime as DATE)=?");
+                stmt = conn.prepareStatement("SELECT Event_ID,Name,Privacy FROM EVENT WHERE AND SOUNDEX(Venue)=SOUNDEX(?) AND Location=? AND CAST(StartTime as DATE)=?");
                 stmt.setString(1, events.getVenue());
                 stmt.setInt(2,loc_id);
                 Date dt = Date.valueOf(events.getDate().getValue());
@@ -191,7 +307,36 @@ public class ShowEventListController implements Initializable {
                     int event_id = rs.getInt("Event_ID");
                     String name = rs.getString("Name");
                     String line = event_id + "  " + name;
-                    items.add(line);
+                    if (id.equals(myID)) {
+                        items.add(line);
+                    } else if (rs.getInt("Privacy") == 1) {
+                        items.add(line);
+
+                    } else if (rs.getInt("Privacy") == 3) {
+                        PreparedStatement stmt2 =null;
+                        ResultSet rs2=null;
+                        stmt2 = conn.prepareStatement("SELECT FRIEND_ID FROM FRIENDS WHERE USER_ID=? AND FRIEND_ID=?");
+                        stmt2.setInt(1, Integer.parseInt(myID));
+                        stmt2.setInt(2, Integer.parseInt(id));
+                        rs2 = stmt2.executeQuery();
+                        if (rs2.next()) {
+                            items.add(line);
+
+                        }
+                    } else if (rs.getInt("Privacy") == 4) {
+                        ResultSet rs2=null;
+                        CallableStatement stmt2 = conn.prepareCall("{call Procedure_Friends_Network_3(?)}");
+                        stmt2.setInt(1,Integer.parseInt(myID));
+                        rs2 = stmt2.executeQuery();
+                        while (rs2.next()) {
+                            int possible = rs2.getInt(1);
+//                            int possible2 = rs2.getInt(2);
+                            if (possible==Integer.parseInt(id)) {
+                                items.add(line);
+                                break;
+                            }
+                        }
+                    }
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -212,7 +357,7 @@ public class ShowEventListController implements Initializable {
                     loc_id = rsLoc.getInt("Location_ID");
                 }
 
-                stmt = conn.prepareStatement("SELECT Event_ID,Name FROM EVENT WHERE Location=? AND CAST(StartTime as DATE)=?");
+                stmt = conn.prepareStatement("SELECT Event_ID,Name,Privacy FROM EVENT WHERE Location=? AND CAST(StartTime as DATE)=?");
                 stmt.setInt(1,loc_id);
                 Date dt = Date.valueOf(events.getDate().getValue());
                 stmt.setDate(2, dt);
@@ -221,7 +366,36 @@ public class ShowEventListController implements Initializable {
                     int event_id = rs.getInt("Event_ID");
                     String name = rs.getString("Name");
                     String line = event_id + "  " + name;
-                    items.add(line);
+                    if (id.equals(myID)) {
+                        items.add(line);
+                    } else if (rs.getInt("Privacy") == 1) {
+                        items.add(line);
+
+                    } else if (rs.getInt("Privacy") == 3) {
+                        PreparedStatement stmt2 =null;
+                        ResultSet rs2=null;
+                        stmt2 = conn.prepareStatement("SELECT FRIEND_ID FROM FRIENDS WHERE USER_ID=? AND FRIEND_ID=?");
+                        stmt2.setInt(1, Integer.parseInt(myID));
+                        stmt2.setInt(2, Integer.parseInt(id));
+                        rs2 = stmt2.executeQuery();
+                        if (rs2.next()) {
+                            items.add(line);
+
+                        }
+                    } else if (rs.getInt("Privacy") == 4) {
+                        ResultSet rs2=null;
+                        CallableStatement stmt2 = conn.prepareCall("{call Procedure_Friends_Network_3(?)}");
+                        stmt2.setInt(1,Integer.parseInt(myID));
+                        rs2 = stmt2.executeQuery();
+                        while (rs2.next()) {
+                            int possible = rs2.getInt(1);
+//                            int possible2 = rs2.getInt(2);
+                            if (possible==Integer.parseInt(id)) {
+                                items.add(line);
+                                break;
+                            }
+                        }
+                    }
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -233,7 +407,7 @@ public class ShowEventListController implements Initializable {
             ResultSet rs=null;
             try {
 
-                stmt = conn.prepareStatement("SELECT Event_ID,Name FROM EVENT WHERE SOUNDEX(Name)=SOUNDEX(?) AND CAST(StartTime as DATE)=?");
+                stmt = conn.prepareStatement("SELECT Event_ID,Name,Privacy FROM EVENT WHERE SOUNDEX(Name)=SOUNDEX(?) AND CAST(StartTime as DATE)=?");
                 stmt.setString(1, events.getName());
                 Date dt = Date.valueOf(events.getDate().getValue());
                 stmt.setDate(2, dt);
@@ -242,7 +416,36 @@ public class ShowEventListController implements Initializable {
                     int event_id = rs.getInt("Event_ID");
                     String name = rs.getString("Name");
                     String line = event_id + "  " + name;
-                    items.add(line);
+                    if (id.equals(myID)) {
+                        items.add(line);
+                    } else if (rs.getInt("Privacy") == 1) {
+                        items.add(line);
+
+                    } else if (rs.getInt("Privacy") == 3) {
+                        PreparedStatement stmt2 =null;
+                        ResultSet rs2=null;
+                        stmt2 = conn.prepareStatement("SELECT FRIEND_ID FROM FRIENDS WHERE USER_ID=? AND FRIEND_ID=?");
+                        stmt2.setInt(1, Integer.parseInt(myID));
+                        stmt2.setInt(2, Integer.parseInt(id));
+                        rs2 = stmt2.executeQuery();
+                        if (rs2.next()) {
+                            items.add(line);
+
+                        }
+                    } else if (rs.getInt("Privacy") == 4) {
+                        ResultSet rs2=null;
+                        CallableStatement stmt2 = conn.prepareCall("{call Procedure_Friends_Network_3(?)}");
+                        stmt2.setInt(1,Integer.parseInt(myID));
+                        rs2 = stmt2.executeQuery();
+                        while (rs2.next()) {
+                            int possible = rs2.getInt(1);
+//                            int possible2 = rs2.getInt(2);
+                            if (possible==Integer.parseInt(id)) {
+                                items.add(line);
+                                break;
+                            }
+                        }
+                    }
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -253,7 +456,7 @@ public class ShowEventListController implements Initializable {
             PreparedStatement stmt=null;
             ResultSet rs=null;
             try {
-                stmt = conn.prepareStatement("SELECT Event_ID,Name FROM EVENT WHERE SOUNDEX(Name)=SOUNDEX(?) AND SOUNDEX(Venue)=SOUNDEX(?)");
+                stmt = conn.prepareStatement("SELECT Event_ID,Name,Privacy FROM EVENT WHERE SOUNDEX(Name)=SOUNDEX(?) AND SOUNDEX(Venue)=SOUNDEX(?)");
                 stmt.setString(1, events.getName());
                 stmt.setString(2, events.getVenue());
                 rs = stmt.executeQuery();
@@ -261,7 +464,36 @@ public class ShowEventListController implements Initializable {
                     int event_id = rs.getInt("Event_ID");
                     String name = rs.getString("Name");
                     String line = event_id + "  " + name;
-                    items.add(line);
+                    if (id.equals(myID)) {
+                        items.add(line);
+                    } else if (rs.getInt("Privacy") == 1) {
+                        items.add(line);
+
+                    } else if (rs.getInt("Privacy") == 3) {
+                        PreparedStatement stmt2 =null;
+                        ResultSet rs2=null;
+                        stmt2 = conn.prepareStatement("SELECT FRIEND_ID FROM FRIENDS WHERE USER_ID=? AND FRIEND_ID=?");
+                        stmt2.setInt(1, Integer.parseInt(myID));
+                        stmt2.setInt(2, Integer.parseInt(id));
+                        rs2 = stmt2.executeQuery();
+                        if (rs2.next()) {
+                            items.add(line);
+
+                        }
+                    } else if (rs.getInt("Privacy") == 4) {
+                        ResultSet rs2=null;
+                        CallableStatement stmt2 = conn.prepareCall("{call Procedure_Friends_Network_3(?)}");
+                        stmt2.setInt(1,Integer.parseInt(myID));
+                        rs2 = stmt2.executeQuery();
+                        while (rs2.next()) {
+                            int possible = rs2.getInt(1);
+//                            int possible2 = rs2.getInt(2);
+                            if (possible==Integer.parseInt(id)) {
+                                items.add(line);
+                                break;
+                            }
+                        }
+                    }
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -272,7 +504,7 @@ public class ShowEventListController implements Initializable {
             PreparedStatement stmt=null;
             ResultSet rs=null;
             try {
-                stmt = conn.prepareStatement("SELECT Event_ID,Name FROM EVENT WHERE SOUNDEX(Venue)=SOUNDEX(?) AND CAST(StartTime as DATE)=?");
+                stmt = conn.prepareStatement("SELECT Event_ID,Name,Privacy FROM EVENT WHERE SOUNDEX(Venue)=SOUNDEX(?) AND CAST(StartTime as DATE)=?");
                 stmt.setString(1, events.getVenue());
                 Date dt = Date.valueOf(events.getDate().getValue());
                 stmt.setDate(2, dt);
@@ -281,7 +513,36 @@ public class ShowEventListController implements Initializable {
                     int event_id = rs.getInt("Event_ID");
                     String name = rs.getString("Name");
                     String line = event_id + "  " + name;
-                    items.add(line);
+                    if (id.equals(myID)) {
+                        items.add(line);
+                    } else if (rs.getInt("Privacy") == 1) {
+                        items.add(line);
+
+                    } else if (rs.getInt("Privacy") == 3) {
+                        PreparedStatement stmt2 =null;
+                        ResultSet rs2=null;
+                        stmt2 = conn.prepareStatement("SELECT FRIEND_ID FROM FRIENDS WHERE USER_ID=? AND FRIEND_ID=?");
+                        stmt2.setInt(1, Integer.parseInt(myID));
+                        stmt2.setInt(2, Integer.parseInt(id));
+                        rs2 = stmt2.executeQuery();
+                        if (rs2.next()) {
+                            items.add(line);
+
+                        }
+                    } else if (rs.getInt("Privacy") == 4) {
+                        ResultSet rs2=null;
+                        CallableStatement stmt2 = conn.prepareCall("{call Procedure_Friends_Network_3(?)}");
+                        stmt2.setInt(1,Integer.parseInt(myID));
+                        rs2 = stmt2.executeQuery();
+                        while (rs2.next()) {
+                            int possible = rs2.getInt(1);
+//                            int possible2 = rs2.getInt(2);
+                            if (possible==Integer.parseInt(id)) {
+                                items.add(line);
+                                break;
+                            }
+                        }
+                    }
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -302,7 +563,7 @@ public class ShowEventListController implements Initializable {
                     loc_id = rsLoc.getInt("Location_ID");
                 }
 
-                stmt = conn.prepareStatement("SELECT Event_ID,Name FROM EVENT WHERE SOUNDEX(Venue)=SOUNDEX(?) AND Location=?");
+                stmt = conn.prepareStatement("SELECT Event_ID,Name,Privacy FROM EVENT WHERE SOUNDEX(Venue)=SOUNDEX(?) AND Location=?");
                 stmt.setString(1, events.getVenue());
                 stmt.setInt(2,loc_id);
                 rs = stmt.executeQuery();
@@ -310,7 +571,36 @@ public class ShowEventListController implements Initializable {
                     int event_id = rs.getInt("Event_ID");
                     String name = rs.getString("Name");
                     String line = event_id + "  " + name;
-                    items.add(line);
+                    if (id.equals(myID)) {
+                        items.add(line);
+                    } else if (rs.getInt("Privacy") == 1) {
+                        items.add(line);
+
+                    } else if (rs.getInt("Privacy") == 3) {
+                        PreparedStatement stmt2 =null;
+                        ResultSet rs2=null;
+                        stmt2 = conn.prepareStatement("SELECT FRIEND_ID FROM FRIENDS WHERE USER_ID=? AND FRIEND_ID=?");
+                        stmt2.setInt(1, Integer.parseInt(myID));
+                        stmt2.setInt(2, Integer.parseInt(id));
+                        rs2 = stmt2.executeQuery();
+                        if (rs2.next()) {
+                            items.add(line);
+
+                        }
+                    } else if (rs.getInt("Privacy") == 4) {
+                        ResultSet rs2=null;
+                        CallableStatement stmt2 = conn.prepareCall("{call Procedure_Friends_Network_3(?)}");
+                        stmt2.setInt(1,Integer.parseInt(myID));
+                        rs2 = stmt2.executeQuery();
+                        while (rs2.next()) {
+                            int possible = rs2.getInt(1);
+//                            int possible2 = rs2.getInt(2);
+                            if (possible==Integer.parseInt(id)) {
+                                items.add(line);
+                                break;
+                            }
+                        }
+                    }
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -331,7 +621,7 @@ public class ShowEventListController implements Initializable {
                     loc_id = rsLoc.getInt("Location_ID");
                 }
 
-                stmt = conn.prepareStatement("SELECT Event_ID,Name FROM EVENT WHERE SOUNDEX(Name)=SOUNDEX(?) AND Location=?");
+                stmt = conn.prepareStatement("SELECT Event_ID,Name,Privacy FROM EVENT WHERE SOUNDEX(Name)=SOUNDEX(?) AND Location=?");
                 stmt.setString(1, events.getName());
                 stmt.setInt(2,loc_id);
                 rs = stmt.executeQuery();
@@ -339,7 +629,36 @@ public class ShowEventListController implements Initializable {
                     int event_id = rs.getInt("Event_ID");
                     String name = rs.getString("Name");
                     String line = event_id + "  " + name;
-                    items.add(line);
+                    if (id.equals(myID)) {
+                        items.add(line);
+                    } else if (rs.getInt("Privacy") == 1) {
+                        items.add(line);
+
+                    } else if (rs.getInt("Privacy") == 3) {
+                        PreparedStatement stmt2 =null;
+                        ResultSet rs2=null;
+                        stmt2 = conn.prepareStatement("SELECT FRIEND_ID FROM FRIENDS WHERE USER_ID=? AND FRIEND_ID=?");
+                        stmt2.setInt(1, Integer.parseInt(myID));
+                        stmt2.setInt(2, Integer.parseInt(id));
+                        rs2 = stmt2.executeQuery();
+                        if (rs2.next()) {
+                            items.add(line);
+
+                        }
+                    } else if (rs.getInt("Privacy") == 4) {
+                        ResultSet rs2=null;
+                        CallableStatement stmt2 = conn.prepareCall("{call Procedure_Friends_Network_3(?)}");
+                        stmt2.setInt(1,Integer.parseInt(myID));
+                        rs2 = stmt2.executeQuery();
+                        while (rs2.next()) {
+                            int possible = rs2.getInt(1);
+//                            int possible2 = rs2.getInt(2);
+                            if (possible==Integer.parseInt(id)) {
+                                items.add(line);
+                                break;
+                            }
+                        }
+                    }
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -353,7 +672,7 @@ public class ShowEventListController implements Initializable {
                 //SELECT *
                 //FROM [User] U
                 //WHERE CAST(U.DateCreated as DATE) = '2014-02-07'
-                stmt = conn.prepareStatement("SELECT Event_ID,Name FROM EVENT WHERE CAST(StartTime as DATE)=?");
+                stmt = conn.prepareStatement("SELECT Event_ID,Name,Privacy FROM EVENT WHERE CAST(StartTime as DATE)=?");
                 Date dt = Date.valueOf(events.getDate().getValue());
                 stmt.setDate(1, dt);
                 rs = stmt.executeQuery();
@@ -361,7 +680,36 @@ public class ShowEventListController implements Initializable {
                     int event_id = rs.getInt("Event_ID");
                     String name = rs.getString("Name");
                     String line = event_id + "  " + name;
-                    items.add(line);
+                    if (id.equals(myID)) {
+                        items.add(line);
+                    } else if (rs.getInt("Privacy") == 1) {
+                        items.add(line);
+
+                    } else if (rs.getInt("Privacy") == 3) {
+                        PreparedStatement stmt2 =null;
+                        ResultSet rs2=null;
+                        stmt2 = conn.prepareStatement("SELECT FRIEND_ID FROM FRIENDS WHERE USER_ID=? AND FRIEND_ID=?");
+                        stmt2.setInt(1, Integer.parseInt(myID));
+                        stmt2.setInt(2, Integer.parseInt(id));
+                        rs2 = stmt2.executeQuery();
+                        if (rs2.next()) {
+                            items.add(line);
+
+                        }
+                    } else if (rs.getInt("Privacy") == 4) {
+                        ResultSet rs2=null;
+                        CallableStatement stmt2 = conn.prepareCall("{call Procedure_Friends_Network_3(?)}");
+                        stmt2.setInt(1,Integer.parseInt(myID));
+                        rs2 = stmt2.executeQuery();
+                        while (rs2.next()) {
+                            int possible = rs2.getInt(1);
+//                            int possible2 = rs2.getInt(2);
+                            if (possible==Integer.parseInt(id)) {
+                                items.add(line);
+                                break;
+                            }
+                        }
+                    }
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -372,14 +720,43 @@ public class ShowEventListController implements Initializable {
             PreparedStatement stmt=null;
             ResultSet rs=null;
             try {
-                stmt = conn.prepareStatement("SELECT Event_ID,Name FROM EVENT WHERE SOUNDEX(Name)=SOUNDEX(?)");
+                stmt = conn.prepareStatement("SELECT Event_ID,Name,Privacy FROM EVENT WHERE SOUNDEX(Name)=SOUNDEX(?)");
                 stmt.setString(1, events.getName());
                 rs = stmt.executeQuery();
                 while (rs.next()) {
                     int event_id = rs.getInt("Event_ID");
                     String name = rs.getString("Name");
                     String line = event_id + "  " + name;
-                    items.add(line);
+                    if (id.equals(myID)) {
+                        items.add(line);
+                    } else if (rs.getInt("Privacy") == 1) {
+                        items.add(line);
+
+                    } else if (rs.getInt("Privacy") == 3) {
+                        PreparedStatement stmt2 =null;
+                        ResultSet rs2=null;
+                        stmt2 = conn.prepareStatement("SELECT FRIEND_ID FROM FRIENDS WHERE USER_ID=? AND FRIEND_ID=?");
+                        stmt2.setInt(1, Integer.parseInt(myID));
+                        stmt2.setInt(2, Integer.parseInt(id));
+                        rs2 = stmt2.executeQuery();
+                        if (rs2.next()) {
+                            items.add(line);
+
+                        }
+                    } else if (rs.getInt("Privacy") == 4) {
+                        ResultSet rs2=null;
+                        CallableStatement stmt2 = conn.prepareCall("{call Procedure_Friends_Network_3(?)}");
+                        stmt2.setInt(1,Integer.parseInt(myID));
+                        rs2 = stmt2.executeQuery();
+                        while (rs2.next()) {
+                            int possible = rs2.getInt(1);
+//                            int possible2 = rs2.getInt(2);
+                            if (possible==Integer.parseInt(id)) {
+                                items.add(line);
+                                break;
+                            }
+                        }
+                    }
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -390,14 +767,43 @@ public class ShowEventListController implements Initializable {
             PreparedStatement stmt=null;
             ResultSet rs=null;
             try {
-                stmt = conn.prepareStatement("SELECT Event_ID,Name FROM EVENT WHERE SOUNDEX(Venue)=SOUNDEX(?)");
+                stmt = conn.prepareStatement("SELECT Event_ID,Name,Privacy FROM EVENT WHERE SOUNDEX(Venue)=SOUNDEX(?)");
                 stmt.setString(1, events.getVenue());
                 rs = stmt.executeQuery();
                 while (rs.next()) {
                     int event_id = rs.getInt("Event_ID");
                     String name = rs.getString("Name");
                     String line = event_id + "  " + name;
-                    items.add(line);
+                    if (id.equals(myID)) {
+                        items.add(line);
+                    } else if (rs.getInt("Privacy") == 1) {
+                        items.add(line);
+
+                    } else if (rs.getInt("Privacy") == 3) {
+                        PreparedStatement stmt2 =null;
+                        ResultSet rs2=null;
+                        stmt2 = conn.prepareStatement("SELECT FRIEND_ID FROM FRIENDS WHERE USER_ID=? AND FRIEND_ID=?");
+                        stmt2.setInt(1, Integer.parseInt(myID));
+                        stmt2.setInt(2, Integer.parseInt(id));
+                        rs2 = stmt2.executeQuery();
+                        if (rs2.next()) {
+                            items.add(line);
+
+                        }
+                    } else if (rs.getInt("Privacy") == 4) {
+                        ResultSet rs2=null;
+                        CallableStatement stmt2 = conn.prepareCall("{call Procedure_Friends_Network_3(?)}");
+                        stmt2.setInt(1,Integer.parseInt(myID));
+                        rs2 = stmt2.executeQuery();
+                        while (rs2.next()) {
+                            int possible = rs2.getInt(1);
+//                            int possible2 = rs2.getInt(2);
+                            if (possible==Integer.parseInt(id)) {
+                                items.add(line);
+                                break;
+                            }
+                        }
+                    }
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -418,14 +824,43 @@ public class ShowEventListController implements Initializable {
                     loc_id = rsLoc.getInt("Location_ID");
                 }
 
-                stmt = conn.prepareStatement("SELECT Event_ID,Name FROM EVENT WHERE Location=?");
+                stmt = conn.prepareStatement("SELECT Event_ID,Name,Privacy FROM EVENT WHERE Location=?");
                 stmt.setInt(1,loc_id);
                 rs = stmt.executeQuery();
                 while (rs.next()) {
                     int event_id = rs.getInt("Event_ID");
                     String name = rs.getString("Name");
                     String line = event_id + "  " + name;
-                    items.add(line);
+                    if (id.equals(myID)) {
+                        items.add(line);
+                    } else if (rs.getInt("Privacy") == 1) {
+                        items.add(line);
+
+                    } else if (rs.getInt("Privacy") == 3) {
+                        PreparedStatement stmt2 =null;
+                        ResultSet rs2=null;
+                        stmt2 = conn.prepareStatement("SELECT FRIEND_ID FROM FRIENDS WHERE USER_ID=? AND FRIEND_ID=?");
+                        stmt2.setInt(1, Integer.parseInt(myID));
+                        stmt2.setInt(2, Integer.parseInt(id));
+                        rs2 = stmt2.executeQuery();
+                        if (rs2.next()) {
+                            items.add(line);
+
+                        }
+                    } else if (rs.getInt("Privacy") == 4) {
+                        ResultSet rs2=null;
+                        CallableStatement stmt2 = conn.prepareCall("{call Procedure_Friends_Network_3(?)}");
+                        stmt2.setInt(1,Integer.parseInt(myID));
+                        rs2 = stmt2.executeQuery();
+                        while (rs2.next()) {
+                            int possible = rs2.getInt(1);
+//                            int possible2 = rs2.getInt(2);
+                            if (possible==Integer.parseInt(id)) {
+                                items.add(line);
+                                break;
+                            }
+                        }
+                    }
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -436,13 +871,42 @@ public class ShowEventListController implements Initializable {
             PreparedStatement stmt=null;
             ResultSet rs=null;
             try {
-                stmt = conn.prepareStatement("SELECT Event_ID,Name FROM EVENT");
+                stmt = conn.prepareStatement("SELECT Event_ID,Name,Privacy FROM EVENT");
                 rs = stmt.executeQuery();
                 while (rs.next()) {
                     int event_id = rs.getInt("Event_ID");
                     String name = rs.getString("Name");
                     String line = event_id + "  " + name;
-                    items.add(line);
+                    if (id.equals(myID)) {
+                        items.add(line);
+                    } else if (rs.getInt("Privacy") == 1) {
+                        items.add(line);
+
+                    } else if (rs.getInt("Privacy") == 3) {
+                        PreparedStatement stmt2 =null;
+                        ResultSet rs2=null;
+                        stmt2 = conn.prepareStatement("SELECT FRIEND_ID FROM FRIENDS WHERE USER_ID=? AND FRIEND_ID=?");
+                        stmt2.setInt(1, Integer.parseInt(myID));
+                        stmt2.setInt(2, Integer.parseInt(id));
+                        rs2 = stmt2.executeQuery();
+                        if (rs2.next()) {
+                            items.add(line);
+
+                        }
+                    } else if (rs.getInt("Privacy") == 4) {
+                        ResultSet rs2=null;
+                        CallableStatement stmt2 = conn.prepareCall("{call Procedure_Friends_Network_3(?)}");
+                        stmt2.setInt(1,Integer.parseInt(myID));
+                        rs2 = stmt2.executeQuery();
+                        while (rs2.next()) {
+                            int possible = rs2.getInt(1);
+//                            int possible2 = rs2.getInt(2);
+                            if (possible==Integer.parseInt(id)) {
+                                items.add(line);
+                                break;
+                            }
+                        }
+                    }
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();

@@ -1,8 +1,11 @@
 package sample.MediaControllers;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -24,7 +27,12 @@ import java.sql.*;
 import java.util.ResourceBundle;
 
 public class AddPhotoController implements Initializable {
-    private static final String SQL_INSERT_PICTURE = "INSERT INTO [dbo].PICTURE (Source,Height,Width,User_ID,Link,Likes,Taken) VALUES (?,?,?,?,?,?,?)";
+    private static final String SQL_INSERT_PICTURE = "INSERT INTO [dbo].PICTURE (Source,Height,Width,User_ID,Link,Likes,Taken,Privacy) VALUES (?,?,?,?,?,?,?,?)";
+
+    ObservableList<String> privacyList = FXCollections.observableArrayList("OPEN", "CLOSED", "FRIEND", "NETWORK");
+
+    @FXML
+    private ComboBox<String> privacyBox;
 
     @FXML
     private AnchorPane p_pane ;
@@ -111,6 +119,17 @@ public class AddPhotoController implements Initializable {
                 } else {
                     stmt.setInt(7, Location.getLocID(conn,location.getText()));
                 }
+
+                //"OPEN", "CLOSED", "FRIEND", "NETWORK"
+                if (privacyBox.getValue().equals("OPEN")) {
+                    stmt.setInt(8, 1);
+                } else if (privacyBox.getValue().equals("CLOSED")) {
+                    stmt.setInt(8, 2);
+                } else if (privacyBox.getValue().equals("FRIEND")) {
+                    stmt.setInt(8, 3);
+                } else {
+                    stmt.setInt(8, 4);
+                }
                 stmt.executeUpdate();
             }catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -146,5 +165,7 @@ public class AddPhotoController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        privacyBox.setValue("OPEN");
+        privacyBox.setItems(privacyList);
     }
 }

@@ -32,7 +32,7 @@ import sample.MediaListsControllers.FriendListController;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
+import java.sql.*;
 import java.util.ResourceBundle;
 
 public class StatisticsController implements Initializable {
@@ -64,7 +64,7 @@ public class StatisticsController implements Initializable {
         FriendListController controller = loader.getController();
 
         //create query
-        controller.initData("stat1", myID, conn);
+        controller.initData("stat1", myID, conn, 0);
 
         p_pane.getChildren().setAll(view);
     }
@@ -79,22 +79,7 @@ public class StatisticsController implements Initializable {
         FriendListController controller = loader.getController();
 
         //create query
-        controller.initData("stat2", myID, conn);
-
-        p_pane.getChildren().setAll(view);
-    }
-
-    @FXML
-    private void handleNetworkButton() throws IOException {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("../MediaLists/friends_list.fxml"));
-        Pane view = null;
-        view = loader.load();
-        //access the controller and call a method
-        FriendListController controller = loader.getController();
-
-        //create query
-        controller.initData("stat3", myID, conn);
+        controller.initData("stat2", myID, conn, 0);
 
         p_pane.getChildren().setAll(view);
     }
@@ -109,7 +94,22 @@ public class StatisticsController implements Initializable {
         FriendListController controller = loader.getController();
 
         //create query
-        controller.initData("stat4", myID, conn);
+        controller.initData("stat3", myID, conn, 0);
+
+        p_pane.getChildren().setAll(view);
+    }
+
+    @FXML
+    private void handleNetworkButton() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("../MediaLists/friends_list.fxml"));
+        Pane view = null;
+        view = loader.load();
+        //access the controller and call a method
+        FriendListController controller = loader.getController();
+
+        //create query
+        controller.initData("stat4", myID, conn, 0);
 
         p_pane.getChildren().setAll(view);
     }
@@ -124,7 +124,7 @@ public class StatisticsController implements Initializable {
         FriendListController controller = loader.getController();
 
         //create query
-        controller.initData("stat5", myID, conn);
+        controller.initData("stat5", myID, conn, spinF.getValue());
 
         p_pane.getChildren().setAll(view);
     }
@@ -139,7 +139,7 @@ public class StatisticsController implements Initializable {
         FriendListController controller = loader.getController();
 
         //create query
-        controller.initData("stat6", myID, conn);
+        controller.initData("stat6", myID, conn, spinU.getValue());
 
         p_pane.getChildren().setAll(view);
     }
@@ -154,7 +154,7 @@ public class StatisticsController implements Initializable {
         FriendListController controller = loader.getController();
 
         //create query
-        controller.initData("stat7", myID, conn);
+        controller.initData("stat7", myID, conn, 0);
 
         p_pane.getChildren().setAll(view);
     }
@@ -164,15 +164,29 @@ public class StatisticsController implements Initializable {
 
     @FXML
     public void pressAvgButton(ActionEvent event) {
-        sample.Main.CustomDialog dialog = new sample.Main.CustomDialog("Average Age Of Network", "45", "avg");
-        dialog.openDialog();
+        //Procedure_Network_AVG_AGE
+        ResultSet rs = null;
+        CallableStatement stmt = null;
+        try {
+            stmt = conn.prepareCall("{call Procedure_Network_AVG_AGE(?)}");
+            stmt.setInt(1,Integer.parseInt(myID));
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                int avg = rs.getInt(1);
+
+                sample.Main.CustomDialog dialog = new sample.Main.CustomDialog("Average Age Of Network", avg+"", "avg");
+                dialog.openDialog();
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        SpinnerValueFactory<Integer> spinFCount = new SpinnerValueFactory.IntegerSpinnerValueFactory(1,999,1);
+        SpinnerValueFactory<Integer> spinFCount = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,9999,0);
         this.spinF.setValueFactory(spinFCount);
-        SpinnerValueFactory<Integer> spinUCount = new SpinnerValueFactory.IntegerSpinnerValueFactory(1,999,1);
+        SpinnerValueFactory<Integer> spinUCount = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,9999,0);
         this.spinU.setValueFactory(spinUCount);
     }
 }

@@ -114,16 +114,16 @@ public class AddVideoInAlbumController implements Initializable {
 
                 stmt = null;
                 rs=null;
-                stmt = conn.prepareStatement("SELECT Count FROM ALBUM WHERE Album_ID=?");
+                stmt = conn.prepareStatement("SELECT Count_Videos FROM ALBUM WHERE Album_ID=?");
                 stmt.setInt(1, Integer.parseInt(albumID));
                 rs = stmt.executeQuery();
                 int count2 = 2 ;
                 if (rs.next()) {
-                    count2 = rs.getInt("Count");
+                    count2 = rs.getInt("Count_Videos");
                 }
 
                 stmt = null;
-                stmt = conn.prepareStatement("UPDATE ALBUM SET Count=? WHERE Album_ID=?");
+                stmt = conn.prepareStatement("UPDATE ALBUM SET Count_Videos=? WHERE Album_ID=?");
                 stmt.setInt(1,count2+1);
                 stmt.setInt(2,Integer.parseInt(albumID));
                 stmt.executeUpdate();

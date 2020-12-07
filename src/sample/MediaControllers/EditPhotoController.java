@@ -1,8 +1,11 @@
 package sample.MediaControllers;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -27,10 +30,15 @@ import java.sql.*;
 import java.util.ResourceBundle;
 
 public class EditPhotoController implements Initializable {
-    private static final String SQL_UPDATE_PICTURE = "UPDATE PICTURE SET Source=?,Height=?,Width=?,Taken=? WHERE Pic_ID=?";
+    private static final String SQL_UPDATE_PICTURE = "UPDATE PICTURE SET Source=?,Height=?,Width=?,Taken=?,Privacy=? WHERE Pic_ID=?";
 
     @FXML
     private AnchorPane p_pane ;
+
+    ObservableList<String> privacyList = FXCollections.observableArrayList("OPEN", "CLOSED", "FRIEND", "NETWORK");
+
+    @FXML
+    private ComboBox<String> privacyBox;
 
     @FXML
     private TextField sourcePath;
@@ -61,13 +69,24 @@ public class EditPhotoController implements Initializable {
         PreparedStatement stmt=null;
         ResultSet rs=null;
         try {
-            stmt = conn.prepareStatement("SELECT Source,Taken FROM PICTURE WHERE Pic_ID=?");
+            stmt = conn.prepareStatement("SELECT Source,Taken,Privacy FROM PICTURE WHERE Pic_ID=?");
             stmt.setInt(1, Integer.parseInt(mediaID));
             rs = stmt.executeQuery();
             if (rs.next()) {
                 Path currentRelativePath = Paths.get("");
                 String s = currentRelativePath.toAbsolutePath().toString();
                 sourcePath.setText(s + "\\src\\Pictures\\"+rs.getString("Source"));
+
+                //"OPEN", "CLOSED", "FRIEND", "NETWORK"
+                if (rs.getInt("Privacy") == 1) {
+                    privacyBox.setValue("OPEN");
+                } else if (rs.getInt("Privacy") == 2) {
+                    privacyBox.setValue("CLOSED");
+                } else if (rs.getInt("Privacy") == 3) {
+                    privacyBox.setValue("FRIEND");
+                } else {
+                    privacyBox.setValue("NETWORK");
+                }
 
                 int loc_id = rs.getInt("Taken");
                 String loc ="";
@@ -88,6 +107,8 @@ public class EditPhotoController implements Initializable {
                 if(loc_id!=0) {
                     location.setText(loc);
                 }
+
+
             }
         }catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -212,7 +233,18 @@ public class EditPhotoController implements Initializable {
                     } else {
                         stmt.setInt(4, Location.getLocID(conn, location.getText()));
                     }
-                    stmt.setInt(5, Integer.parseInt(mediaID));
+                    //"OPEN", "CLOSED", "FRIEND", "NETWORK"
+                    if (privacyBox.getValue().equals("OPEN")) {
+                        stmt.setInt(5, 1);
+                    } else if (privacyBox.getValue().equals("CLOSED")) {
+                        stmt.setInt(5, 2);
+                    } else if (privacyBox.getValue().equals("FRIEND")) {
+                        stmt.setInt(5, 3);
+                    } else {
+                        stmt.setInt(5, 4);
+                    }
+
+                    stmt.setInt(6, Integer.parseInt(mediaID));
 
                     stmt.executeUpdate();
                 } catch (SQLException throwables) {
@@ -223,10 +255,10 @@ public class EditPhotoController implements Initializable {
                 Pane showProfParent = null;
                 showProfParent = loader.load();
                 //access the controller and call a method
-                ShowAlbumController controller = loader.getController();
+                EditMediaListController controller = loader.getController();
 
                 //create query
-                controller.initData(myID, myID, albumID + "", conn);
+                controller.initData("album", myID, conn);
 
                 p_pane.getChildren().setAll(showProfParent);
             }
@@ -253,10 +285,10 @@ public class EditPhotoController implements Initializable {
             Pane showProfParent = null;
             showProfParent = loader.load();
             //access the controller and call a method
-            ShowAlbumController controller = loader.getController();
+            EditMediaListController controller = loader.getController();
 
             //create query
-            controller.initData(myID, myID, albumID+"", conn);
+            controller.initData("album", myID, conn);
 
             p_pane.getChildren().setAll(showProfParent);
         }
@@ -264,5 +296,6 @@ public class EditPhotoController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        privacyBox.setItems(privacyList);
     }
 }

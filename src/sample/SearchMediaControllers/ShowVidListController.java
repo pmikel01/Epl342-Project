@@ -28,10 +28,7 @@ import sample.Objects.SearchVideos;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ResourceBundle;
 
 public class ShowVidListController implements Initializable {
@@ -60,7 +57,7 @@ public class ShowVidListController implements Initializable {
             PreparedStatement stmt=null;
             ResultSet rs=null;
             try {
-                stmt = conn.prepareStatement("SELECT Vid_ID,Title FROM VIDEO WHERE SOUNDEX(Title)=SOUNDEX(?) AND SOUNDEX(Description)=SOUNDEX(?) AND Length>=? AND Likes>=?");
+                stmt = conn.prepareStatement("SELECT Vid_ID,Title,Privacy FROM VIDEO WHERE SOUNDEX(Title)=SOUNDEX(?) AND SOUNDEX(Description)=SOUNDEX(?) AND Length>=? AND Likes>=?");
                 stmt.setString(1, videos.getMessage());
                 stmt.setString(2, videos.getDescription());
                 stmt.setInt(3, videos.getLength());
@@ -70,7 +67,35 @@ public class ShowVidListController implements Initializable {
                     int video_id = rs.getInt("Vid_ID");
                     String title = rs.getString("Title");
                     String line = video_id + "  " + title;
-                    items.add(line);
+
+                    if (id.equals(myID)) {
+                        items.add(line);
+                    } else if (rs.getInt("Privacy") == 1) {
+                        items.add(line);
+                    } else if (rs.getInt("Privacy") == 3) {
+                        PreparedStatement stmt2 =null;
+                        ResultSet rs2=null;
+                        stmt2 = conn.prepareStatement("SELECT FRIEND_ID FROM FRIENDS WHERE USER_ID=? AND FRIEND_ID=?");
+                        stmt2.setInt(1, Integer.parseInt(myID));
+                        stmt2.setInt(2, Integer.parseInt(id));
+                        rs2 = stmt2.executeQuery();
+                        if (rs2.next()) {
+                            items.add(line);
+                        }
+                    } else if (rs.getInt("Privacy") == 4) {
+                        ResultSet rs2=null;
+                        CallableStatement stmt2 = conn.prepareCall("{call Procedure_Friends_Network_3(?)}");
+                        stmt2.setInt(1,Integer.parseInt(myID));
+                        rs2 = stmt2.executeQuery();
+                        while (rs2.next()) {
+                            int possible = rs2.getInt(1);
+//                            int possible2 = rs2.getInt(2);
+                            if (possible==Integer.parseInt(id)) {
+                                items.add(line);
+                                break;
+                            }
+                        }
+                    }
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -81,7 +106,7 @@ public class ShowVidListController implements Initializable {
             PreparedStatement stmt=null;
             ResultSet rs=null;
             try {
-                stmt = conn.prepareStatement("SELECT Vid_ID,Title FROM VIDEO WHERE SOUNDEX(Description)=SOUNDEX(?) AND Length>=? AND Likes>=?");
+                stmt = conn.prepareStatement("SELECT Vid_ID,Title,Privacy FROM VIDEO WHERE SOUNDEX(Description)=SOUNDEX(?) AND Length>=? AND Likes>=?");
                 stmt.setString(1, videos.getDescription());
                 stmt.setInt(2, videos.getLength());
                 stmt.setInt(3, videos.getLikes());
@@ -90,7 +115,35 @@ public class ShowVidListController implements Initializable {
                     int video_id = rs.getInt("Vid_ID");
                     String title = rs.getString("Title");
                     String line = video_id + "  " + title;
-                    items.add(line);
+
+                    if (id.equals(myID)) {
+                        items.add(line);
+                    } else if (rs.getInt("Privacy") == 1) {
+                        items.add(line);
+                    } else if (rs.getInt("Privacy") == 3) {
+                        PreparedStatement stmt2 =null;
+                        ResultSet rs2=null;
+                        stmt2 = conn.prepareStatement("SELECT FRIEND_ID FROM FRIENDS WHERE USER_ID=? AND FRIEND_ID=?");
+                        stmt2.setInt(1, Integer.parseInt(myID));
+                        stmt2.setInt(2, Integer.parseInt(id));
+                        rs2 = stmt2.executeQuery();
+                        if (rs2.next()) {
+                            items.add(line);
+                        }
+                    } else if (rs.getInt("Privacy") == 4) {
+                        ResultSet rs2=null;
+                        CallableStatement stmt2 = conn.prepareCall("{call Procedure_Friends_Network_3(?)}");
+                        stmt2.setInt(1,Integer.parseInt(myID));
+                        rs2 = stmt2.executeQuery();
+                        while (rs2.next()) {
+                            int possible = rs2.getInt(1);
+//                            int possible2 = rs2.getInt(2);
+                            if (possible==Integer.parseInt(id)) {
+                                items.add(line);
+                                break;
+                            }
+                        }
+                    }
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -101,7 +154,7 @@ public class ShowVidListController implements Initializable {
             PreparedStatement stmt=null;
             ResultSet rs=null;
             try {
-                stmt = conn.prepareStatement("SELECT Vid_ID,Title FROM VIDEO WHERE SOUNDEX(Title)=SOUNDEX(?) AND Length>=? AND Likes>=?");
+                stmt = conn.prepareStatement("SELECT Vid_ID,Title,Privacy FROM VIDEO WHERE SOUNDEX(Title)=SOUNDEX(?) AND Length>=? AND Likes>=?");
                 stmt.setString(1, videos.getMessage());
                 stmt.setInt(2, videos.getLength());
                 stmt.setInt(3, videos.getLikes());
@@ -110,7 +163,34 @@ public class ShowVidListController implements Initializable {
                     int video_id = rs.getInt("Vid_ID");
                     String title = rs.getString("Title");
                     String line = video_id + "  " + title;
-                    items.add(line);
+                    if (id.equals(myID)) {
+                        items.add(line);
+                    } else if (rs.getInt("Privacy") == 1) {
+                        items.add(line);
+                    } else if (rs.getInt("Privacy") == 3) {
+                        PreparedStatement stmt2 =null;
+                        ResultSet rs2=null;
+                        stmt2 = conn.prepareStatement("SELECT FRIEND_ID FROM FRIENDS WHERE USER_ID=? AND FRIEND_ID=?");
+                        stmt2.setInt(1, Integer.parseInt(myID));
+                        stmt2.setInt(2, Integer.parseInt(id));
+                        rs2 = stmt2.executeQuery();
+                        if (rs2.next()) {
+                            items.add(line);
+                        }
+                    } else if (rs.getInt("Privacy") == 4) {
+                        ResultSet rs2=null;
+                        CallableStatement stmt2 = conn.prepareCall("{call Procedure_Friends_Network_3(?)}");
+                        stmt2.setInt(1,Integer.parseInt(myID));
+                        rs2 = stmt2.executeQuery();
+                        while (rs2.next()) {
+                            int possible = rs2.getInt(1);
+//                            int possible2 = rs2.getInt(2);
+                            if (possible==Integer.parseInt(id)) {
+                                items.add(line);
+                                break;
+                            }
+                        }
+                    }
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -121,7 +201,7 @@ public class ShowVidListController implements Initializable {
             PreparedStatement stmt=null;
             ResultSet rs=null;
             try {
-                stmt = conn.prepareStatement("SELECT Vid_ID,Title FROM VIDEO WHERE Length>=? AND Likes>=?");
+                stmt = conn.prepareStatement("SELECT Vid_ID,Title,Privacy FROM VIDEO WHERE Length>=? AND Likes>=?");
                 stmt.setInt(1, videos.getLength());
                 stmt.setInt(2, videos.getLikes());
                 rs = stmt.executeQuery();
@@ -129,7 +209,35 @@ public class ShowVidListController implements Initializable {
                     int video_id = rs.getInt("Vid_ID");
                     String title = rs.getString("Title");
                     String line = video_id + "  " + title;
-                    items.add(line);
+
+                    if (id.equals(myID)) {
+                        items.add(line);
+                    } else if (rs.getInt("Privacy") == 1) {
+                        items.add(line);
+                    } else if (rs.getInt("Privacy") == 3) {
+                        PreparedStatement stmt2 =null;
+                        ResultSet rs2=null;
+                        stmt2 = conn.prepareStatement("SELECT FRIEND_ID FROM FRIENDS WHERE USER_ID=? AND FRIEND_ID=?");
+                        stmt2.setInt(1, Integer.parseInt(myID));
+                        stmt2.setInt(2, Integer.parseInt(id));
+                        rs2 = stmt2.executeQuery();
+                        if (rs2.next()) {
+                            items.add(line);
+                        }
+                    } else if (rs.getInt("Privacy") == 4) {
+                        ResultSet rs2=null;
+                        CallableStatement stmt2 = conn.prepareCall("{call Procedure_Friends_Network_3(?)}");
+                        stmt2.setInt(1,Integer.parseInt(myID));
+                        rs2 = stmt2.executeQuery();
+                        while (rs2.next()) {
+                            int possible = rs2.getInt(1);
+//                            int possible2 = rs2.getInt(2);
+                            if (possible==Integer.parseInt(id)) {
+                                items.add(line);
+                                break;
+                            }
+                        }
+                    }
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();

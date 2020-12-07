@@ -125,6 +125,21 @@ public class MainAppController {
     }
 
     @FXML
+    private void handleDatabaseButton(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("../MainScenes/database.fxml"));
+        Pane view = null;
+        view = loader.load();
+        //access the controller and call a method
+        DatabaseController controller = loader.getController();
+
+        //create query
+        controller.initData(myID, conn);
+
+        mainPane.setCenter(view);
+    }
+
+    @FXML
     private void handleHomeButton() throws IOException {
         FxmlLoader object = new FxmlLoader();
         Pane view = object.getPage("../MainScenes/home");

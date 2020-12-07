@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="p_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="495.0" prefWidth="755.0" style="-fx-background-color: #d8d9d9;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.MainScenesControllers.EventsController">
    <children>
@@ -28,17 +33,17 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <TextField layoutX="128.0" layoutY="28.0" prefHeight="30.0" prefWidth="225.0" style="-fx-border-color: #444a4c; -fx-background-color: #d8d9d9; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style2.css">
+      <TextField fx:id="name" layoutX="128.0" layoutY="28.0" prefHeight="30.0" prefWidth="225.0" style="-fx-border-color: #444a4c; -fx-background-color: #d8d9d9; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style2.css">
          <font>
             <Font size="14.0" />
          </font>
       </TextField>
-      <TextField layoutX="128.0" layoutY="67.0" prefHeight="32.0" prefWidth="225.0" style="-fx-border-color: #444a4c; -fx-background-color: #d8d9d9; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style2.css">
+      <TextField fx:id="owner" layoutX="128.0" layoutY="67.0" prefHeight="32.0" prefWidth="225.0" style="-fx-border-color: #444a4c; -fx-background-color: #d8d9d9; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style2.css">
          <font>
             <Font size="14.0" />
          </font>
       </TextField>
-      <TextField layoutX="128.0" layoutY="108.0" prefHeight="30.0" prefWidth="225.0" style="-fx-border-color: #444a4c; -fx-background-color: #d8d9d9; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style2.css">
+      <TextField fx:id="location" layoutX="128.0" layoutY="108.0" prefHeight="30.0" prefWidth="225.0" style="-fx-border-color: #444a4c; -fx-background-color: #d8d9d9; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style2.css">
          <font>
             <Font size="14.0" />
          </font>
@@ -52,7 +57,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <DatePicker editable="false" layoutX="135.0" layoutY="191.0" prefHeight="25.0" prefWidth="206.0" style="-fx-background-color: #444a4c; -fx-background-insets: 0;">
+      <DatePicker fx:id="date" editable="false" layoutX="135.0" layoutY="191.0" prefHeight="25.0" prefWidth="206.0" style="-fx-background-color: #444a4c; -fx-background-insets: 0;">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -62,7 +67,7 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <TextField layoutX="128.0" layoutY="148.0" prefHeight="30.0" prefWidth="225.0" style="-fx-border-color: #444a4c; -fx-background-color: #d8d9d9; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style2.css">
+      <TextField fx:id="venue" layoutX="128.0" layoutY="148.0" prefHeight="30.0" prefWidth="225.0" style="-fx-border-color: #444a4c; -fx-background-color: #d8d9d9; -fx-background-insets: 0; -fx-border-radius: 20;" stylesheets="@../styles/style2.css">
          <font>
             <Font size="14.0" />
          </font>

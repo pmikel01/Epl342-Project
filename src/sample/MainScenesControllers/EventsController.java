@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import sample.Main.FxmlLoader;
@@ -21,6 +22,21 @@ public class EventsController implements Initializable {
     @FXML
     private AnchorPane p_pane ;
 
+    @FXML
+    private TextField name;
+
+    @FXML
+    private TextField owner;
+
+    @FXML
+    private TextField location;
+
+    @FXML
+    private TextField venue;
+
+    @FXML
+    private DatePicker date;
+
     private String myID;
     private Connection conn;
 
@@ -31,43 +47,6 @@ public class EventsController implements Initializable {
 
     @FXML
     private void handleSearchButton() throws IOException {
-//        if (!events.getName().isEmpty() && !events.getVenue().isEmpty() && !events.getLocation().isEmpty() && events.getDate().getValue()!=null) {
-//
-//        } else if (!events.getName().isEmpty() && !events.getVenue().isEmpty() && !events.getLocation().isEmpty() && events.getDate().getValue()==null){
-//
-//        } else if (!events.getName().isEmpty() && !events.getVenue().isEmpty() && events.getLocation().isEmpty() && events.getDate().getValue()!=null){
-//
-//        } else if (!events.getName().isEmpty() && events.getVenue().isEmpty() && !events.getLocation().isEmpty() && events.getDate().getValue()!=null){
-//
-//        } else if (events.getName().isEmpty() && !events.getVenue().isEmpty() && !events.getLocation().isEmpty() && events.getDate().getValue()!=null){
-//
-//        } else if (events.getName().isEmpty() && events.getVenue().isEmpty() && !events.getLocation().isEmpty() && events.getDate().getValue()!=null){
-//
-//        } else if (!events.getName().isEmpty() && events.getVenue().isEmpty() && events.getLocation().isEmpty() && events.getDate().getValue()!=null){
-//
-//        } else if (!events.getName().isEmpty() && !events.getVenue().isEmpty() && events.getLocation().isEmpty() && events.getDate().getValue()==null){
-//
-//        } else if (events.getName().isEmpty() && !events.getVenue().isEmpty() && events.getLocation().isEmpty() && events.getDate().getValue()!=null){
-//
-//        } else if (events.getName().isEmpty() && !events.getVenue().isEmpty() && !events.getLocation().isEmpty() && events.getDate().getValue()==null){
-//
-//        } else if (!events.getName().isEmpty() && events.getVenue().isEmpty() && !events.getLocation().isEmpty() && events.getDate().getValue()==null){
-//
-//        } else if (events.getName().isEmpty() && events.getVenue().isEmpty() && events.getLocation().isEmpty() && events.getDate().getValue()!=null){
-//
-//        } else if (!events.getName().isEmpty() && events.getVenue().isEmpty() && events.getLocation().isEmpty() && events.getDate().getValue()==null){
-//
-//        } else if (events.getName().isEmpty() && !events.getVenue().isEmpty() && events.getLocation().isEmpty() && events.getDate().getValue()==null){
-//
-//        } else if (events.getName().isEmpty() && events.getVenue().isEmpty() && !events.getLocation().isEmpty() && events.getDate().getValue()==null){
-//
-//        } else if (events.getName().isEmpty() && events.getVenue().isEmpty() && events.getLocation().isEmpty() && events.getDate().getValue()==null){
-//
-//        }
-
-
-
-
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("../MediaLists/main_events_list.fxml"));
         Pane view = null;
@@ -75,9 +54,9 @@ public class EventsController implements Initializable {
         //access the controller and call a method
         EventSearchController controller = loader.getController();
 
-        SearchEvents events = new SearchEvents("", "", "", "", new DatePicker());
+        SearchEvents events = new SearchEvents(owner.getText(), name.getText(), location.getText(), venue.getText(), date);
         //create query
-        controller.initData(events, myID);
+        controller.initData(events, myID, conn);
 
         p_pane.getChildren().setAll(view);
     }
